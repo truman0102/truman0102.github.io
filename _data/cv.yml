@@ -56,9 +56,12 @@
 - title: Open Source Projects
   type: time_table
   contents:
-    - title: <a href="https://github.com/alshedivat/al-folio">al-folio</a>
-      year: 2015-now
-      description: A beautiful, simple, clean, and responsive Jekyll theme for academics.
+    - title: Simulation of Self Citation
+      year: 2023
+      description: Simulation of self citation of scientists, motivated by Prof. Yi Bu.
+    - title: EasyRL
+      year: 2023
+      description: A simple introduction to reinforcement learning.
 
 - title: Honors and Awards
   type: time_table
@@ -68,21 +71,19 @@
       awarder: Peking University
       description: Award to students who have demonstrated outstanding performance in academic year of 2020-2021.
 
-
-
 - title: Academic Interests
   type: nested_list
   contents:
     - title: Artificial Intelligence
       items: 
-        - Description 1.
-        - Description 2.
+        - Machine Learning
+        - Deep Learning
+        - Reinforcement Learning
+        - Natural Language Processing
+        - Computer Vision
+        - Embodied AI
     - title: Data Mining
       items:
-        - Description 1.
-        - Description 2.
-
-- title: Other Interests
-  type: list
-  contents:
-    - <u>Hobbies:</u> Hobby 1, Hobby 2, etc.
+        - Social Network Analysis
+        - Data Visualization
+        - Data Analysis
