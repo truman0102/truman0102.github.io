@@ -22,6 +22,8 @@ A color system is a way of representing colors in an image. There are two types 
 
 #### RGB
 
+<div>{% include figure.html path="assets/img/image-processing/RGB.png" class="img-fluid rounded z-depth-1" %}</div>
+
 ### Subtractive Color Systems
 
 #### CMY(K)
