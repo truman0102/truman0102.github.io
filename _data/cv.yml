@@ -56,12 +56,12 @@
 - title: Open Source Projects
   type: time_table
   contents:
-    - title: Simulation of Self Citation
+    - title: <a href="https://github.com/truman0102/Simulation-of-Self-citation">Simulation of Self Citation</a>
       year: 2023
-      description: Simulation of self citation of scientists, motivated by Prof. Yi Bu.
-    - title: EasyRL
+      description: Simulation of self citation of scientists, Under the direction of Prof. <a href="https://buyi08.wixsite.com/yi-bu">Yi Bu</a>.
+    - title: <a href="https://github.com/truman0102/EasyRLExample">EasyRLExample</a>
       year: 2023
-      description: A simple introduction to reinforcement learning.
+      description: A simple introduction to reinforcement learning, motivated by <a href="https://github.com/datawhalechina/easy-rl">EasyRL</a>.
 
 - title: Honors and Awards
   type: time_table
