@@ -2,31 +2,23 @@
   type: map
   contents:
     - name: Full Name
-      value: Albert Einstein
-    - name: Date of Birth
-      value: 14th March 1879
+      value: Hongguang Wang
     - name: Languages
-      value: English, German
+      value: Chinese (native), English (fluent)
+    - name: Email
+      value: trumanpku@gmail.com
+    - name: Location
+      value: Beijing, China
 
 - title: Education
   type: time_table
   contents:
-    - title: PhD
-      institution: University of Zurich, Zurich, Switzerland
-      year: 1905
-      description:
-        - Description 1.
-        - Description 2.
-        - title: Description 3.
-          contents:
-            - Sub-description 1.
-            - Sub-description 2.
-    - title: Federal teaching diploma
-      institution: Eidgenössische Technische Hochschule, Zurich, Switzerland
-      year: 1900
-      description:
-        - Description 1.
-        - Description 2.
+    - title: Master of Electronic and Information Engineering
+      institution: <a href="https://www.ict.ac.cn/">Institute of Computing Technology, Chinese Academy of Sciences</a>
+      year: 2023 - PRESENT
+    - title: Bachelor of Management and Application of Big Data
+      institution: <a href="https://www.pku.edu.cn/">Department of Information Management, Peking University</a>
+      year: 2019 - 2023
 
 - title: Experience
   type: time_table
@@ -71,22 +63,21 @@
 - title: Honors and Awards
   type: time_table
   contents:
-    - year: 1921
-      items: 
-        - Nobel Prize in Physics 
-        - Matteucci Medal
-    - year: 2029
-      items: 
-        - Max Planck Medal
+    - title: Award for Academic Excellents
+      year: Dec. 2021
+      awarder: Peking University
+      description: Award to students who have demonstrated outstanding performance in academic year of 2020-2021.
+
+
 
 - title: Academic Interests
   type: nested_list
   contents:
-    - title: Topic 1.
+    - title: Artificial Intelligence
       items: 
         - Description 1.
         - Description 2.
-    - title: Topic 2.
+    - title: Data Mining
       items:
         - Description 1.
         - Description 2.
