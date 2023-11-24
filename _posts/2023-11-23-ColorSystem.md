@@ -66,6 +66,7 @@ In practice, C, M and Y inks are usually not pure, and the color black is usuall
 
 1. Let $$K$$ be the minimum of $$C$$, $$M$$, and $$Y$$, $$K = min(C, M, Y)$$.
 2. If $$K = 1$$, then $$C = M = Y = 0$$. Otherwise, 
+
 $$
 \begin{aligned}
 C &= \frac{C - K}{1 - K}\\
