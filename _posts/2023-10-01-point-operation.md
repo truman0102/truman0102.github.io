@@ -61,8 +61,6 @@ $$
 
 ## Histogram Equalization
 
-### Mathematical Derivation of Transformation Function for Histogram Equalization
-
 Let $$r$$ be a continuous variable limited to the range $$[0, L-1]$$, where $$L$$ is the number of gray levels. The probability density function (PDF) of $$r$$ is $$p_r(r)$$, and the cumulative distribution function (CDF) of $$r$$ is $$P_r(r)$$. The PDF and CDF are defined as follows:
 
 $$
@@ -111,8 +109,6 @@ $$
 s = \left\lfloor \frac{L-1}{MN} \sum_{j=0}^{r} n_j + \frac{1}{2} \right\rfloor
 $$
 
-### Practical Implementation of Histogram Equalization
-
 ## Histogram Matching
 
 Histogram matching is a method to match the histogram of an input image to the histogram of a reference image where histogram equalization is applied. Let $$r$$ be the input and $$z$$ be the output, the PDF of $$z$$ is already known.
@@ -134,6 +130,8 @@ z = G^{-1}(T(r)) = G^{-1}(s)
 $$
 
 If we extend the case to discrete variables, all we need to do is to find the histogram equalization transformation function of the input image and the reference image, and then find the mapping between the two transformation functions.
+
+## Implementation of Histogram Equalization and Matching
 
 {::nomarkdown}
 {% assign jupyter_path = "assets/jupyter/histogram.ipynb" | relative_url %}
