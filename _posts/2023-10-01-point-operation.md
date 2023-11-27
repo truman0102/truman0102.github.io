@@ -115,3 +115,32 @@ $$
 
 ## Histogram Matching
 
+Histogram matching is a method to match the histogram of an input image to the histogram of a reference image where histogram equalization is applied. Let $$r$$ be the input and $$z$$ be the output, the PDF of $$z$$ is already known.
+
+$$
+s = T(r) = (L-1)\int_{0}^{r} p_r(w) dw
+$$
+
+The CDF of $$z$$ is expected to be the same as the CDF of $$r$$:
+
+$$
+G(z) = (L-1)\int_{0}^{z} p_z(w) dw = s
+$$
+
+Since we got the relation between $$z$$ and $$s$$. we can derive the transformation function $$z = G^{-1}(s)$$.
+
+$$
+z = G^{-1}(T(r)) = G^{-1}(s)
+$$
+
+If we extend the case to discrete variables, all we need to do is to find the histogram equalization transformation function of the input image and the reference image, and then find the mapping between the two transformation functions.
+
+{::nomarkdown}
+{% assign jupyter_path = "assets/jupyter/histogram.ipynb" | relative_url %}
+{% capture notebook_exists %}{% file_exists assets/jupyter/histogram.ipynb %}{% endcapture %}
+{% if notebook_exists == "true" %}
+    {% jupyter_notebook jupyter_path %}
+{% else %}
+    <p>Sorry, the notebook you are looking for does not exist.</p>
+{% endif %}
+{:/nomarkdown}
