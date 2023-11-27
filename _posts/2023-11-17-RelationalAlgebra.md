@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Relational Algebra
-date: 2023-11-17 00:00:00-0400
+date: 2023-10-17 00:00:00-0400
 description: An introduction to relational algebra in database systems.
 tags: relational-algebra db
 categories: database
