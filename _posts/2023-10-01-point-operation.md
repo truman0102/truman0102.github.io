@@ -7,7 +7,6 @@ tags: point-operation
 categories: image-processing
 related_posts: false
 giscus_comments: true
-disqus_comments: true
 thumbnail: 
 toc:
   sidebar: left
