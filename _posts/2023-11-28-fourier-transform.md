@@ -121,3 +121,18 @@ $$
 f(t)h(t) &\Leftrightarrow \frac{1}{2\pi}F(\mu)\star H(\mu)\\
 \end{aligned}
 $$
+
+## Discrete Fourier Transform
+
+The discrete Fourier transform (DFT) is the discrete version of the Fourier transform. The DFT of a discrete function $$f(x)$$ is defined as
+
+$$
+\begin{aligned}
+\tilde{F(u)} &= \int_{-\infty}^{\infty} \tilde{f(t)} e^{-j2\pi\mu t} dt\\
+&=\int_{-\infty}^{\infty}\sum_{t=-\infty}^{\infty} f(t)\delta(t-n\triangledown T) e^{-j2\pi\mu t} dt\\
+&=\sum_{t=-\infty}^{\infty} \int_{-\infty}^{\infty} f(t)\delta(t-n\triangledown T) e^{-j2\pi\mu t} dt\\
+&=\sum_{t=-\infty}^{\infty} f(n\triangledown T) e^{-j2\pi\mu n\triangledown T}\\
+\end{aligned}
+$$
+
+where $$\tilde{f(t)}$$ is the discrete function of $$f(t)$$, and $$\triangledown T$$ is the sampling period. The inverse DFT is
