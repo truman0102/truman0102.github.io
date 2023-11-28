@@ -43,11 +43,15 @@ $$
 s = T(r) = c \log(1 + r)
 $$
 
+<div>{% include figure.html path="assets/img/image-processing/log_transformation.png" class="img-fluid rounded z-depth-1" %}</div>
+
 ### Power-Law (Gamma) Transformation
 
 $$
 s = T(r) = cr^{\gamma}
 $$
+
+<div>{% include figure.html path="assets/img/image-processing/power_law_transformation.png" class="img-fluid rounded z-depth-1" %}</div>
 
 ### Grayscale Threshold Transformation
 
@@ -108,7 +112,7 @@ $$
 s = \left\lfloor \frac{L-1}{MN} \sum_{j=0}^{r} n_j + \frac{1}{2} \right\rfloor
 $$
 
-## Histogram Matching
+### Histogram Matching
 
 Histogram matching is a method to match the histogram of an input image to the histogram of a reference image where histogram equalization is applied. Let $$r$$ be the input and $$z$$ be the output, the PDF of $$z$$ is already known.
 
@@ -130,7 +134,7 @@ $$
 
 If we extend the case to discrete variables, all we need to do is to find the histogram equalization transformation function of the input image and the reference image, and then find the mapping between the two transformation functions.
 
-## Implementation of Histogram Equalization and Matching
+### Implementation of Histogram Equalization and Matching
 
 {::nomarkdown}
 {% assign jupyter_path = "assets/jupyter/histogram.ipynb" | relative_url %}
