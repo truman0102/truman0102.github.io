@@ -26,4 +26,6 @@ There are two primary categories of image enhancement techniques:
 Spatial domain techniques can be subdivided into:
 
 - **[Point operations](/blog/2023/point-operation/)** that operate on individual pixels.
-- **Spatial filtering** that operates on a neighborhood of pixels.
+- **[Spatial filtering](/blog/2023/spatial-filtering)** that operates on a neighborhood of pixels.
+
+## Frequency Domain Techniques
