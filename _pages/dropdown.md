@@ -5,9 +5,8 @@ nav: true
 nav_order: 7
 dropdown: true
 children:
-    - title: publications
-      permalink: /publications/
-    - title: divider
-    - title: projects
-      permalink: /projects/
+    - title: image processing
+      permalink: /blog/category/image-processing/
+    - title: data science
+      permalink: /blog/category/data-science/
 ---
