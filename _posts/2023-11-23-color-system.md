@@ -6,7 +6,7 @@ description: An introduction to color systems in image processing.
 tags: IMGP
 categories: image-processing
 related_posts: false
-thumbnail:
+thumbnail: assets/img/image-processing/cs.png
 giscus_comments: true
 toc:
   sidebar: left
