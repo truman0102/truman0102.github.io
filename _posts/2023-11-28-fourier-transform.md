@@ -135,4 +135,60 @@ $$
 \end{aligned}
 $$
 
-where $$\tilde{f(t)}$$ is the discrete function of $$f(t)$$, and $$\triangledown T$$ is the sampling period. The inverse DFT is
+where $$\tilde{f(t)}$$ is the discrete function of $$f(t)$$, and $$\triangledown T$$ is the sampling period. 
+
+To achieve the sampling of a continuous function, we need to sample the function in one period. 
+
+
+
+$$
+\mu = \frac{m}{M\triangledown T}
+$$
+
+$$
+\begin{aligned}
+F_m &= \sum_{n=0}^{M-1} f_n e^{-j2\pi\frac{mn}{M}}\\
+f_n &= \frac{1}{M} \sum_{m=0}^{M-1} F_m e^{j2\pi\frac{mn}{M}}\\
+\end{aligned}
+$$
+
+## Two-Dimensional Fourier Transform
+
+The impulse function in two-dimensional space is
+
+$$
+\delta(x, y) = \begin{cases}
+1, & x = 0 \wedge y = 0\\
+0, & x \neq 0 \vee y \neq 0
+\end{cases}\\
+$$
+
+$$
+\int_{-\infty}^{\infty} \int_{-\infty}^{\infty} \delta(x, y) dx dy = 1
+$$
+$$
+\int_{-\infty}^{\infty} \int_{-\infty}^{\infty} f(x, y)\delta(x, y) dx dy = f(0, 0)
+$$
+$$
+\int_{-\infty}^{\infty} \int_{-\infty}^{\infty} f(x, y)\delta(x-x_0, y-y_0) dx dy = f(x_0, y_0)\\
+$$
+
+The two-dimensional Fourier transform in continuous space is
+
+$$
+\begin{aligned}
+F(\mu, \nu) &= \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} f(t,z) e^{-j2\pi(\mu t + \nu z)} dt dz\\
+f(t, z) &= \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} F(\mu, \nu) e^{j2\pi(\mu t + \nu z)} d\mu d\nu\\
+\end{aligned}
+$$
+
+The form of discrete two-dimensional Fourier transform is
+
+$$
+\begin{aligned}
+F(\mu, \nu) &= \sum_{t=0}^{M-1} \sum_{z=0}^{N-1} f(x,y) e^{-j2\pi(\frac{\mu x}{M} + \frac{\nu y}{N})}\\
+f(x, y) &= \frac{1}{MN} \sum_{\mu=0}^{M-1} \sum_{\nu=0}^{N-1} F(\mu, \nu) e^{j2\pi(\frac{\mu x}{M} + \frac{\nu y}{N})}\\
+\end{aligned}
+$$
+
+## Properties of Fourier Transform
