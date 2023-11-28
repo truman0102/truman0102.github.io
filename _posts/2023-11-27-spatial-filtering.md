@@ -286,3 +286,161 @@ z_{med} &\quad \text{otherwise}
 $$
 
 ## Sharpening (High-Pass) Filters
+
+Since spatial filtering is discrete, the derivative of the image intensity function is approximated by the difference between the pixel values in the neighborhood:
+
+$$
+\begin{aligned}
+\frac{\partial f}{\partial x} &\approx f(x+1, y) - f(x, y) \\
+\frac{\partial^2 f}{\partial x^2} &\approx f(x+1, y) - 2f(x, y) + f(x-1, y) \\
+\frac{\partial f}{\partial y} &\approx f(x, y+1) - f(x, y) \\
+\frac{\partial^2 f}{\partial y^2} &\approx f(x, y+1) - 2f(x, y) + f(x, y-1) \\
+\end{aligned}
+$$
+
+### Laplacian Filter
+
+The Laplacian filter is a second-order derivative filter, which is used to detect edges and is very sensitive to noise. The Laplacian filter is defined as:
+
+$$
+\begin{aligned}
+\triangledown^2 f &= \frac{\partial^2 f}{\partial x^2} + \frac{\partial^2 f}{\partial y^2} \\
+&= f(x+1, y) + f(x-1, y) + f(x, y+1) + f(x, y-1) - 4f(x, y) \\
+&=(f \ast h)(x, y) \\
+\end{aligned}
+$$
+
+Common Laplacian filters are:
+
+$$
+\begin{aligned}
+&\begin{bmatrix}
+0&1&0\\
+1&-4&1\\
+0&1&0\\
+\end{bmatrix}
+&\begin{bmatrix}
+-1&-1&-1\\
+-1&8&-1\\
+-1&-1&-1\\
+\end{bmatrix}\\
+&\begin{bmatrix}
+1&1&1\\
+1&-8&1\\
+1&1&1\\
+\end{bmatrix}
+&\begin{bmatrix}
+0&-1&0\\
+-1&4&-1\\
+0&-1&0\\
+\end{bmatrix}
+\end{aligned}
+$$
+
+To sharpen the image, the Laplacian filter is convolved with the image, and the result is added to the original image if center pixel of the Laplacian filter is positive (right two filters), or subtracted from the original image if the center pixel is negative (left two filters).
+
+$$
+g(x, y) = f(x, y) \pm \alpha \triangledown^2 f(x, y)
+$$
+
+It is worth noting that the sum of the coefficients of the Laplacian filter is zero, so the convolution result of a region with same intensity is zero.
+
+### First-Order Derivative Filters
+
+#### Roberts Cross Operator
+
+$$
+\begin{aligned}
+\pm\begin{bmatrix}
+1&0\\
+0&-1\\
+\end{bmatrix}\quad
+\pm\begin{bmatrix}
+0&1\\
+-1&0\\
+\end{bmatrix}
+\end{aligned}
+$$
+
+#### Prewitt Operator
+
+$$
+\begin{aligned}
+h_x &= \begin{bmatrix}
+1 & 0 & -1\\
+1 & 0 & -1\\
+1 & 0 & -1\\
+\end{bmatrix}
+&=\begin{bmatrix}
+1\\
+1\\
+1\\
+\end{bmatrix}
+\ast
+\begin{bmatrix}
+1&0&-1\\
+\end{bmatrix} \\
+h_y &= \begin{bmatrix}
+1 & 1 & 1\\
+0 & 0 & 0\\
+-1 & -1 & -1\\
+\end{bmatrix}
+&=\begin{bmatrix}
+1\\
+0\\
+-1\\
+\end{bmatrix}
+\ast
+\begin{bmatrix}
+1&1&1\\
+\end{bmatrix} \\
+\end{aligned}
+$$
+
+#### Sobel Operator
+
+$$
+\begin{aligned}
+h_x &= \begin{bmatrix}
+1 & 0 & -1\\
+2 & 0 & -2\\
+1 & 0 & -1\\
+\end{bmatrix}
+&=\begin{bmatrix}
+1\\
+2\\
+1\\
+\end{bmatrix}
+\ast
+\begin{bmatrix}
+1&0&-1\\
+\end{bmatrix} \\
+h_y &= \begin{bmatrix}
+1 & 2 & 1\\
+0 & 0 & 0\\
+-1 & -2 & -1\\
+\end{bmatrix}
+&=\begin{bmatrix}
+1\\
+0\\
+-1\\
+\end{bmatrix}
+\ast
+\begin{bmatrix}
+1&2&1\\
+\end{bmatrix} \\
+\end{aligned}
+$$
+
+### Unsharp Masking
+
+In unsharp masking, a blurred image is subtracted from the original image to get its edges only, and the result is added to the original image to get an enhanced version.
+
+$$
+\begin{aligned}
+g(x, y) &= f(x, y) + \alpha (f(x, y) - (f \ast h)(x, y)) \\
+&= (1 + \alpha) f(x, y) - \alpha (f \ast h)(x, y) \\
+\end{aligned}
+$$
+
+where $$h$$ is a low-pass filter to make the image blurred.
