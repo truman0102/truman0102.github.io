@@ -84,11 +84,48 @@ $$
 \end{aligned}
 $$
 
+The fourier transform of the impulse function is
+
+$$
+\begin{aligned}
+\mathfrak{J}\{\delta(t-t_0)\} &= \int_{-\infty}^{\infty} \delta(t-t_0) e^{-j2\pi\mu t} dt\\
+&=e^{-j2\pi\mu t_0}\\
+\end{aligned}
+$$
+
+In turn, the inverse fourier transform of the impulse function is
+
+$$
+\begin{aligned}
+\mathfrak{J}^{-1}\{e^{-j2\pi\mu t_0}\} &= \int_{-\infty}^{\infty} e^{-j2\pi\mu t_0} e^{j2\pi\mu t} d\mu\\
+&=\int_{-\infty}^{\infty} e^{j2\pi\mu (t-t_0)} d\mu\\
+&=\delta(t-t_0)\\
+\end{aligned}
+$$
+
+
 The series of impulse functions is
 
 $$
-s_{\triangledown T}(t) = \sum_{n=-\infty}^{\infty} \delta(t-nT)
+\begin{aligned}
+s_{\triangle T}(t) &= \sum_{n=-\infty}^{\infty} \delta(t-n\triangle T)\\
+&=\sum_{n=-\infty}^{\infty} c_n e^{j\frac{2\pi n}{\triangle T}t}\\
+c_n &= \frac{1}{\triangle T} \int_{-\frac{\triangle T}{2}}^{\frac{\triangle T}{2}} s_{\triangle T}(t) e^{-j\frac{2\pi n}{\triangle T}t} dt\\
+&=\frac{1}{\triangle T} \int_{-\frac{\triangle T}{2}}^{\frac{\triangle T}{2}} \delta(t) e^{-j\frac{2\pi n}{\triangle T}t} dt\\
+&=\frac{1}{\triangle T} e^0\\
+&=\frac{1}{\triangle T}\\
+s_{\triangle T}(t) &= \frac{1}{\triangle T} \sum_{n=-\infty}^{\infty} e^{j\frac{2\pi n}{\triangle T}t}\\
+S(\mu)&=\mathfrak{J}\{s_{\triangle T}(t)\}\\
+&=\frac{1}{\triangle T} \sum_{n=-\infty}^{\infty} \mathfrak{J}\{e^{j\frac{2\pi n}{\triangle T}t}\}\\
+&=\frac{1}{\triangle T} \sum_{n=-\infty}^{\infty} \int_{-\infty}^{\infty} e^{j\frac{2\pi n}{\triangle T}t} e^{-j2\pi\mu t} dt\\
+&=\frac{1}{\triangle T} \sum_{n=-\infty}^{\infty} \int_{-\infty}^{\infty} e^{j2\pi(\frac{n}{\triangle T}-\mu)t} dt\\
+&=\frac{1}{\triangle T} \sum_{n=-\infty}^{\infty} \delta(\frac{n}{\triangle T}-\mu)\\
+&=\frac{1}{\triangle T} \sum_{n=-\infty}^{\infty} \delta(\mu-\frac{n}{\triangle T})\\
+\end{aligned}
 $$
+
+which means that the fourier transform of the series of impulse functions in time domain with period $$\triangle T$$ is the series of impulse functions in frequency domain with period $$\frac{1}{\triangle T}$$.
+
 
 ## Convolution and Fourier Transform
 
@@ -192,3 +229,113 @@ f(x, y) &= \frac{1}{MN} \sum_{\mu=0}^{M-1} \sum_{\nu=0}^{N-1} F(\mu, \nu) e^{j2\
 $$
 
 ## Properties of Fourier Transform
+
+### Relation between interval and frequency
+
+If an image $$f(x,y)$$ is sampled from continuous function $$f(t,z)$$, $$M$$ and $$N$$ are the number of pixels in $$t$$ and $$z$$ direction, respectively, then the sampling interval is $$\triangle t = \frac{1}{M}$$ and $$\triangle z = \frac{1}{N}$$. The frequency interval is $$\triangle \mu = \frac{1}{M\triangle t} = M$$ and $$\triangle \nu = \frac{1}{N\triangle z} = N$$. The frequency range is $$\mu \in [-\frac{M}{2}, \frac{M}{2}]$$ and $$\nu \in [-\frac{N}{2}, \frac{N}{2}]$$.
+
+### Linearity
+
+### Scaling
+
+### Shifting
+
+$$
+\begin{aligned}
+f(x,y)e^{j2\pi(\mu_0 \frac{x}{M} + \nu_0 \frac{y}{N})} &\Leftrightarrow F(\mu-\mu_0, \nu-\nu_0)\\
+f(x-x_0,y-y_0) &\Leftrightarrow F(\mu, \nu)e^{-j2\pi(\mu \frac{x_0}{M} + \nu \frac{y_0}{N})}\\
+\end{aligned}
+$$
+
+### Periodicity
+
+$$
+\begin{aligned}
+F(\mu,\nu) &= F(\mu+k_1M, \nu+k_2N)\\
+f(x,y)&=f(x+k_1M, y+k_2N)\\
+\end{aligned}
+$$
+
+$$
+f(x,y)(-1)^{x+y} \Leftrightarrow F(\mu+\frac{M}{2}, \nu+\frac{N}{2}) \Leftrightarrow F(\mu-\frac{M}{2}, \nu-\frac{N}{2})
+$$
+
+### Parity
+
+$$
+\begin{aligned}
+F(\mu,\nu)&= \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} f(x,y) e^{-j2\pi(\mu x + \nu y)} dx dy\\
+&= \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} f(x,y) \cos(2\pi(\mu x + \nu y)) dx dy - j\int_{-\infty}^{\infty} \int_{-\infty}^{\infty} f(x,y) \sin(2\pi(\mu x + \nu y)) dx dy\\
+\end{aligned}
+$$
+
+where $$\mathfrak{Re}\{F(\mu,\nu)\}$$ is the real part of $$F(\mu,\nu)$$, and $$\mathfrak{Im}\{F(\mu,\nu)\}$$ is the imaginary part of $$F(\mu,\nu)$$.
+
+If $$f(x,y)$$ is a real function, then $$F(\mu,\nu)$$ is a complex function, and $$F(-\mu, -\nu) = F^*(\mu, \nu)$$, where $$F^*(\mu, \nu)$$ is the complex conjugate of $$F(\mu, \nu)$$.
+
+$$
+\begin{aligned}
+F(-\mu, -\nu) &= \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} f(x,y) e^{-j2\pi(-\mu x -\nu y)} dx dy\\
+&=\int_{-\infty}^{\infty} \int_{-\infty}^{\infty} f(x,y) e^{j2\pi(\mu x + \nu y)} dx dy\\
+&=\underbrace{\int_{-\infty}^{\infty} \int_{-\infty}^{\infty} f(x,y) \cos(2\pi(\mu x + \nu y)) dx dy}_{\mathfrak{Real}} + j\underbrace{\int_{-\infty}^{\infty} \int_{-\infty}^{\infty} f(x,y) \sin(2\pi(\mu x + \nu y)) dx dy}_{Real}\\
+&=(\underbrace{\int_{-\infty}^{\infty} \int_{-\infty}^{\infty} f(x,y) \cos(2\pi(\mu x + \nu y)) dx dy}_{\mathfrak{Real}} - j\underbrace{\int_{-\infty}^{\infty} \int_{-\infty}^{\infty} f(x,y) \sin(2\pi(\mu x + \nu y)) dx dy}_{Real})^*\\
+&=(\int_{-\infty}^{\infty} \int_{-\infty}^{\infty} f(x,y) e^{-j2\pi(\mu x + \nu y)} dx dy)^*\\
+&=F^*(\mu, \nu)\\
+\end{aligned}
+$$
+
+If $$f(x,y)$$ is an imaginary function, then $$F(-\mu, -\nu) = -F^*(\mu, \nu)$$.
+
+$$
+\begin{aligned}
+F(-\mu, -\nu) &= \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} f(x,y) e^{-j2\pi(-\mu x -\nu y)} dx dy\\
+&=\int_{-\infty}^{\infty} \int_{-\infty}^{\infty} f(x,y) e^{j2\pi(\mu x + \nu y)} dx dy\\
+&=\underbrace{\int_{-\infty}^{\infty} \int_{-\infty}^{\infty} f(x,y) \cos(2\pi(\mu x + \nu y)) dx dy}_{\mathfrak{Imaginary}} + \underbrace{j\int_{-\infty}^{\infty} \int_{-\infty}^{\infty} f(x,y) \sin(2\pi(\mu x + \nu y)) dx dy}_{Real}\\
+&=-(\underbrace{\int_{-\infty}^{\infty} \int_{-\infty}^{\infty} f(x,y) \cos(2\pi(\mu x + \nu y)) dx dy}_{\mathfrak{Imaginary}} - j\underbrace{\int_{-\infty}^{\infty} \int_{-\infty}^{\infty} f(x,y) \sin(2\pi(\mu x + \nu y)) dx dy}_{Real})^*\\
+&=-(\int_{-\infty}^{\infty} \int_{-\infty}^{\infty} f(x,y) e^{-j2\pi(\mu x + \nu y)} dx dy)^*\\
+&=-F^*(\mu, \nu)\\
+\end{aligned}
+$$
+
+If $$f(x,y)$$ is an odd function, then the fourier transform of $$f(x,y)$$ is an imaginary function and also an odd function.
+
+$$
+\begin{aligned}
+F(-\mu, -\nu) &= \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} f(x,y) e^{j2\pi(\mu x + \nu y)} dx dy\\
+&= \underbrace{\int_{-\infty}^{\infty} \int_{-\infty}^{\infty} f(x,y)\cos(2\pi(\mu x + \nu y)) dx dy}_{0} + j\int_{-\infty}^{\infty} \int_{-\infty}^{\infty} f(x,y)\sin(2\pi(\mu x + \nu y)) dx dy\\
+&=j\int_{-\infty}^{\infty} \int_{-\infty}^{\infty} f(x,y)\sin(2\pi(\mu x + \nu y)) dx dy\\
+&=-\int_{-\infty}^{\infty} \int_{-\infty}^{\infty} f(x,y) e^{-j2\pi(\mu x + \nu y)} dx dy\\
+&=-F(\mu, \nu)\\
+\end{aligned}
+$$
+
+If $$f(x,y)$$ is an even function, then the fourier transform is a real function and also an even function.
+
+$$
+\begin{aligned}
+F(-\mu, -\nu) &= \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} f(x,y) e^{j2\pi(\mu x + \nu y)} dx dy\\
+&= \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} f(x,y)\cos(2\pi(\mu x + \nu y)) dx dy + j\underbrace{\int_{-\infty}^{\infty} \int_{-\infty}^{\infty} f(x,y)\sin(2\pi(\mu x + \nu y)) dx dy}_{0}\\
+&=\int_{-\infty}^{\infty} \int_{-\infty}^{\infty} f(x,y) e^{-j2\pi(\mu x + \nu y)} dx dy\\
+&=F(\mu, \nu)\\
+\end{aligned}
+$$
+
+### Amplitude and Phase
+
+$$
+\begin{aligned}
+F(\mu,\nu) &= \mathfrak{Re}\{F(\mu,\nu)\} + j\mathfrak{Im}\{F(\mu,\nu)\}\\
+A(\mu,\nu) &= \sqrt{\mathfrak{Re}\{F(\mu,\nu)\}^2 + \mathfrak{Im}\{F(\mu,\nu)\}^2}\\
+\phi(\mu,\nu) &= \arctan\left(\frac{\mathfrak{Im}\{F(\mu,\nu)\}}{\mathfrak{Re}\{F(\mu,\nu)\}}\right)\\
+\end{aligned}
+$$
+
+## Examples of Fourier Transform
+
+### Gaussian Function
+
+$$
+\begin{aligned}
+f(x) &= ae^{-\frac{x^2}{2\sigma^2}}\\
+\end{aligned}
+$$
