@@ -129,6 +129,22 @@ $$
 
 where $$\alpha$$ and $$\beta$$ are the non-negative parameters.
 
+### Constrained Least Squares Filter
+
+The constrain is
+
+$$
+\lVert g-Hf \rVert^2 = \lVert \eta \rVert^2
+$$
+
+$$
+\hat{F}(u,v) = \left [ \frac{H^*(u,v)}{|H(u,v)|^2+\gamma|P(u,v)|^2} \right ]G(u,v)
+$$
+
+where $$P(u,v)$$ is the fourier transform of the laplacian filter.
+
+To estimate $$\gamma$$, we need to define a residual $$r=g-H\hat{f}$$, and adjust $$r$$ until $$\lVert r \rVert^2 = \lVert \eta \rVert^2 \pm \epsilon$$.
+
 ## Estimation of Degradation Function
 
 Blind convolution is used to estimate the degradation function.
