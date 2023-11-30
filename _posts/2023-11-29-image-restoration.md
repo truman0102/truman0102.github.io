@@ -77,7 +77,12 @@ $$
 \end{aligned}
 $$
 
-where $$H(u,v)$$ is a complex function, $$|H(u,v)|^2=H(u,v)H^*(u,v)$$.
+- Degradation function $$H(u,v)$$ is a complex function, $$|H(u,v)|^2=H(u,v)H^*(u,v)$$.
+- $$H^*(u,v)$$ is the complex conjugate of $$H(u,v)$$.
+- $$\hat{F}(u,v)$$ is the fourier transform of the estimation of the original image.
+- $$S_f(u,v)$$ is the power spectrum of the original image.
+- $$S_\eta(u,v)$$ is the power spectrum of the noise.
+- $$G(u,v)$$ is the fourier transform of the degraded image.
 
 ## Restoration in the Frequency Domain
 
