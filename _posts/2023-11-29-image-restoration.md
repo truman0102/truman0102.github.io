@@ -150,6 +150,10 @@ R(u,v) = G(u,v)-H(u,v)F(u,v)
 $$
 
 $$
+r = \mathcal{F}^{-1}\{R(u,v)\}
+$$
+
+$$
 \begin{aligned}
 \phi(\gamma) &= \lVert r \rVert^2\\
 &= r^Tr\\
