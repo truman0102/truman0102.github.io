@@ -69,6 +69,16 @@ $$
 
 ### Wiener Filter
 
+$$
+\begin{aligned}
+\hat{F}(u,v) &= \left [ \frac{H^*(u,v)S_f(u,v)}{|H(u,v)|^2S_f(u,v)+S_\eta(u,v)} \right ]G(u,v)\\
+&= \left [ \frac{H^*(u,v)}{|H(u,v)|^2+\frac{S_\eta(u,v)}{S_f(u,v)}} \right ]G(u,v)\\
+&= \left [ \frac{1}{H(u,v)}\frac{|H(u,v)|^2}{|H(u,v)|^2+\frac{S_\eta(u,v)}{S_f(u,v)}} \right ]G(u,v)\\
+\end{aligned}
+$$
+
+where $$H(u,v)$$ is a complex function, $$|H(u,v)|^2=H(u,v)H^*(u,v)$$.
+
 ## Restoration in the Frequency Domain
 
 ### Notch Filter
@@ -105,11 +115,22 @@ Blind convolution is used to estimate the degradation function.
 
 ### Observations
 
-If the noise in the frequency domain is ignored,
+If the noise in the frequency domain is ignored and the estimation of the original image is known,
 
 $$
 \hat{H}(u,v) = \frac{G(u,v)}{\hat{F}(u,v)}
 $$
+
+In turn, if the degradation function is known, the estimation of the original image can be obtained as follows:
+
+$$
+\begin{aligned}
+\hat{F}(u,v) &= \frac{G(u,v)}{H(u,v)}\\
+&= F(u,v) + \frac{N(u,v)}{H(u,v)}
+\end{aligned}
+$$
+
+This is called the inverse filtering. The inverse filtering is very sensitive the degradation function. If the degradation function is very small, the noise will be amplified.
 
 ### Experiment
 
