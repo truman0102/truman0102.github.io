@@ -36,17 +36,27 @@ Since the degraded image is known, the degradation function and noise should be 
 
 ## Types of Noise
 
-### Gaussian Noise
+### [Gaussian](/blog/2023/probability-distribution/#normal-distribution) Noise
 
 ### Salt and Pepper Noise
 
-### Rayleigh Noise
+$$
+p(z)=\left\{
+\begin{aligned}
+&P_s, &\; &z=2^L-1\\
+&P_p, &\; &z=0\\
+&1-(P_s+P_p), &\; &otherwise
+\end{aligned}
+\right.
+$$
 
-### Exponential Noise
+### [Rayleigh](/blog/2023/probability-distribution/#rayleigh-distribution) Noise
 
-### Uniform Noise
+### [Exponential](/blog/2023/probability-distribution/#exponential-distribution) Noise
 
-### Gamma Noise
+### [Uniform](/blog/2023/probability-distribution/#uniform-distribution) Noise
+
+### [Gamma](/blog/2023/probability-distribution/#gamma-distribution) Noise
 
 ### Periodic Noise
 
@@ -159,6 +169,12 @@ $$
 &= r^Tr\\
 &= \sum_{x=0}^{M-1}\sum_{y=0}^{N-1}r^2(x,y)\\
 \end{aligned}
+$$
+
+To estimate $$\lVert\eta\rVert^2$$,
+
+$$
+\lVert\eta\rVert^2 = MN(\sigma_{\eta}^2+\bar{\eta}^2)
 $$
 
 ## Estimation of Degradation Function
