@@ -115,6 +115,20 @@ $$
 - $$G(u,v)$$ is the fourier transform of the degraded image. 
 - Power spectrum is the quadratic power of the fourier transform.
 
+Sometimes the power spectrum of the noise is unknown, so it can be replaced by a constant $$K$$.
+
+$$
+\hat{F}(u,v) = \left [ \frac{1}{H(u,v)}\frac{|H(u,v)|^2}{|H(u,v)|^2+K} \right ]G(u,v)
+$$
+
+### Geometric Mean Filter
+
+$$
+\hat{F}(u,v) = \left [ \frac{H^*(u,v)}{|H(u,v)|^2} \right ]^{\alpha}\left [ \frac{H^*(u,v)}{|H(u,v)|^2+\beta\frac{S_\eta(u,v)}{S_f(u,v)}} \right ]^{1-\alpha}G(u,v)
+$$
+
+where $$\alpha$$ and $$\beta$$ are the non-negative parameters.
+
 ## Estimation of Degradation Function
 
 Blind convolution is used to estimate the degradation function.
@@ -170,4 +184,22 @@ G(u,v) &= \int_{-\infty}^{\infty}\int_{-\infty}^{\infty}g(x,y)e^{-j2\pi(ux+vy)}d
 H(u,v) &= \frac{G(u,v)}{F(u,v)}\\
 &= \int_{0}^{T}e^{-j2\pi(ux_0(t)+vy_0(t))}dt
 \end{aligned}
+$$
+
+## Metrics for Image Restoration
+
+### Mean Square Error (MSE)
+
+$$
+MSE = \frac{1}{MN}\sum_{x=0}^{M-1}\sum_{y=0}^{N-1}[f(x,y)-\hat{f}(x,y)]^2
+$$
+
+### Signal-to-Noise Ratio (SNR)
+
+$$
+SNR = \frac{\sum_{x=0}^{M-1}\sum_{y=0}^{N-1}[\hat{f}(x,y)]^2}{\sum_{x=0}^{M-1}\sum_{y=0}^{N-1}[f(x,y)-\hat{f}(x,y)]^2}
+$$
+
+$$
+SNR= \frac{\sum_{u=0}^{M-1}\sum_{v=0}^{N-1}[F(u,v)]^2}{\sum_{u=0}^{M-1}\sum_{v=0}^{N-1}[N(u,v)]^2}
 $$
