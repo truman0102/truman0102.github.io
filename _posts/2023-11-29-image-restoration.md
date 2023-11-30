@@ -50,8 +50,6 @@ Since the degraded image is known, the degradation function and noise should be 
 
 ### Periodic Noise
 
-## Types of Degradation
-
 ## Restoration in the Spatial Domain
 
 Spatial domain methods are used to restore the image that is only degraded by noise, without degradation function.
@@ -100,3 +98,49 @@ $$
 $$
 
 where $$\bar{g}$$ is the mean of the degraded image, $$\bar{\eta}$$ is the mean of the noise function, $$\overline{g\eta}$$ is the cross-correlation between the degraded image and the noise function, and $$\overline{\eta^2}$$ is the auto-correlation of the noise function in the local area $$S_{xy}$$.
+
+## Estimation of Degradation Function
+
+Blind convolution is used to estimate the degradation function.
+
+### Observations
+
+If the noise in the frequency domain is ignored,
+
+$$
+\hat{H}(u,v) = \frac{G(u,v)}{\hat{F}(u,v)}
+$$
+
+### Experiment
+
+Let $$A$$ be the fourier transform of an impulse function, and $$H(u,v)$$ be the degradation function in the frequency domain, $$G(u,v)$$ be the degradation of the impulse function in the frequency domain.
+
+$$
+H(u,v) = \frac{G(u,v)}{A}
+$$
+
+It is worth noting that the fourier transform of an impulse function is a constant function.
+
+### Modelization
+
+Assuming that the image moves with uniform velocity in both x and y directions, the exposure time is T. And the displacement of the image in the x and y directions is $$x_0(t)$$ and $$y_0(t)$$ respectively.
+
+$$
+g(x,y) = \int_{0}^{T}f(x-x_0(t),y-y_0(t))dt
+$$
+
+The fourier transform of the degradation function can be obtained as follows:
+
+$$
+\begin{aligned}
+G(u,v) &= \int_{-\infty}^{\infty}\int_{-\infty}^{\infty}g(x,y)e^{-j2\pi(ux+vy)}dxdy\\
+&= \int_{-\infty}^{\infty}\int_{-\infty}^{\infty}\int_{0}^{T}f(x-x_0(t),y-y_0(t))e^{-j2\pi(ux+vy)}dtdxdy\\
+&= \int_{0}^{T}\int_{-\infty}^{\infty}\int_{-\infty}^{\infty}f(x-x_0(t),y-y_0(t))e^{-j2\pi(ux+vy)}dxdydt\\
+&= \int_{0}^{T}\int_{-\infty}^{\infty}\int_{-\infty}^{\infty}f(x,y)e^{-j2\pi(ux+vy)}e^{-j2\pi(ux_0(t)+vy_0(t))}dxdydt\\
+&= \int_{0}^{T}(\int_{-\infty}^{\infty}\int_{-\infty}^{\infty}f(x,y)e^{-j2\pi(ux+vy)}dxdy) e^{-j2\pi(ux_0(t)+vy_0(t))}dt\\
+&= \int_{0}^{T}F(u,v)e^{-j2\pi(ux_0(t)+vy_0(t))}dt\\
+&= F(u,v)\int_{0}^{T}e^{-j2\pi(ux_0(t)+vy_0(t))}dt\\
+H(u,v) &= \frac{G(u,v)}{F(u,v)}\\
+&= \int_{0}^{T}e^{-j2\pi(ux_0(t)+vy_0(t))}dt
+\end{aligned}
+$$
