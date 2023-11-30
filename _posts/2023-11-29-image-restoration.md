@@ -67,23 +67,6 @@ $$
 
 ### Adaptive Filter
 
-### Wiener Filter
-
-$$
-\begin{aligned}
-\hat{F}(u,v) &= \left [ \frac{H^*(u,v)S_f(u,v)}{|H(u,v)|^2S_f(u,v)+S_\eta(u,v)} \right ]G(u,v)\\
-&= \left [ \frac{H^*(u,v)}{|H(u,v)|^2+\frac{S_\eta(u,v)}{S_f(u,v)}} \right ]G(u,v)\\
-&= \left [ \frac{1}{H(u,v)}\frac{|H(u,v)|^2}{|H(u,v)|^2+\frac{S_\eta(u,v)}{S_f(u,v)}} \right ]G(u,v)\\
-\end{aligned}
-$$
-
-- Degradation function $$H(u,v)$$ is a complex function, $$|H(u,v)|^2=H(u,v)H^*(u,v)$$.
-- $$H^*(u,v)$$ is the complex conjugate of $$H(u,v)$$.
-- $$\hat{F}(u,v)$$ is the fourier transform of the estimation of the original image.
-- $$S_f(u,v)$$ is the power spectrum of the original image.
-- $$S_\eta(u,v)$$ is the power spectrum of the noise.
-- $$G(u,v)$$ is the fourier transform of the degraded image.
-
 ## Restoration in the Frequency Domain
 
 ### Notch Filter
@@ -113,6 +96,24 @@ $$
 $$
 
 where $$\bar{g}$$ is the mean of the degraded image, $$\bar{\eta}$$ is the mean of the noise function, $$\overline{g\eta}$$ is the cross-correlation between the degraded image and the noise function, and $$\overline{\eta^2}$$ is the auto-correlation of the noise function in the local area $$S_{xy}$$.
+
+### Wiener Filter
+
+$$
+\begin{aligned}
+\hat{F}(u,v) &= \left [ \frac{H^*(u,v)S_f(u,v)}{|H(u,v)|^2S_f(u,v)+S_\eta(u,v)} \right ]G(u,v)\\
+&= \left [ \frac{H^*(u,v)}{|H(u,v)|^2+\frac{S_\eta(u,v)}{S_f(u,v)}} \right ]G(u,v)\\
+&= \left [ \frac{1}{H(u,v)}\frac{|H(u,v)|^2}{|H(u,v)|^2+\frac{S_\eta(u,v)}{S_f(u,v)}} \right ]G(u,v)\\
+\end{aligned}
+$$
+
+- Degradation function $$H(u,v)$$ is a complex function, $$|H(u,v)|^2=H(u,v)H^*(u,v)$$.
+- $$H^*(u,v)$$ is the complex conjugate of $$H(u,v)$$.
+- $$\hat{F}(u,v)$$ is the fourier transform of the estimation of the original image.
+- $$S_f(u,v)$$ is the power spectrum of the original image.
+- $$S_\eta(u,v)$$ is the power spectrum of the noise.
+- $$G(u,v)$$ is the fourier transform of the degraded image. 
+- Power spectrum is the quadratic power of the fourier transform.
 
 ## Estimation of Degradation Function
 
