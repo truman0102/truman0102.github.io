@@ -145,6 +145,18 @@ where $$P(u,v)$$ is the fourier transform of the laplacian filter.
 
 To estimate $$\gamma$$, we need to define a residual $$r=g-H\hat{f}$$, and adjust $$r$$ until $$\lVert r \rVert^2 = \lVert \eta \rVert^2 \pm \epsilon$$.
 
+$$
+R(u,v) = G(u,v)-H(u,v)F(u,v)
+$$
+
+$$
+\begin{aligned}
+\phi(\gamma) &= \lVert r \rVert^2\\
+&= r^Tr\\
+&= \sum_{x=0}^{M-1}\sum_{y=0}^{N-1}r^2(x,y)\\
+\end{aligned}
+$$
+
 ## Estimation of Degradation Function
 
 Blind convolution is used to estimate the degradation function.
