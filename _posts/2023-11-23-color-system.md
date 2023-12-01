@@ -234,3 +234,6 @@ $$
 #### HSV
 
 An HSV color model is the most accurate color model as long as the way humans perceive colors. How humans perceive colors is not like how RGB or CMYK make colors. They are just primary colors fused to create the spectrum. The H stands for Hue, S stands for Saturation, and the V stand for value. 
+
+#### CIELAB
+

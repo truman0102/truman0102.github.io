@@ -220,6 +220,12 @@ It is worth noting that the sum of the coefficients of the Laplacian filter is z
 
 ### First-Order Derivative Filters
 
+$$\begin{aligned}
+G&=\sqrt{G_x^2+G_y^2}\\
+&\approx|G_x|+|G_y|\\
+\end{aligned}
+$$
+
 #### Roberts Cross Operator
 
 $$
@@ -240,9 +246,9 @@ $$
 $$
 \begin{aligned}
 h_x &= \begin{bmatrix}
-1 & 0 & -1\\
-1 & 0 & -1\\
-1 & 0 & -1\\
+-1 & 0 & 1\\
+-1 & 0 & 1\\
+-1 & 0 & 1\\
 \end{bmatrix}
 &=\begin{bmatrix}
 1\\
@@ -251,17 +257,17 @@ h_x &= \begin{bmatrix}
 \end{bmatrix}
 \ast
 \begin{bmatrix}
-1&0&-1\\
+-1&0&1\\
 \end{bmatrix} \\
 h_y &= \begin{bmatrix}
-1 & 1 & 1\\
-0 & 0 & 0\\
 -1 & -1 & -1\\
+0 & 0 & 0\\
+1 & 1 & 1\\
 \end{bmatrix}
 &=\begin{bmatrix}
-1\\
-0\\
 -1\\
+0\\
+1\\
 \end{bmatrix}
 \ast
 \begin{bmatrix}
@@ -270,14 +276,25 @@ h_y &= \begin{bmatrix}
 \end{aligned}
 $$
 
+$$
+\begin{aligned}
+g_x(x, y) &= (f \ast h_x)(x, y) \\
+&= f_7 + f_8 + f_9 - f_1 - f_2 - f_3 \\
+g_y(x, y) &= (f \ast h_y)(x, y) \\
+&= f_3 + f_6 + f_9 - f_1 - f_4 - f_7 \\
+\end{aligned}
+$$
+
 #### Sobel Operator
+
+Sobel filter is used to detect edges/calculate the gradient of an image. 
 
 $$
 \begin{aligned}
 h_x &= \begin{bmatrix}
-1 & 0 & -1\\
-2 & 0 & -2\\
-1 & 0 & -1\\
+-1 & 0 & 1\\
+-2 & 0 & 2\\
+-1 & 0 & 1\\
 \end{bmatrix}
 &=\begin{bmatrix}
 1\\
@@ -285,23 +302,31 @@ h_x &= \begin{bmatrix}
 1\\
 \end{bmatrix}
 \ast
-\begin{bmatrix}
-1&0&-1\\
+\begin{bmatrix}-1&0&1\\
 \end{bmatrix} \\
 h_y &= \begin{bmatrix}
-1 & 2 & 1\\
-0 & 0 & 0\\
 -1 & -2 & -1\\
+0 & 0 & 0\\
+1 & 2 & 1\\
 \end{bmatrix}
 &=\begin{bmatrix}
-1\\
-0\\
 -1\\
+0\\
+1\\
 \end{bmatrix}
 \ast
 \begin{bmatrix}
 1&2&1\\
 \end{bmatrix} \\
+\end{aligned}
+$$
+
+$$
+\begin{aligned}
+g_x(x, y) &= (f \ast h_x)(x, y) \\
+&= f_7 + 2f_8 + f_9 - f_1 - 2f_2 - f_3 \\
+g_y(x, y) &= (f \ast h_y)(x, y) \\
+&= f_3 + 2f_6 + f_9 - f_1 - 2f_4 - f_7 \\
 \end{aligned}
 $$
 
