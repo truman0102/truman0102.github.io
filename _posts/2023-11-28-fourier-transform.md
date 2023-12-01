@@ -203,9 +203,11 @@ $$
 $$
 \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} \delta(x, y) dx dy = 1
 $$
+
 $$
 \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} f(x, y)\delta(x, y) dx dy = f(0, 0)
 $$
+
 $$
 \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} f(x, y)\delta(x-x_0, y-y_0) dx dy = f(x_0, y_0)\\
 $$
