@@ -335,10 +335,25 @@ $$
 In unsharp masking, a blurred image is subtracted from the original image to get its edges only, and the result is added to the original image to get an enhanced version.
 
 $$
+h_o = \left [ \begin{matrix}
+0 & 0 & 0 \\
+0 & 1 & 0 \\
+0 & 0 & 0 \\
+\end{matrix} \right ]
+$$
+
+$$
+f(x,y) = (f\star h_o)(x,y)
+$$
+
+$$
 \begin{aligned}
 g(x, y) &= f(x, y) + \alpha (f(x, y) - (f \ast h)(x, y)) \\
-&= (1 + \alpha) f(x, y) - \alpha (f \ast h)(x, y) \\
+&= (1 + \alpha) f(x, y) - \alpha (f \star h)(x, y) \\
+&= (1 + \alpha)(f\star h_o)(x,y) - \alpha (f \star h)(x, y) \\
+&= (f\star((1 + \alpha)h_o - \alpha h))(x,y)
 \end{aligned}
 $$
 
 where $$h$$ is a low-pass filter to make the image blurred.
+
