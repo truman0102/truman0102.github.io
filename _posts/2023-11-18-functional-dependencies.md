@@ -58,8 +58,8 @@ If $$X \rightarrow Y$$ and $$WY \rightarrow Z$$, then $$WX \rightarrow Z$$.
 ## Functional Dependency Closure
 
 {::nomarkdown}
-{% assign jupyter_path = "assets/jupyter/functional_dependency_closure.ipynb" | relative_url %}
-{% capture notebook_exists %}{% file_exists assets/jupyter/functional_dependency_closure.ipynb %}{% endcapture %}
+{% assign jupyter_path = "assets/jupyter/db/functional_dependency_closure.ipynb" | relative_url %}
+{% capture notebook_exists %}{% file_exists assets/jupyter/db/functional_dependency_closure.ipynb %}{% endcapture %}
 {% if notebook_exists == "true" %}
     {% jupyter_notebook jupyter_path %}
 {% else %}
@@ -138,8 +138,8 @@ Let $$\rho={R_1,R_2}$$ be a decomposition of $$R$$, the decomposition is lossles
 ## Dependency Preservation
 
 {::nomarkdown}
-{% assign jupyter_path = "assets/jupyter/dependency_preservation.ipynb" | relative_url %}
-{% capture notebook_exists %}{% file_exists assets/jupyter/dependency_preservation.ipynb %}{% endcapture %}
+{% assign jupyter_path = "assets/jupyter/db/dependency_preservation.ipynb" | relative_url %}
+{% capture notebook_exists %}{% file_exists assets/jupyter/db/dependency_preservation.ipynb %}{% endcapture %}
 {% if notebook_exists == "true" %}
     {% jupyter_notebook jupyter_path %}
 {% else %}
