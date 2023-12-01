@@ -141,11 +141,54 @@ where $$\alpha$$ and $$\beta$$ are the non-negative parameters.
 
 ### Constrained Least Squares Filter
 
+The constrained least squares filter is used to estimate the original image when the degradation function is known.
+
+$$
+C = \sum_{x=0}^{M-1}\sum_{y=0}^{N-1}[\triangledown^2f(x,y)]^2\\
+$$
+
+$$
+\begin{aligned}
+\triangledown^2f(x,y) &= f(x+1,y)+f(x-1,y)+f(x,y+1)+f(x,y-1)-4f(x,y)\\
+&=(f\star h)(x,y)
+\end{aligned}
+$$
+
+where $$h$$ is the laplacian filter.
+
 The constrain is
 
 $$
 \lVert g-Hf \rVert^2 = \lVert \eta \rVert^2
 $$
+
+The fourier transform of $$C$$ is $$P\hat{F}$$, where $$P$$ is the fourier transform of the laplacian filter. So the lagrangian function is
+
+$$
+L(\hat{F},\lambda) = \lVert P\hat{F} \rVert^2 + \lambda(\lVert G-H\hat{F} \rVert^2 - \lVert N \rVert^2)
+$$
+
+The partial derivative of $$L$$ with respect to $$\hat{F}$$ is
+
+$$
+\begin{aligned}
+\frac{\partial L}{\partial \hat{F}} &= \frac{\partial}{\partial \hat{F}}(\lVert P\hat{F} \rVert^2 + \lambda(\lVert G-H\hat{F} \rVert^2 - \lVert N \rVert^2))\\
+&= 2P^*P\hat{F}+2\lambda H^*H\hat{F}-2\lambda H^*G\\
+&= 2(P^*P+\lambda H^*H)\hat{F}-2\lambda H^*G\\
+\end{aligned}
+$$
+
+If $$\frac{\partial L}{\partial \hat{F}}=0$$, then
+
+$$
+\begin{aligned}
+\hat{F} &= \frac{\lambda H^*G}{P^*P+\lambda H^*H}\\
+&= \frac{H^*G}{\frac{P^*P}{\lambda}+H^*H}\\
+&= \frac{H^*G}{|H|^2+\gamma|P|^2}\\
+\end{aligned}
+$$
+
+Therefore, the estimation of the original image is
 
 $$
 \hat{F}(u,v) = \left [ \frac{H^*(u,v)}{|H(u,v)|^2+\gamma|P(u,v)|^2} \right ]G(u,v)
@@ -163,6 +206,8 @@ $$
 r = \mathcal{F}^{-1}\{R(u,v)\}
 $$
 
+The larger the $$\gamma$$, the smaller the $$\hat{F}$$, and the larger the $$r$$. So we can adjust $$\gamma$$ until $$\lVert r \rVert^2 = \lVert \eta \rVert^2 \pm \epsilon$$.
+
 $$
 \begin{aligned}
 \phi(\gamma) &= \lVert r \rVert^2\\
@@ -174,7 +219,11 @@ $$
 To estimate $$\lVert\eta\rVert^2$$,
 
 $$
-\lVert\eta\rVert^2 = MN(\sigma_{\eta}^2+\bar{\eta}^2)
+\begin{aligned}
+\lVert\eta\rVert^2 &= MN(\sigma_{\eta}^2+\bar{\eta}^2)\\
+\bar{\eta} &= \frac{1}{MN}\sum_{x=0}^{M-1}\sum_{y=0}^{N-1}\eta(x,y)\\
+\sigma_{\eta}^2 &= \frac{1}{MN}\sum_{x=0}^{M-1}\sum_{y=0}^{N-1}[\eta(x,y)-\bar{\eta}]^2\\
+\end{aligned}
 $$
 
 ## Estimation of Degradation Function

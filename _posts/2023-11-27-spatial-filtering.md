@@ -23,7 +23,7 @@ Spatial filtering can be divided into linear and non-linear filtering. If we reg
 Let $$g(x, y)$$ be the output image obtained by filtering $$f(x, y)$$ with a filter $$h(x, y)$$, then the convolution operation is defined as:
 
 $$
-g(x, y) = (f \ast h)(x, y) = \sum_{s=-a}^{a} \sum_{t=-b}^{b} f(x-s, y-t) h(s, t)
+g(x, y) = (f \star h)(x, y) = \sum_{s=-a}^{a} \sum_{t=-b}^{b} f(x-s, y-t) h(s, t)
 $$
 
 where $$a$$ and $$b$$ are the half-widths of the filter. Similarly, the correlation operation is defined as:
@@ -34,6 +34,7 @@ $$
 
 ## [Convolution](/blog/2023/convolution/)
 
+The default operation between an image and a filter is convolution.
 
 ## Smoothing (Low-Pass) Filters
 
@@ -112,7 +113,7 @@ $$
 \end{bmatrix}
 $$
 
-The filter is normalized by dividing the sum of all the elements by the sum of the weights.
+The filter is normalized by dividing the sum of all the elements in the filter.
 
 $$
 h(x,y)=\frac{1}{\sum_{x=-a}^{a}\sum_{y=-b}^{b}w(x,y)}w(x,y)
@@ -157,6 +158,8 @@ z_{med} &\quad \text{otherwise}
 \end{aligned}
 \right.
 $$
+
+#### [Optimal Notch Filter](/blog/2023/image-restoration/#optimal-notch-filter)
 
 ## Sharpening (High-Pass) Filters
 
