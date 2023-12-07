@@ -159,7 +159,7 @@ where $$h$$ is the laplacian filter.
 The constrain is
 
 $$
-\lVert g-Hf \rVert^2 = \lVert \eta \rVert^2
+\lVert g-H\hat{f} \rVert^2 = \lVert \eta \rVert^2
 $$
 
 The fourier transform of $$C$$ is $$P\hat{F}$$, where $$P$$ is the fourier transform of the laplacian filter. So the lagrangian function is
@@ -199,7 +199,7 @@ where $$P(u,v)$$ is the fourier transform of the laplacian filter.
 To estimate $$\gamma$$, we need to define a residual $$r=g-H\hat{f}$$, and adjust $$r$$ until $$\lVert r \rVert^2 = \lVert \eta \rVert^2 \pm \epsilon$$.
 
 $$
-R(u,v) = G(u,v)-H(u,v)F(u,v)
+R(u,v) = G(u,v)-H(u,v)\hat{F}(u,v)
 $$
 
 $$
@@ -216,7 +216,7 @@ $$
 \end{aligned}
 $$
 
-To estimate $$\lVert\eta\rVert^2$$,
+To estimate $$\lVert\eta\rVert^2$$, it is known that $$D(x)=E(x^2)-[E(x)]^2$$, where $$D(x)$$ is the variance of $$x$$, $$E(x)$$ is the mean of $$x$$. So $$E(x^2)=D(x)+[E(x)]^2$$.
 
 $$
 \begin{aligned}
