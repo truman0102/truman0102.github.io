@@ -263,7 +263,7 @@ jekyll-archives:
     category: '/blog/category/:name/'
 
 display_tags: ['ML','math'] # these tags will be displayed on the front page of your blog
-display_categories: ['data-science', 'image-processing'] # these categories will be displayed on the front page of your blog
+display_categories: ['data-science', 'image-processing', 'artificial-intelligence'] # these categories will be displayed on the front page of your blog
 
 # -----------------------------------------------------------------------------
 # Jekyll Scholar
