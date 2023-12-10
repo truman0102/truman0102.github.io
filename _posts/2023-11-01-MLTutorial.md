@@ -3,7 +3,7 @@ layout: post
 title: Tutorial for Machine Learning
 date: 2023-11-01 12:00:00-0400
 description: An tutorial for machine learning
-tags: ML math
+tags: ML tutorial
 categories: data-science
 related_posts: false
 thumbnail:
@@ -30,4 +30,4 @@ toc:
 
 ### Semi-supervised Learning
 
-### Reinforcement Learning
+### [Reinforcement Learning](/blog/2023/RLTutorial/)
