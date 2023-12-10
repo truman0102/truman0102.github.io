@@ -9,7 +9,7 @@ related_posts: false
 giscus_comments: true
 thumbnail: 
 toc:
-  sidebar: left
+  beginning: true
 ---
 
 ## Point Operation
