@@ -6,7 +6,7 @@ description: An tutorial for machine learning
 tags: ML math
 categories: data-science
 related_posts: false
-thumbnail: assets/img/data_science/ML.png
+thumbnail:
 giscus_comments: true
 toc:
   sidebar: left
