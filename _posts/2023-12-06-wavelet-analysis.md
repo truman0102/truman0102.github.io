@@ -5,6 +5,7 @@ date: 2023-12-06 10:40:00-0400
 description: An introduction to wavelet analysis and other image transforms.
 tags: wavelet-analysis image-transforms
 categories: image-processing
+redirect: /assets/pdf/wavelet-analysis.pdf
 related_posts: false
 giscus_comments: true
 thumbnail: 
