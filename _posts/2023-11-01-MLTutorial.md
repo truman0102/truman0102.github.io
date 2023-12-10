@@ -30,4 +30,4 @@ toc:
 
 ### Semi-supervised Learning
 
-### [Reinforcement Learning](/blog/2023/RLTutorial/)
+### Reinforcement Learning
