@@ -3,7 +3,7 @@ layout: post
 title: Probability Distribution
 date: 2023-09-01 03:00:00-0400
 description: An introduction to probability distribution in Probability and Statistics.
-tags: probability-distribution
+tags: probability-distribution math
 categories: probability-statistics
 related_posts: false
 giscus_comments: true
