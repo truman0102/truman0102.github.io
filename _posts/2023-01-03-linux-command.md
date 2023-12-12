@@ -168,3 +168,74 @@ Execute a file
 ```bash
 ./file.xxx
 ```
+
+## Multiple Shell Sessions
+
+### screen
+
+Create a new session with a name
+
+```bash
+screen -S session_name
+```
+
+List all sessions
+
+```bash
+screen -ls
+```
+
+Attach to a session
+
+```bash
+screen -r session_name
+```
+
+Detach from a session
+
+```bash
+screen -d session_name
+```
+### tmux
+
+Create a new session
+
+```bash
+tmux
+```
+
+Create a new session with a name
+
+```bash
+tmux new -s session_name
+```
+
+List all sessions
+
+```bash
+tmux ls
+```
+
+Attach to a session
+
+```bash
+tmux a -t session_name
+```
+
+Detach from a session
+
+```bash
+tmux detach
+```
+
+Kill a session
+
+```bash
+tmux kill-session -t session_name
+```
+
+Rename a session
+
+```bash
+tmux rename-session -t old_session_name new_session_name
+```
