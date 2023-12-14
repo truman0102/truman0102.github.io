@@ -126,8 +126,6 @@ $$
 \end{aligned}
 $$
 
-
-
 ### Error-Free Reconstruction (无误差重构)
 
 $$
@@ -327,6 +325,8 @@ h_{N-1}(\frac{0}{N}) & h_{N-1}(\frac{1}{N}) & \dots & h_{N-1}(\frac{N-1}{N})\\
 \end{bmatrix}
 $$
 
+哈尔变换矩阵任取不相同两行的内积都为0。
+
 哈尔变换可用于离散小波变换中重建尺度函数和小波函数的系数。假定系数为$c$，则有
 
 $$
@@ -351,7 +351,6 @@ $$
 \end{aligned}
 $$
 
-
 ## 尺度函数 (Scale Function)
 
 一个函数可以看成是一组正交函数的线性组合，即
@@ -362,7 +361,7 @@ $$
 
 $\{\phi_k(x)\}$是正交函数集，$\alpha_k$是系数。
 
-考虑一个简单的单位函数$\varphi(x)$，它定义为$[0,1)$上的单位函数，即
+考虑一个简单的单位函数 (哈尔框函数) $\varphi(x)$，它定义为$[0,1)$上的单位函数，即
 
 $$
 \varphi(x)=\left\{
@@ -398,7 +397,7 @@ $$
    - $\varphi_{j,k} = \sum_{n=-\infty}^{\infty}\alpha_{n}\varphi_{j+1,n}$
 3. 唯一包含在所有尺度函数跨越/张成的子空间中的函数是零函数
 4. 任何函数都可以用尺度函数的线性组合来逼近 (任意精度)，$j\rightarrow \infty$
-  
+
 重写低尺度函数的线性表达式，将系数看成关于平移$n$的函数，即
 
 $$
@@ -415,7 +414,6 @@ h_{\varphi}(k) &= \left \langle \varphi(x),\sqrt{2}\varphi(2x-k) \right \rangle\
 $$
 
 $h_{\varphi}(n)$称为尺度函数系数，$h_{\varphi}$称为尺度向量，可以将尺度函数系数看成是尺度向量的一个元素。
-
 
 ## 小波函数 (Wavelet Function)
 
@@ -506,13 +504,50 @@ $$
 
 ### 离散小波变换 (Discrete Wavelet Transform)
 
-对于离散变量$x=0,1,\dots,N-1$，其中$N=2^J$，$J$通常是尺度$j$的上限，即$j=0,1,\dots,J-1$；而平移$k$的上限是$2^j-1$，即$k=0,1,\dots,2^j-1$，根据尺度函数支撑集的分析可知平移后的函数被控制在$[0,1]$区间内。离散变量的小波变换可以写成
+对于离散变量$x=0,1,\dots,N-1$，其中$N=2^J$，$J$通常是尺度$j$的上限，即$j=0,1,\dots,J-1$；而平移$k$的上限是$2^j-1$，即$k=0,1,\dots,2^j-1$。离散变量的小波变换可以写成
 
 $$
 f(x)=\frac{1}{\sqrt{N}}\sum_k W_{\varphi}(j_0,k)\varphi_{j_0,k}(x) + \frac{1}{\sqrt{N}}\sum_{j=j_0}^{\infty}\sum_k W_{\psi}(j,k)\psi_{j,k}(x)
 $$
 
-离散变量$x$的取值更准确的定义应该是$x=\frac{0}{N},\frac{1}{N},\dots,\frac{N-1}{N}$，即$x\in [0,1)$，因此尺度函数和小波函数的定义域是$[0,1)$，而不是$[0,N)$。
+尺度系数和小波系数的计算公式为
+
+$$
+\begin{aligned}
+W_{\varphi}(j_0,k)&=\left \langle f(x),\varphi_{j_0,k}(x) \right \rangle&=\frac{1}{\sqrt{N}}\sum_{n=0}^{N-1}f(n)\varphi_{j_0,k}(n)\\
+W_{\psi}(j,k)&=\left \langle f(x),\psi_{j,k}(x) \right \rangle&=\frac{1}{\sqrt{N}}\sum_{n=0}^{N-1}f(n)\psi_{j,k}(n)\\
+\end{aligned}
+$$
+
+值得注意的是尺度函数$\varphi_{j,k}$的定义域为$[\frac{k}{2^j},\frac{k+1}{2^j})$，而离散变换中的自变量$x$为整数，所以这里的$\varphi_{j,k}(n)$对应于$\varphi_{j,k}(\frac{nk}{2^j})$，再看一个$4\times 4$的哈尔矩阵:
+
+$$
+H_4 = \frac{1}{2}\begin{bmatrix}
+1 & 1 & 1 & 1\\
+1 & 1 & -1 & -1\\
+\sqrt{2} & -\sqrt{2} & 0 & 0\\
+0 & 0 & \sqrt{2} & -\sqrt{2}\\
+\end{bmatrix}
+$$
+
+$$
+f = \begin{bmatrix}
+f(0)\\
+f(1)\\
+f(2)\\
+f(3)
+\end{bmatrix}
+$$
+
+$$
+\begin{aligned}
+W_{\varphi}(0,0)&=\frac{1}{2}[f(0) * 1 + f(1) * 1 + f(2) * 1 + f(3) * 1]\\
+W_{\psi}(0,0)&=\frac{1}{2}[f(0) * 1 + f(1) * 1 + f(2) * (-1) + f(3) * (-1)]\\
+W_{\psi}(1,0)&=\frac{1}{2}[f(0) * \sqrt{2} + f(1) * (-\sqrt{2}) + f(2) * 0 + f(3) * 0]\\
+W_{\psi}(1,1)&=\frac{1}{2}[f(0) * 0 + f(1) * 0 + f(2) * \sqrt{2} + f(3) * (-\sqrt{2})]\\
+W &= H_4f
+\end{aligned}
+$$
 
 假设$j_0$是尺度的下限，那么需要的系数的个数为
 
@@ -526,3 +561,52 @@ $$
 $$
 
 说明离散小波变换需要的尺度函数的系数和小波函数的系数的个数的和总是等于$N$。
+
+## 快速小波变换 (Fast Wavelet Transform)
+
+重看多分辨率展开公式
+
+$$
+\varphi (x) = \sum_{n=-\infty}^{\infty}h_{\varphi}(n)\sqrt{2}\varphi(2x-n)
+$$
+
+对$x$进行尺度和平移变换
+
+$$
+\begin{aligned}
+\varphi (2^jx - k) &= \sum_{n=-\infty}^{\infty}h_{\varphi}(n)\sqrt{2}\varphi(2(2^jx-k)-n)\\
+&= \sum_{n=-\infty}^{\infty}h_{\varphi}(n)\sqrt{2}\varphi(2^{j+1}x-(2k+n))\\
+\text{令}2k+n=m&\\
+&= \sum_{m=-\infty}^{\infty}h_{\varphi}(m-2k)\sqrt{2}\varphi(2^{j+1}x-m)\\
+\end{aligned}
+$$
+
+小波函数的情况类似
+
+$$
+\psi (2^jx - k) = \sum_{m=-\infty}^{\infty}h_{\psi}(m-2k)\sqrt{2}\varphi(2^{j+1}x-m)\\
+$$
+
+说明尺度函数和小波函数的多分辨率展开的系数为$\sqrt{2}h_{\varphi}(m-2k)$和$\sqrt{2}h_{\psi}(m-2k)$。
+
+在离散小波变换中
+
+$$
+\begin{aligned}
+W_{\varphi}(j,k)&=\frac{1}{\sqrt{N}}\sum_{n=0}^{N-1}f(n)\varphi_{j,k}(n)\\
+&=\frac{1}{\sqrt{N}}\sum_{n=0}^{N-1}f(n)2^{\frac{j}{2}}\varphi(2^jx-k)\\
+&=\frac{1}{\sqrt{N}}\sum_{n=0}^{N-1}f(n)2^{\frac{j}{2}}\sum_{m=-\infty}^{\infty}h_{\varphi}(m-2k)\sqrt{2}\varphi(2^{j+1}x-m)\\
+&=\frac{1}{\sqrt{N}}\sum_{m=-\infty}^{\infty}\sum_{n=0}^{N-1}f(n)h_{\varphi}(m-2k)2^{(j+1)/2}\varphi(2^{j+1}x-m)\\
+&=\sum_{m}h_{\varphi}(m-2k)[\frac{1}{\sqrt{N}}\sum_{n=0}^{N-1}f(n)2^{(j+1)/2}\varphi(2^{j+1}x-m)]\\
+&=\sum_{m}h_{\varphi}(m-2k)[\frac{1}{\sqrt{N}}\sum_{n=0}^{N-1}f(n)\varphi_{j+1,m}(n)]\\
+&=\sum_{m}h_{\varphi}(m-2k)W_{\varphi}(j+1,m)\\
+\end{aligned}
+$$
+
+类似地
+
+$$
+W_{\psi}(j,k)=\sum_{m}h_{\psi}(m-2k)W_{\varphi}(j+1,m)\\
+$$
+
+可以看作是一个步长为2的卷积运算

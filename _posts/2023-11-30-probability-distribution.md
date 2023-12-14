@@ -27,7 +27,7 @@ Probability distribution is a function that describes the probability of a rando
 ### Uniform Distribution
 
 $$
-f(x) = \left\{
+f(x;a,b) = \left\{
 \begin{array}{ll}
 \frac{1}{b-a} & a \leq x \leq b \\
 0 & \text{otherwise}
@@ -38,23 +38,41 @@ $$
 ### Normal Distribution
 
 $$
-f(x) = \frac{1}{\sigma \sqrt{2\pi}} e^{-\frac{(x-\mu)^2}{2\sigma^2}}
+f(x;\mu,\sigma) = \frac{1}{\sigma \sqrt{2\pi}} e^{-\frac{(x-\mu)^2}{2\sigma^2}}
+$$
+
+### Bernoulli Distribution
+
+$$
+f(x;p) = \left\{
+\begin{array}{ll}
+p & x = 1 \\
+1-p & x = 0
+\end{array}
+\right.
 $$
 
 ### Binomial Distribution
 
-### Bernoulli Distribution
+$$
+\binom{n}{x} = \frac{n!}{x!(n-x)!}
+$$
+
+$$
+f(x;n,p) = \binom{n}{x} p^x (1-p)^{n-x}
+$$
+
 
 ### Poisson Distribution
 
 $$
-f(x) = \frac{\lambda^x e^{-\lambda}}{x!}
+f(x;\lambda) = \frac{\lambda^x e^{-\lambda}}{x!}
 $$
 
 ### Exponential Distribution
 
 $$
-f(x) = \left\{
+f(x;\lambda) = \left\{
 \begin{array}{ll}
 \lambda e^{-\lambda x} & x \geq 0 \\
 0 & x < 0
@@ -74,19 +92,31 @@ $$
 ### Gamma Distribution
 
 $$
-f(x) = \frac{\beta^\alpha}{\Gamma(\alpha)} x^{\alpha-1} e^{-\beta x}
+\begin{aligned}
+\Gamma(\alpha) &= \int_0^\infty x^{\alpha-1} e^{-x} dx\\
+\Gamma(\alpha + 1) &= \int_0^\infty x^{\alpha} e^{-x} dx\\
+&= \int_0^\infty x^{\alpha} d(-e^{-x})\\
+&= \left. x^{\alpha} (-e^{-x}) \right|_0^\infty - \int_0^\infty \alpha x^{\alpha-1} (-e^{-x}) dx\\
+&= 0 + \alpha \int_0^\infty x^{\alpha-1} e^{-x} dx\\
+&= \alpha \Gamma(\alpha)\\
+\Gamma(n+1) &= n!\\
+\end{aligned}
+$$
+
+$$
+f(x;\alpha,\beta) = \frac{\beta^\alpha}{\Gamma(\alpha)} x^{\alpha-1} e^{-\beta x}
 $$
 
 ### Beta Distribution
 
 $$
-f(x) = \frac{\Gamma(\alpha + \beta)}{\Gamma(\alpha)\Gamma(\beta)} x^{\alpha-1} (1-x)^{\beta-1}
+f(x;\alpha,\beta) = \frac{\Gamma(\alpha + \beta)}{\Gamma(\alpha)\Gamma(\beta)} x^{\alpha-1} (1-x)^{\beta-1}
 $$
 
 ### Rayleigh Distribution
 
 $$
-f(x) = \frac{x}{\sigma^2} e^{-\frac{x^2}{2\sigma^2}}
+f(x;\sigma) = \frac{x}{\sigma^2} e^{-\frac{x^2}{2\sigma^2}}
 $$
 
 $$
@@ -96,7 +126,7 @@ $$
 ### Weibull Distribution
 
 $$
-f(x) = \left\{
+f(x;\lambda,k) = \left\{
 \begin{array}{ll}
 \frac{k}{\lambda} (\frac{x}{\lambda})^{k-1} e^{-(\frac{x}{\lambda})^k} & x \geq 0 \\
 0 & x < 0
