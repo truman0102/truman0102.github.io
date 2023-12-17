@@ -33,7 +33,7 @@ $$
 y_i \in \{1, 2, \dots, K\}
 $$
 
-Sometimes, $$y_i$$ is a binary random variable belonging to one of two classes, $$y_i \in \{0, 1\}$$. We can see that the form of the label is not important, as long as it is discrete. It is the goal of the generative classifier to predict the label of a new data point $$x_{new}$$ given the training data $$X$$ and $$Y$$. The generative classifier does this by maximizing the posterior probability (equivalent to minimizing the wrong classification rate) $$P(Y|X)$$ or minimizing the expected risk $$R$$.
+Sometimes, $$y_i$$ is a binary random variable belonging to one of two classes, $$y_i \in \{0, 1\}$$. We can see that the form of the label is not important, as long as it is discrete. It is the goal of the generative classifier to predict the label of a new data point $$x_{new}$$ given the training data $$X$$ and $$Y$$. The generative classifier does this by maximizing the posterior probability (equivalent to minimizing the wrong classification rate) $$P(Y\mid X)$$ or minimizing the expected risk $$R$$.
 
 ### Maximizing the Posterior Probability
 
@@ -49,7 +49,7 @@ $$
 P(y \neq c | x) = 1 - \frac{P(x | y = c) P(y = c)}{P(x)}
 $$
 
-To minimize the wrong classification rate, we want to maximize the posterior probability $$P(y = c | x)$$. Since $$P(x)$$ is constant, and $$P(y = c)$$ is the prior probability of $$y = c$$, we just need to maximize $$P(x | y = c)$$, the posterior probability of $$x$$ given $$y = c$$. And the prediction $$\hat{y}$$ is
+To minimize the wrong classification rate, we want to maximize the posterior probability $$P(y = c \mid x)$$. Since $$P(x)$$ is constant, and $$P(y = c)$$ is the prior probability of $$y = c$$, we just need to maximize $$P(x \mid y = c)$$, the posterior probability of $$x$$ given $$y = c$$. And the prediction $$\hat{y}$$ is
 
 $$
 \hat{y} = \arg\min_c P(y \neq c | x) = \arg\max_c P(x | y = c) P(y = c)
