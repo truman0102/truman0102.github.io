@@ -9,12 +9,12 @@ related_posts: false
 giscus_comments: true
 thumbnail:
 toc:
-  sidebar: left
+  beginning: true
 ---
 
 ## Introduction
 
-Given a set of data points $$X$$ and their corresponding labels $$Y$$, a generative classifier attempts to model the distribution $$P(X,Y)$$ and then uses Bayes' rule or the chain rule to calculate $$P(Y|X)$$.
+Given a set of data points $$X$$ and their corresponding labels $$Y$$, a generative classifier attempts to model the distribution $$P(X,Y)$$ and then uses Bayes' rule or the chain rule to calculate $$P(Y\mid X)$$.
 
 $$
 X_{D \times N} = \begin{bmatrix}
@@ -63,13 +63,13 @@ $$
 R(\hat{y}|x) = \sum_{y=1}^K L(y, \hat{y}) P(y|x)
 $$
 
-where $$P(y|x)$$ is the posterior probability of $$y$$ given $$x$$. The prediction $$\hat{y}$$ is
+where $$P(y\mid x)$$ is the posterior probability of $$y$$ given $$x$$. The prediction $$\hat{y}$$ is
 
 $$
 \hat{y} = \arg\min_c R(c|x) = \arg\min_c \sum_{y=1}^K L(y, c) P(y|x)
 $$
 
-A simple example of a loss function is the 0-1 loss function, where
+Actually, the expected risk is the weighted sum of the wrong classification rate, where the weights are the costs of misclassifications, since $$L(y,y) = 0$$. A simple example of a loss function is the 0-1 loss function, where
 
 $$
 L(y, \hat{y}) = \begin{cases}
@@ -78,7 +78,7 @@ L(y, \hat{y}) = \begin{cases}
 \end{cases}
 $$
 
-In this case, the expected risk is the wrong classification rate:
+In this case, the expected risk happens to be the wrong classification rate.
 
 $$
 R(\hat{y}|x) = \sum_{y=1}^K L(y, \hat{y}) P(y|x) = P(y \neq \hat{y} | x)
