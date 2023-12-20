@@ -507,7 +507,7 @@ $$
 对于离散变量$x=0,1,\dots,N-1$，其中$N=2^J$，$J$通常是尺度$j$的上限，即$j=0,1,\dots,J-1$；而平移$k$的上限是$2^j-1$，即$k=0,1,\dots,2^j-1$。离散变量的小波变换可以写成
 
 $$
-f(x)=\frac{1}{\sqrt{N}}\sum_k W_{\varphi}(j_0,k)\varphi_{j_0,k}(x) + \frac{1}{\sqrt{N}}\sum_{j=j_0}^{\infty}\sum_k W_{\psi}(j,k)\psi_{j,k}(x)
+f(x)=\frac{1}{\sqrt{N}}\sum_{k=0}^{2^{j_0}-1} W_{\varphi}(j_0,k)\varphi_{j_0,k}(x) + \frac{1}{\sqrt{N}}\sum_{j=j_0}^{\infty}\sum_{k=0}^{2^j-1} W_{\psi}(j,k)\psi_{j,k}(x)
 $$
 
 尺度系数和小波系数的计算公式为
@@ -578,6 +578,9 @@ $$
 &= \sum_{n=-\infty}^{\infty}h_{\varphi}(n)\sqrt{2}\varphi(2^{j+1}x-(2k+n))\\
 \text{令}2k+n=m&\\
 &= \sum_{m=-\infty}^{\infty}h_{\varphi}(m-2k)\sqrt{2}\varphi(2^{j+1}x-m)\\
+2^{j/2}\varphi(2^jx-k)&= 2^{j/2}\sum_{m=-\infty}^{\infty}h_{\varphi}(m-2k)\sqrt{2}\varphi(2^{j+1}x-m)\\
+\varphi_{j,k}(x)&= \sum_{m=-\infty}^{\infty}h_{\varphi}(m-2k)2^{(j+1)/2}\varphi(2^{j+1}x-m)\\
+&= \sum_{m=-\infty}^{\infty}h_{\varphi}(m-2k)\varphi_{j+1,m}(x)\\
 \end{aligned}
 $$
 
@@ -587,9 +590,7 @@ $$
 \psi (2^jx - k) = \sum_{m=-\infty}^{\infty}h_{\psi}(m-2k)\sqrt{2}\varphi(2^{j+1}x-m)\\
 $$
 
-说明尺度函数和小波函数的多分辨率展开的系数为$\sqrt{2}h_{\varphi}(m-2k)$和$\sqrt{2}h_{\psi}(m-2k)$。
-
-在离散小波变换中
+说明尺度函数和小波函数的多分辨率展开的系数为$h_{\varphi}(m-2k)$和$h_{\psi}(m-2k)$，$k$是低尺度的平移，是一个常数，$m$是高尺度的平移，是一个变量。在离散小波变换中
 
 $$
 \begin{aligned}
@@ -603,10 +604,19 @@ W_{\varphi}(j,k)&=\frac{1}{\sqrt{N}}\sum_{n=0}^{N-1}f(n)\varphi_{j,k}(n)\\
 \end{aligned}
 $$
 
-类似地
+说明尺度函数的多分辨率展开与其系数的展开的形式是类似的，都是与
+$h_{\varphi}(m-2k)$的线性组合；同样，小波系数的展开也是与$h_{\psi}(m-2k)$的线性组合。
 
 $$
 W_{\psi}(j,k)=\sum_{m}h_{\psi}(m-2k)W_{\varphi}(j+1,m)\\
 $$
 
-可以看作是一个步长为2的卷积运算
+可以看作是一个步长为2的卷积 (与$h(-m)$) /相关 (与$h(m)$) 运算，卷积核是$h_{\varphi}(m)$或$h_{\psi}(m)$
+
+
+$$
+\begin{aligned}
+W_{\varphi}(j,k)&=h_{\varphi}(-n) \star W_{\varphi}(j+1,n)\\
+W_{\psi}(j,k)&=h_{\psi}(-n) \star W_{\varphi}(j+1,n)\\
+\end{aligned}
+$$
