@@ -12,7 +12,7 @@ toc:
   sidebar: left
 ---
 
-A Chinese version of this post is available [here](/assets/pdf/imgp/fourier-transform.pdf).
+A Chinese version PDF of this post is available [here](/assets/pdf/imgp/fourier-transform.pdf), you can also browse the [page](/assets/html/imgp/fourier-transform.html) directly.
 
 ## What is Fourier Transform?
 
