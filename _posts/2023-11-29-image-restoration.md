@@ -40,6 +40,8 @@ Since the degraded image is known, the degradation function and noise should be 
 
 ### Salt and Pepper Noise
 
+Salt noise is the pixel with maximum value, since salt is white. And pepper noise is the pixel with minimum value, since pepper is black.
+
 $$
 p(z)=\left\{
 \begin{aligned}

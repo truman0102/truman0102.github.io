@@ -21,7 +21,7 @@ It is the single most important technique in Digital Signal Processing, used to 
 Convolution is a mathematical operation on two signals, $$f$$ and $$h$$, to produce a third signal, $$g$$. It is defined as the integral of the product of the two functions after one is reversed and shifted. The integral is evaluated for all values of shift, producing the convolution function $$g$$.
 
 $$
-g(x) = (f \ast h)(x) = \int_{-\infty}^{\infty} f(\tau) h(x - \tau) d\tau
+g(x) = (f \ast h)(x) = \int_{-\infty}^{\infty} f(\tau) h(x - \tau) d\tau = \int_{-\infty}^{\infty} f(x - \tau) h(\tau) d\tau
 $$
 
 Convolution between an image and a kernel is performed by sliding the kernel over the image, multiplying the kernel's values with the overlapping image pixel values, and summing them up.

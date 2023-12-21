@@ -182,7 +182,7 @@ $$
 \begin{aligned}
 \triangledown^2 f &= \frac{\partial^2 f}{\partial x^2} + \frac{\partial^2 f}{\partial y^2} \\
 &= f(x+1, y) + f(x-1, y) + f(x, y+1) + f(x, y-1) - 4f(x, y) \\
-&=(f \ast h)(x, y) \\
+&=(f \star h)(x, y) \\
 \end{aligned}
 $$
 
@@ -351,12 +351,27 @@ $$
 
 $$
 \begin{aligned}
-g(x, y) &= f(x, y) + \alpha (f(x, y) - (f \ast h)(x, y)) \\
+g(x, y) &= f(x, y) + \alpha (f(x, y) - (f \star h)(x, y)) \\
 &= (1 + \alpha) f(x, y) - \alpha (f \star h)(x, y) \\
 &= (1 + \alpha)(f\star h_o)(x,y) - \alpha (f \star h)(x, y) \\
 &= (f\star((1 + \alpha)h_o - \alpha h))(x,y)
 \end{aligned}
 $$
 
-where $$h$$ is a low-pass filter to make the image blurred.
+where $$h$$ is a low-pass filter to make the image blurred. An example of $$h$$ is an average filter $$h(x, y) = 1$$. Then the sharpening filter is:
 
+$$
+h_s = (1 + \alpha)h_o - \alpha h = \begin{bmatrix}
+0 & 0 & 0 \\
+0 & 1 + \alpha & 0 \\
+0 & 0 & 0 \\
+\end{bmatrix} - \alpha \begin{bmatrix}
+1 & 1 & 1 \\
+1 & 1 & 1 \\
+1 & 1 & 1 \\
+\end{bmatrix} = \begin{bmatrix}
+-\alpha & -\alpha & -\alpha \\
+-\alpha & 1 & -\alpha \\
+-\alpha & -\alpha & -\alpha \\
+\end{bmatrix}
+$$

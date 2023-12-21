@@ -12,6 +12,8 @@ toc:
   sidebar: left
 ---
 
+A Chinese version of this post is available [here](/assets/pdf/imgp/fourier-transform.pdf).
+
 ## What is Fourier Transform?
 
 A periodic function $$f(t)$$ can be represented as a sum of sine and cosine functions. This is called Fourier series.
