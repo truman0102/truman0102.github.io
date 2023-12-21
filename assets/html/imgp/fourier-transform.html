@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="description" content="An introduction to fourier transform in image processing." />
+  <title>Fourier Transform</title>
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"
+  type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Fourier Transform</h1>
+</header>
+<nav id="TOC" role="doc-toc">
+
+</nav>
+<h1 id="傅里叶变换">傅里叶变换</h1>
+<h2 id="基本公式">基本公式</h2>
+<h3 id="欧拉公式">欧拉公式</h3>
+<p><span class="math display">\[
+\begin{aligned}
+e^{j\theta} &amp;= \cos\theta + j\sin\theta \\
+e^{-j\theta} &amp;= \cos(-\theta) + j\sin(-\theta)\\
+&amp;= \cos\theta - j\sin\theta \\
+e^{j\pi} &amp;= \cos\pi + j\sin\pi = -1 \\
+e^{j\pi x} &amp;= \cos\pi x + j\sin\pi x = (-1)^x \\
+\end{aligned}
+\]</span></p>
+<h3 id="连续傅里叶变换">连续傅里叶变换</h3>
+<p>一维连续傅里叶变换公式及其反变换公式：</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mathfrak{J}\{f(t)\}  = \int_{-\infty}^{\infty} f(t) e^{-j2\pi ut} dt
+&amp;= F(u) \\
+\mathfrak{J}^{-1}\{F(u)\} = \int_{-\infty}^{\infty} F(u) e^{j2\pi ut} du
+&amp;= f(t)
+\end{aligned}
+\]</span></p>
+<p>二维连续傅里叶变换公式及其反变换公式：</p>
+<p><span class="math display">\[
+\begin{aligned}
+F(u,v) &amp;= \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} f(x,y)
+e^{-j2\pi(ux+vy)} dx dy \\
+f(x,y) &amp;= \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} F(u,v)
+e^{j2\pi(ux+vy)} du dv
+\end{aligned}
+\]</span></p>
+<h3 id="离散傅里叶变换">离散傅里叶变换</h3>
+<p>一维离散傅里叶变换公式及其反变换公式：</p>
+<p><span class="math display">\[
+\begin{aligned}
+F(u) &amp;= \frac{1}{N}\sum_{x=0}^{N-1} f(x) e^{-j2\pi ux/N} \\
+f(x) &amp;= \sum_{u=0}^{N-1} F(u) e^{j2\pi ux/N}
+\end{aligned}
+\]</span></p>
+<p>可以看出<span class="math inline">\(x\)</span>和<span
+class="math inline">\(u\)</span>的取值范围都是<span
+class="math inline">\(0,1,2,\cdots,N-1\)</span>，<span
+class="math inline">\(x\)</span>是空间域的坐标，<span
+class="math inline">\(u\)</span>是频率域的坐标。</p>
+<p>二维离散傅里叶变换公式及其反变换公式：</p>
+<p><span class="math display">\[
+\begin{aligned}
+F(u,v) &amp;= \frac{1}{MN}\sum_{x=0}^{M-1} \sum_{y=0}^{N-1} f(x,y)
+e^{-j2\pi(ux/M+vy/N)} \\
+f(x,y) &amp;= \sum_{u=0}^{M-1} \sum_{v=0}^{N-1} F(u,v)
+e^{j2\pi(ux/M+vy/N)}
+\end{aligned}
+\]</span></p>
+<p>易得：</p>
+<p><span class="math display">\[
+F(0,0) = \frac{1}{MN}\sum_{x=0}^{M-1} \sum_{y=0}^{N-1} f(x,y) = \bar{f}
+\]</span></p>
+<h3 id="极坐标形式">极坐标形式</h3>
+<p>令<span class="math inline">\(\Re(u,v)\)</span>表示实部，<span
+class="math inline">\(\Im(u,v)\)</span>表示虚部，那么有:</p>
+<p><span class="math display">\[
+\begin{aligned}
+F(u,v) &amp;= |F(u,v)|e^{j\phi(u,v)} &amp;\text{极坐标形式} \\
+|F(u,v)| &amp;= \sqrt{\Re^2(u,v)+\Im^2(u,v)} &amp;\text{幅度谱或频率谱}
+\\
+\phi(u,v) &amp;= \arctan\frac{\Im(u,v)}{\Re(u,v)}
+&amp;\text{相角或相位谱} \\
+P(u,v) &amp;= |F(u,v)|^2 = \Re^2(u,v)+\Im^2(u,v) &amp;\text{功率谱}
+\end{aligned}
+\]</span></p>
+<h2 id="基本性质">基本性质</h2>
+<h3 id="平移性">平移性</h3>
+<p>平移是针对离散傅里叶变换而言的，对连续时域的讨论见<a
+href="#时移">时移</a>。</p>
+<p><span class="math display">\[
+\begin{aligned}
+F(u-u_0,v-v_0) &amp;= \frac{1}{MN}\sum_{x=0}^{M-1} \sum_{y=0}^{N-1}
+f(x,y) e^{-j2\pi((u-u_0)x/M+(v-v_0)y/N)} \\
+&amp;= \frac{1}{MN}\sum_{x=0}^{M-1} \sum_{y=0}^{N-1} f(x,y)
+e^{-j2\pi(ux/M+vy/N)} e^{j2\pi(u_0x/M+v_0y/N)} \\
+&amp;= \frac{1}{MN}\sum_{x=0}^{M-1} \sum_{y=0}^{N-1}
+[f(x,y)e^{j2\pi(u_0x/M+v_0y/N)}] e^{-j2\pi(ux/M+vy/N)} \\
+&amp;\Leftrightarrow f(x,y)e^{j2\pi(u_0x/M+v_0y/N)} \\
+f(x-x_0,y-y_0) &amp;= \sum_{u=0}^{M-1} \sum_{v=0}^{N-1} F(u,v)
+e^{j2\pi(u(x-x_0)/M+v(y-y_0)/N)} \\
+&amp;= \sum_{u=0}^{M-1} \sum_{v=0}^{N-1} F(u,v) e^{j2\pi(ux/M+vy/N)}
+e^{-j2\pi(ux_0/M+vy_0/N)} \\
+&amp;= \sum_{u=0}^{M-1} \sum_{v=0}^{N-1}
+[F(u,v)e^{-j2\pi(ux_0/M+vy_0/N)}] e^{j2\pi(ux/M+vy/N)} \\
+&amp;\Leftrightarrow F(u,v)e^{-j2\pi(ux_0/M+vy_0/N)}
+\end{aligned}
+\]</span></p>
+<h3 id="周期性">周期性</h3>
+<p>二维傅里叶变换在<span class="math inline">\(u\)</span>方向和<span
+class="math inline">\(v\)</span>方向都是无限周期的，即：</p>
+<p><span class="math display">\[
+\begin{aligned}
+F(u,v) &amp;= F(u+k_1M,v+k_2N) \\
+f(x,y) &amp;= f(x+k_1M,y+k_2N) \\
+\text{where } &amp; k_1\in \mathbb{Z}, k_2\in \mathbb{Z}
+\end{aligned}
+\]</span></p>
+<p>假设我们将<span class="math inline">\(F(u,v)\)</span>平移，令<span
+class="math inline">\(u_0=\frac{M}{2}\)</span>，<span
+class="math inline">\(v_0=\frac{N}{2}\)</span>，那么：</p>
+<p><span class="math display">\[
+F(u-\frac{M}{2},v-\frac{N}{2}) \Leftrightarrow f(x,y)e^{j\pi(x+y)} \\
+\]</span></p>
+<p>因为<span class="math inline">\(e^{j\pi
+x}=(-1)^x\)</span>，所以：</p>
+<p><span class="math display">\[
+F(u-\frac{M}{2},v-\frac{N}{2}) \Leftrightarrow f(x,y)(-1)^{x+y}
+\]</span></p>
+<p>所以频率域滤波的第一步就是用<span
+class="math inline">\((-1)^{x+y}\)</span>乘以空间域的图像，来进行中心变换，这样就可以将频率域的原点移动到空间域的中心，然后再进行图像的傅里叶变换。</p>
+<h3 id="对称性">对称性</h3>
+<p>对于二维离散傅里叶变换，<span class="math inline">\(f(x,y)\in
+\mathbb{R}\)</span>，且<span class="math inline">\(x,y,u,v\in
+\mathbb{Z}\)</span>，那么：</p>
+<p><span class="math display">\[
+\begin{aligned}
+F(u,v) &amp;= \frac{1}{MN}\sum_{x=0}^{M-1} \sum_{y=0}^{N-1} f(x,y)
+e^{-j2\pi(ux/M+vy/N)} \\
+&amp;= \underbrace{\frac{1}{MN}\sum_{x=0}^{M-1} \sum_{y=0}^{N-1}
+f(x,y)\cos(2\pi(ux/M+vy/N))}_{\mathbb{R}} -
+j\underbrace{\frac{1}{MN}\sum_{x=0}^{M-1} \sum_{y=0}^{N-1}
+f(x,y)\sin(2\pi(ux/M+vy/N))}_{\mathbb{R}} \\
+F(-u, -v) &amp;= \frac{1}{MN}\sum_{x=0}^{M-1} \sum_{y=0}^{N-1} f(x,y)
+e^{-j2\pi(-ux/M-vy/N)} \\
+&amp;= \frac{1}{MN}\sum_{x=0}^{M-1} \sum_{y=0}^{N-1} f(x,y)
+e^{j2\pi(ux/M+vy/N)} \\
+&amp;= \frac{1}{MN}\sum_{x=0}^{M-1} \sum_{y=0}^{N-1}
+f(x,y)\cos(2\pi(ux/M+vy/N)) + j\frac{1}{MN}\sum_{x=0}^{M-1}
+\sum_{y=0}^{N-1} f(x,y)\sin(2\pi(ux/M+vy/N)) \\
+&amp;= F^*(u,v)
+\end{aligned}
+\]</span></p>
+<p>同样</p>
+<p><span class="math display">\[
+|F(-u,-v)| = |F(u,v)| \\
+\]</span></p>
+<h3 id="奇偶性">奇偶性</h3>
+<p>先前讨论的二维离散傅里叶变换都是在实数域上的，而奇偶性是针对连续复数域上的函数<span
+class="math inline">\(f(x,y)\)</span>而言的，这里我们对一维连续傅里叶变换进行讨论，二维的情况类似。</p>
+<p><span class="math display">\[
+\begin{aligned}
+F(u) &amp;= \int_{-\infty}^{\infty} f(x) e^{-j2\pi ux} dx \\
+&amp;= \int_{-\infty}^{\infty} f(x) \cos(2\pi ux) dx -
+j\int_{-\infty}^{\infty} f(x) \sin(2\pi ux) dx \\
+\end{aligned}
+\]</span></p>
+<p>我们首先讨论<span
+class="math inline">\(f(x)\)</span>是实函数或虚函数的情况：</p>
+<ol type="1">
+<li>若<span class="math inline">\(f(x)\)</span>是实函数，那么：</li>
+</ol>
+<p><span class="math display">\[
+\begin{aligned}
+F(-u) &amp;= \int_{-\infty}^{\infty} f(x) \cos(-2\pi ux) dx -
+j\int_{-\infty}^{\infty} f(x) \sin(-2\pi ux) dx \\
+&amp;= \underbrace{\int_{-\infty}^{\infty} f(x) \cos(2\pi ux)
+dx}_{\mathbb{\Re}} + \underbrace{j\int_{-\infty}^{\infty} f(x) \sin(2\pi
+ux) dx}_{\mathbb{\Im}} \\
+&amp;= [\int_{-\infty}^{\infty} f(x) \cos(2\pi ux) dx -
+j\int_{-\infty}^{\infty} f(x) \sin(2\pi ux) dx]^* \\
+&amp;= F^*(u)
+\end{aligned}
+\]</span></p>
+<ol start="2" type="1">
+<li>若<span class="math inline">\(f(x)\)</span>是虚函数，那么：</li>
+</ol>
+<p><span class="math display">\[
+\begin{aligned}
+F(-u) &amp;= \int_{-\infty}^{\infty} f(x) \cos(-2\pi ux) dx -
+j\int_{-\infty}^{\infty} f(x) \sin(-2\pi ux) dx \\
+&amp;= \underbrace{\int_{-\infty}^{\infty} f(x) \cos(2\pi ux)
+dx}_{\mathbb{\Im}} + \underbrace{j\int_{-\infty}^{\infty} f(x) \sin(2\pi
+ux) dx}_{\mathbb{\Re}} \\
+&amp;= -[\int_{-\infty}^{\infty} f(x) \cos(2\pi ux) dx -
+j\int_{-\infty}^{\infty} f(x) \sin(2\pi ux) dx]^* \\
+&amp;= -F^*(u)
+\end{aligned}
+\]</span></p>
+<p>接着讨论<span
+class="math inline">\(f(x)\)</span>是偶函数或奇函数的情况：</p>
+<ol type="1">
+<li>若<span class="math inline">\(f(x)\)</span>是偶函数，那么：</li>
+</ol>
+<p><span class="math display">\[
+\begin{aligned}
+\int_{-\infty}^{\infty} f(x) \cos(2\pi ux) dx &amp;= 2\int_{0}^{\infty}
+f(x) \cos(2\pi ux) dx \\
+\int_{-\infty}^{\infty} f(x) \sin(2\pi ux) dx &amp;= 0 \\
+F(u) &amp;= \int_{-\infty}^{\infty} f(x) \cos(2\pi ux) dx\\
+F(-u) &amp;= \int_{-\infty}^{\infty} f(x) \cos(2\pi ux) dx +
+j\int_{-\infty}^{\infty} f(x) \sin(2\pi ux) dx \\
+&amp;= \int_{-\infty}^{\infty} f(x) \cos(2\pi ux) dx \\
+&amp;= F(u)
+\end{aligned}
+\]</span></p>
+<ol start="2" type="1">
+<li>若<span class="math inline">\(f(x)\)</span>是奇函数，那么：</li>
+</ol>
+<p><span class="math display">\[
+\begin{aligned}
+\int_{-\infty}^{\infty} f(x) \cos(2\pi ux) dx &amp;= 0 \\
+\int_{-\infty}^{\infty} f(x) \sin(2\pi ux) dx &amp;= 2\int_{0}^{\infty}
+f(x) \sin(2\pi ux) dx \\
+F(u) &amp;= -j\int_{-\infty}^{\infty} f(x) \sin(2\pi ux) dx\\
+F(-u) &amp;= \int_{-\infty}^{\infty} f(x) \cos(2\pi ux) dx +
+j\int_{-\infty}^{\infty} f(x) \sin(2\pi ux) dx \\
+&amp;= j\int_{-\infty}^{\infty} f(x) \sin(2\pi ux) dx \\
+&amp;= -F(u)
+\end{aligned}
+\]</span></p>
+<p>说明<span class="math inline">\(F(u)\)</span>的奇偶性取决于<span
+class="math inline">\(f(x)\)</span>的奇偶性</p>
+<h3 id="线性">线性</h3>
+<p><span class="math display">\[
+\mathfrak{J} \{\alpha f(x,y) + \beta g(x,y)\} = \alpha
+\mathfrak{J}\{f(x,y)\} + \beta \mathfrak{J}\{g(x,y)\}
+\]</span></p>
+<h3 id="卷积">卷积</h3>
+<p>以一维连续卷积为例：</p>
+<p><span class="math display">\[
+(f\star h)(t) = \int_{-\infty}^{\infty} f(\tau)h(t-\tau) d\tau \\
+\]</span></p>
+<p>对其进行傅里叶变换：</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mathfrak{J}\{(f\star h)(t)\} &amp;= \int_{-\infty}^{\infty}
+\int_{-\infty}^{\infty} f(\tau)h(t-\tau) d\tau e^{-j2\pi ut} dt \\
+&amp;= \int_{-\infty}^{\infty}f(\tau)[\int_{-\infty}^{\infty}h(t-\tau)
+e^{-j2\pi ut} dt] d\tau \\
+\text{令 }t-\tau = m &amp; \text{ 则 } t = m+\tau\text{ ,} dt = dm \\
+&amp;= \int_{-\infty}^{\infty}f(\tau)[\int_{-\infty}^{\infty}h(m)
+e^{-j2\pi u(m+\tau)} dm] d\tau \\
+&amp;= \int_{-\infty}^{\infty}f(\tau)[\int_{-\infty}^{\infty}h(m)
+e^{-j2\pi um} dm] e^{-j2\pi u\tau} d\tau \\
+&amp;= \int_{-\infty}^{\infty}f(\tau)H(u) e^{-j2\pi u\tau} d\tau \\
+&amp;= H(u)\int_{-\infty}^{\infty}f(\tau) e^{-j2\pi u\tau} d\tau \\
+&amp;= H(u)F(u)
+\end{aligned}
+\]</span></p>
+<p>所以空间域上的卷积在频率域上就是乘积。此外，频率域的卷积类似于空间域的乘积。</p>
+<p><span class="math display">\[
+\begin{aligned}
+(f\star h)(t) &amp;\Leftrightarrow F(u)H(u) \\
+(f\cdot h)(t) &amp;\Leftrightarrow (F\star H)(u)
+\end{aligned}
+\]</span></p>
+<h3 id="相关">相关</h3>
+<p>复习一下空域上的二维卷积：</p>
+<p><span class="math display">\[
+(f\star h)(x,y) = \frac{1}{MN} \sum_{m=0}^{M-1} \sum_{n=0}^{N-1}
+f(m,n)h(x-m,y-n)
+\]</span></p>
+<p>空域上的离散相关与内积类似，定义为：</p>
+<p><span class="math display">\[
+(f\circ h)(x,y) = \frac{1}{MN}\sum_{m=0}^{M-1} \sum_{n=0}^{N-1}
+f^*(m,n)h(x+m,y+n)
+\]</span></p>
+<p><span class="math display">\[
+\begin{aligned}
+(f\circ h)(x,y) &amp;\Leftrightarrow F^*(u,v)H(u,v) \\
+f^*(x,y)h(x,y) &amp;\Leftrightarrow (F\circ H)(u,v) \\
+(f\circ f)(x,y) &amp;\Leftrightarrow |F(u,v)|^2 \\
+|f(x,y)|^2 &amp;\Leftrightarrow (F\circ F)(u,v)
+\end{aligned}
+\]</span></p>
+<h3 id="尺度变换">尺度变换</h3>
+<p><span class="math display">\[
+\begin{aligned}
+\mathfrak{J} \{f(at)\} &amp;= \int_{-\infty}^{\infty} f(at) e^{-j2\pi
+ut} dt \\
+\text{令 }at = \tau &amp; \text{ 则 } t = \frac{\tau}{a}\text{ ,} dt =
+\frac{d\tau}{a} \\
+&amp;= \int_{-\infty}^{\infty} f(\tau) e^{-j2\pi \frac{u}{a} \tau}
+\frac{d\tau}{a} \\
+&amp;= \frac{1}{a}\int_{-\infty}^{\infty} f(\tau) e^{-j2\pi \frac{u}{a}
+\tau} d\tau \\
+&amp;= \frac{1}{a}F(\frac{u}{a})
+\end{aligned}
+\]</span></p>
+<h3 id="时移">时移</h3>
+<p>与<a
+href="#平移性">空域</a>类似，时域上的平移也满足类似的性质，即：</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mathfrak{J} \{f(t-t_0)\} &amp;= \int_{-\infty}^{\infty} f(t-t_0)
+e^{-j2\pi ut} dt \\
+\text{令 }t-t_0 = \tau &amp; \text{ 则 } t = \tau+t_0\text{ ,} dt =
+d\tau \\
+&amp;= \int_{-\infty}^{\infty} f(\tau+t_0) e^{-j2\pi u(\tau+t_0)} d\tau
+\\
+&amp;= e^{-j2\pi ut_0}\int_{-\infty}^{\infty} f(\tau+t_0) e^{-j2\pi
+u\tau} d\tau \\
+&amp;= e^{-j2\pi ut_0}F(u)
+\end{aligned}
+\]</span></p>
+<h3 id="冲激函数">冲激函数</h3>
+<p><span class="math display">\[
+\begin{aligned}
+\mathfrak{J} \{\delta(t)\} &amp;= \int_{-\infty}^{\infty} \delta(t)
+e^{-j2\pi ut} dt \\
+&amp;= e^{-j2\pi u0} = 1 \\
+\mathfrak{J} \{\delta(t-t_0)\} &amp;= \int_{-\infty}^{\infty}
+\delta(t-t_0) e^{-j2\pi ut} dt \\
+&amp;= e^{-j2\pi ut_0} \\
+\end{aligned}
+\]</span></p>
+<h2 id="基本步骤">基本步骤</h2>
+<p>频率域滤波的基本步骤如下：</p>
+<ol type="1">
+<li>用<span
+class="math inline">\((-1)^{x+y}\)</span>乘以空间域的图像，来进行中心变换，这样就可以将频率域的原点移动到空间域的中心，然后再进行图像的傅里叶变换。</li>
+<li>计算图像的傅里叶变换<span
+class="math inline">\(F(u,v)\)</span>。</li>
+<li>用滤波器<span class="math inline">\(H(u,v)\)</span>乘以<span
+class="math inline">\(F(u,v)\)</span>，得到<span
+class="math inline">\(G(u,v)\)</span>。</li>
+<li>计算<span class="math inline">\(G(u,v)\)</span>的反傅里叶变换<span
+class="math inline">\(g(x,y)\)</span>。</li>
+<li>保留<span class="math inline">\(g(x,y)\)</span>的实部。</li>
+<li>用<span class="math inline">\((-1)^{x+y}\)</span>乘以<span
+class="math inline">\(g(x,y)\)</span>，得到<span
+class="math inline">\(g&#39;(x,y)\)</span>。</li>
+</ol>
+<p>更完整地，我们一般先对图像进行填充使其大小为<span
+class="math inline">\(P\times Q\)</span>，其中<span
+class="math inline">\(P=2M\)</span>，<span
+class="math inline">\(Q=2N\)</span>，然后再乘上<span
+class="math inline">\((-1)^{x+y}\)</span>；同样，反变换处理后的图像最终也要裁剪，我们保留左上角的<span
+class="math inline">\(M\times N\)</span>部分。</p>
+<h1 id="频率域滤波">频率域滤波</h1>
+<p>频率域滤波是指在频率域上将滤波器<span
+class="math inline">\(H(u,v)\)</span>乘以图像的傅里叶变换<span
+class="math inline">\(F(u,v)\)</span>，得到<span
+class="math inline">\(G(u,v)\)</span>，然后再将<span
+class="math inline">\(G(u,v)\)</span>进行反傅里叶变换，得到滤波后的图像<span
+class="math inline">\(g(x,y)\)</span>。</p>
+<p><span class="math display">\[
+g(x,y) = \Re\{\mathfrak{J}^{-1}\{H(u,v)F(u,v)\}\}(-1)^{x+y}
+\]</span></p>
+<h2 id="低通滤波器">低通滤波器</h2>
+<h3 id="理想低通滤波器">理想低通滤波器</h3>
+<p><span class="math display">\[
+H(u,v) = \begin{cases}
+1 &amp; \text{if } D(u,v) \leq D_0 \\
+0 &amp; \text{if } D(u,v) &gt; D_0
+\end{cases}
+\]</span></p>
+<p>其中<span
+class="math inline">\(D(u,v)\)</span>表示频率域上的距离，<span
+class="math inline">\(D_0\)</span>表示截止频率。</p>
+<p><span class="math display">\[
+D(u,v) = \sqrt{(u-\frac{P}{2})^2+(v-\frac{Q}{2})^2}
+\]</span></p>
+<p>理想低通滤波器包含的功率比例为：</p>
+<p><span class="math display">\[
+p_{D_0} = \frac{\sum_{D(u,v)\leq D_0} |F(u,v)|^2}{\sum_{u=0}^{P-1}
+\sum_{v=0}^{Q-1} |F(u,v)|^2}
+\]</span></p>
+<h3 id="高斯低通滤波器">高斯低通滤波器</h3>
+<p>二维频域上截止频率为<span
+class="math inline">\(D_0\)</span>的高斯低通滤波器：</p>
+<p><span class="math display">\[
+H(u,v) = e^{-D^2(u,v)/2D_0^2}
+\]</span></p>
+<p>一维频域上的标准差为<span
+class="math inline">\(\sigma\)</span>的高斯低通滤波器：</p>
+<p><span class="math display">\[
+H(u) = A e^{-\frac{u^2}{2\sigma^2}}
+\]</span></p>
+<p>反求空间域的滤波器：</p>
+<p><span class="math display">\[
+\begin{aligned}
+h(x) &amp;= \mathfrak{J}^{-1}\{H(u)\} \\
+&amp;= \mathfrak{J}^{-1}\{A e^{-\frac{u^2}{2\sigma^2}}\} \\
+&amp;= \int_{-\infty}^{\infty} A e^{-\frac{u^2}{2\sigma^2}} e^{j2\pi ux}
+du \\
+&amp;= \int_{-\infty}^{\infty} A e^{-\frac{u^2}{2\sigma^2}+j2\pi ux} du
+\\
+&amp;= \int_{-\infty}^{\infty} A
+e^{-(\frac{u}{\sqrt{2}\sigma}-j\sqrt{2}\pi\sigma x)^2}
+e^{-2\pi^2\sigma^2x^2} du \\
+&amp;= Ae^{-2\pi^2\sigma^2x^2}\int_{-\infty}^{\infty}
+e^{-(\frac{u}{\sqrt{2}\sigma}-j\sqrt{2}\pi\sigma x)^2} du \\
+&amp;= Ae^{-2\pi^2\sigma^2x^2}\int_{-\infty}^{\infty}
+e^{-\frac{1}{2\sigma^2}(u-j2\pi\sigma^2x)^2} du \\
+\text{令 }r=u-j2\pi\sigma^2x &amp; \text{ 则 } u =
+r+j2\pi\sigma^2x\text{ ,} du = dr \\
+&amp;= A\sigma\sqrt{2\pi}e^{-2\pi^2\sigma^2x^2}\int_{-\infty}^{\infty}
+\frac{1}{\sigma\sqrt{2\pi}}e^{-\frac{r^2}{2\sigma^2}} dr \\
+&amp;= A\sigma\sqrt{2\pi}e^{-2\pi^2\sigma^2x^2} \\
+\end{aligned}
+\]</span></p>
+<h3 id="巴特沃斯低通滤波器">巴特沃斯低通滤波器</h3>
+<p><span class="math display">\[
+H(u,v) = \frac{1}{1+[D(u,v)/D_0]^{2n}}
+\]</span></p>
+<p>越接近原点的频率越容易通过滤波器，<span
+class="math inline">\(n\)</span>越大，越接近理想低通滤波器。</p>
+<h2 id="高通滤波器">高通滤波器</h2>
+<p>频率域上的高通滤波器可以通过频率域上的低通滤波器得到，即：</p>
+<p><span class="math display">\[
+H_{hp}(u,v) = 1 - H_{lp}(u,v)
+\]</span></p>
+<h3 id="理想高通滤波器">理想高通滤波器</h3>
+<p><span class="math display">\[
+H(u,v) = \begin{cases}
+0 &amp; \text{if } D(u,v) \leq D_0 \\
+1 &amp; \text{if } D(u,v) &gt; D_0
+\end{cases}
+\]</span></p>
+<h3 id="高斯高通滤波器">高斯高通滤波器</h3>
+<p>P <span class="math display">\[
+H(u,v) = 1 - e^{-\frac{D^2(u,v)}{2D_0^2}}
+\]</span></p>
+<h3 id="巴特沃斯高通滤波器">巴特沃斯高通滤波器</h3>
+<p><span class="math display">\[
+H(u,v) = \frac{1}{1+[D_0/D(u,v)]^{2n}}
+\]</span></p>
+<p>注意巴特沃斯低通滤波器和高通滤波器的分母不同</p>
+<h2 id="频率域中的拉普拉斯">频率域中的拉普拉斯</h2>
+<p><span class="math display">\[
+H(u,v) = -4\pi^2[(u-\frac{P}{2})^2+(v-\frac{Q}{2})^2] = -4\pi^2D^2(u,v)
+\]</span></p>
+<p>给定图像<span class="math inline">\(f(x,y)\)</span>的傅里叶变换<span
+class="math inline">\(F(u,v)\)</span>，那么其拉普拉斯算子为：</p>
+<p><span class="math display">\[
+\nabla^2f(x,y) = \mathfrak{J}^{-1}\{H(u,v)F(u,v)\}
+\]</span></p>
+<p>对应的图像增强/锐化方法为：</p>
+<p><span class="math display">\[
+g(x,y) = f(x,y) + c\nabla^2f(x,y)
+\]</span></p>
+<p>如果<span class="math inline">\(H(u,v)\)</span>是负数，那么<span
+class="math inline">\(c=-1\)</span>，与拉普拉斯核的中心系数的正负关系类似。</p>
+<p><span class="math display">\[
+\begin{aligned}
+g(x,y) &amp;= \mathfrak{J}^{-1}\{F(u,v)-H(u,v)F(u,v)\} \\
+&amp;= \mathfrak{J}^{-1}\{F(u,v)(1+4\pi^2D^2(u,v))\} \\
+\end{aligned}
+\]</span></p>
+<h2 id="频率域中的钝化掩蔽">频率域中的钝化掩蔽</h2>
+<p>空域的钝化掩蔽是从原始图像中减去一个平滑图像，从而得到边缘图像：</p>
+<p><span class="math display">\[
+g_{mask} = f(x,y) - (f\star h_{lp})(x,y)
+\]</span></p>
+<p>再将边缘图像加回到原始图像中，从而得到增强的图像：</p>
+<p><span class="math display">\[
+g(x,y) = f(x,y) + kg_{mask}
+\]</span></p>
+<p>其中<span class="math inline">\(k\)</span>是一个常数，<span
+class="math inline">\(h_{lp}\)</span>是一个低通滤波器的空域核。对应的频域表示为：</p>
+<p><span class="math display">\[
+\begin{aligned}
+g_{mask} &amp;\Leftrightarrow F(u,v) - H_{lp}(u,v)F(u,v) \\
+g(x,y) &amp;\Leftrightarrow F(u,v) + k[F(u,v) - H_{lp}(u,v)F(u,v)] \\
+&amp;\Leftrightarrow (1+k)F(u,v) - kH_{lp}(u,v)F(u,v) \\
+&amp;\Leftrightarrow (1+k-kH_{lp}(u,v))F(u,v) \\
+\end{aligned}
+\]</span></p>
+<h2 id="选择性滤波">选择性滤波</h2>
+<h3 id="带阻滤波器和带通滤波器">带阻滤波器和带通滤波器</h3>
+<p>低通滤波器和高通滤波器以截断频率<span
+class="math inline">\(D_0\)</span>为界，分别将低于截断频率和高于截断频率的频率滤除，而带阻滤波器和带通滤波器则是在中心频率<span
+class="math inline">\(C_0\)</span>
+(频带中心)附近滤除或保留一定带宽的频率。</p>
+<p>理想带阻滤波器：</p>
+<p><span class="math display">\[
+H(u,v) = \begin{cases}
+0 &amp; \text{if } C_0-\frac{W}{2} \leq D(u,v) \leq C_0+\frac{W}{2} \\
+1 &amp; \text{otherwise}
+\end{cases}
+\]</span></p>
+<p>高斯带阻滤波器：</p>
+<p><span class="math display">\[
+H(u,v) = 1 - e^{-\frac{[D(u,v)-C_0]^2}{2\sigma^2}}
+\]</span></p>
+<p>这个滤波器的问题是<span
+class="math inline">\(D(u,v)=0\)</span>时<span
+class="math inline">\(H(u,v)&lt;1\)</span>，对低频信号起到了抑制作用，所以我们可以将其改为修正高斯带阻滤波器：</p>
+<p><span class="math display">\[
+H(u,v) = 1 - e^{-\frac{1}{2}[\frac{D^2(u,v)-C_0^2}{D(u,v)W}]^2}
+\]</span></p>
+<p>巴特沃斯带阻滤波器：</p>
+<p><span class="math display">\[
+H(u,v) = \frac{1}{1+[\frac{D(u,v)W}{D^2(u,v)-C_0^2}]^{2n}}
+\]</span></p>
+<h3 id="陷波滤波器">陷波滤波器</h3>
+<p>陷波滤波器假定两个对称的中心频率<span
+class="math inline">\((\frac{M}{2} + u_k, \frac{N}{2} +
+v_k)\)</span>和<span class="math inline">\((\frac{M}{2} - u_k,
+\frac{N}{2} - v_k)\)</span>，那么对应的距离为：</p>
+<p><span class="math display">\[  
+\begin{aligned}
+D_k(u,v) &amp;= \sqrt{(u- \frac{M}{2} - u_k)^2 + (v- \frac{N}{2} -
+v_k)^2} \\
+D_{-k}(u,v)&amp;= \sqrt{(u- \frac{M}{2} + u_k)^2 + (v- \frac{N}{2} +
+v_k)^2} \\
+\end{aligned}
+\]</span></p>
+<p>陷波滤波器的一般形式为：</p>
+<p><span class="math display">\[
+H(u,v) = \prod_{k=1}^{K} H_k(u,v)H_{-k}(u,v)
+\]</span></p>
+<p>陷波带通滤波器可由<span
+class="math inline">\(1\)</span>减去陷波带阻滤波器得到：</p>
+<p><span class="math display">\[
+H_{NP}(u,v) = 1 - H_{NR}(u,v)
+\]</span></p>
+<p>在第二版教材中，作者给出了一个更简单的形式，只考虑两个中心频率，将频率点距离两个中心的距离重写为<span
+class="math inline">\(D_1(u,v)\)</span>和<span
+class="math inline">\(D_2(u,v)\)</span>，将半径重写为<span
+class="math inline">\(D_0\)</span>。</p>
+<p>理想陷波带阻滤波器：</p>
+<p><span class="math display">\[
+H(u,v) = \begin{cases}
+0 &amp; \text{if } D_1(u,v) \leq D_{0} \text{ or } D_{2}(u,v) \leq D_{0}
+\\
+1 &amp; \text{otherwise}
+\end{cases}
+\]</span></p>
+<p>阶数为<span
+class="math inline">\(n\)</span>的巴特沃斯陷波带阻滤波器：</p>
+<p><span class="math display">\[
+H(u,v)=\frac{1}{1+[\frac{D_0^2}{D_1(u,v)D_2(u,v)}]^n}
+\]</span></p>
+<p>高斯陷波带阻滤波器：</p>
+<p><span class="math display">\[
+H(u,v)=1-e^{-\frac{1}{2}[\frac{D_1(u,v)D_2(u,v)}{D_0^2}]}
+\]</span></p>
+</body>
+</html>
