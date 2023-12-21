@@ -112,6 +112,30 @@ $$
 s = \left\lfloor \frac{L-1}{MN} \sum_{j=0}^{r} n_j + \frac{1}{2} \right\rfloor
 $$
 
+Let $$L=8$$, $$M=N=64$$, we can get a 3-bit image distribution.
+
+| $$r$$ | $$n_r$$ | $$p_r(r)$$ | $$P_r(r)$$ | $$T(r)$$ | $$s$$ |
+| ----- | ------- | ---------- | ---------- | -------- | ----- |
+| 0     | 500     | 0.1221     | 0.1221     | 0.8545   | 1     |
+| 1     | 200     | 0.0488     | 0.1709     | 1.1963   | 1     |
+| 2     | 256     | 0.0625     | 0.2334     | 1.6338   | 2     |
+| 3     | 384     | 0.0938     | 0.3272     | 2.2904   | 2     |
+| 4     | 512     | 0.1250     | 0.4522     | 3.1654   | 3     |
+| 5     | 640     | 0.1563     | 0.6085     | 4.2595   | 4     |
+| 6     | 768     | 0.1875     | 0.7960     | 5.5720   | 6     |
+| 7     | 836     | 0.2041     | 1.0000     | 7.0000   | 7     |
+
+$$
+\begin{aligned}
+p_s(1) &= \frac{500+200}{4096} &= 0.1709\\
+p_s(2) &= \frac{256+384}{4096} &= 0.1563\\
+p_s(3) &= \frac{512}{4096} &= 0.1250\\
+p_s(4) &= \frac{640}{4096} &= 0.1563\\
+p_s(6) &= \frac{768}{4096} &= 0.1875\\
+p_s(7) &= \frac{836}{4096} &= 0.2041\\
+\end{aligned}
+$$
+
 ### Histogram Matching
 
 Histogram matching is a method to match the histogram of an input image to the histogram of a reference image where histogram equalization is applied. Let $$r$$ be the input and $$z$$ be the output, the PDF of $$z$$ is already known.
