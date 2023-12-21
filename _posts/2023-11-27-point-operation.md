@@ -156,7 +156,7 @@ $$
 z = G^{-1}(T(r)) = G^{-1}(s)
 $$
 
-If we extend the case to discrete variables, all we need to do is to find the histogram equalization transformation function of the input image and the reference image, and then find the mapping between the two transformation functions.
+If we extend the case to discrete variables, all we need to do is to find the histogram equalization transformation function of the input image and the reference image, and then find the mapping between the two transformation functions $$s$$ and $$G(z)$$, then we can get the transformation from $$r$$ to $$z$$. The goal of histogram matching is to transform $$r$$ to $$z$$ as close as possible.
 
 ### Implementation of Histogram Equalization and Matching
 
