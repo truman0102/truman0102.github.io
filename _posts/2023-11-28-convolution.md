@@ -24,6 +24,12 @@ $$
 g(x) = (f \ast h)(x) = \int_{-\infty}^{\infty} f(\tau) h(x - \tau) d\tau
 $$
 
+Convolution between an image and a kernel is performed by sliding the kernel over the image, multiplying the kernel's values with the overlapping image pixel values, and summing them up.
+
+$$
+(w \star f)(x, y) = \sum_{i=-a}^{a} \sum_{j=-b}^{b} w(i, j) f(x-i, y-j)
+$$
+
 ## Properties of Convolution
 
 ### Commutative
