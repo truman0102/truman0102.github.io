@@ -145,4 +145,45 @@ $$
 
 To maximize the posterior distribution, we need to minimize the negative log posterior distribution, equivalent to minimizing $$\frac{1}{2\sigma^2}\sum_{i=1}^N (y_i - f(x_i))^2 + \frac{1}{2\tau^2}\sum_{i=1}^N w_i^2$$, which is a constant times the RSS plus the L2 regularization term. The proof of L1 regularization and laplace prior is similar, and is omitted here.
 
+## Optimization
+
+### Analytical Solution
+
+Omitting regularization, the cost function, named the RSS, is:
+
+$$J = (Y - XW)^T(Y - XW)$$
+
+To minimize the cost function, we take the derivative of the cost function with respect to the weights $$W$$ and set it to 0:
+
+$$
+\begin{aligned}
+\frac{\partial J}{\partial W} &= \frac{\partial}{\partial W} (Y - XW)^T(Y - XW) \\
+&= \frac{\partial}{\partial W} (Y^T - W^TX^T)(Y - XW) \\
+&= \frac{\partial}{\partial W} (Y^TY - Y^TXW - W^TX^TY + W^TX^TXW) \\
+&= -2X^TY + 2X^TXW = 0 \\
+X^TXW &= X^TY \\
+W &= (X^TX)^{-1}X^TY \\
+\end{aligned}
+$$
+
+To get the inverse of $$X^TX$$, SVD is used:
+
+$$X = U\Sigma V^T$$
+
+where $$U$$ is an $$N \times N$$ orthogonal matrix, $$\Sigma$$ is an $$N \times D$$ diagonal matrix, and $$V$$ is a $$D \times D$$ orthogonal matrix. The inverse of $$X^TX$$ is:
+
+$$
+\begin{aligned}
+X^TX &= (U\Sigma V^T)^T(U\Sigma V^T) \\
+&= V\Sigma^T U^TU\Sigma V^T \\
+&= V\Sigma^T\Sigma V^T \\
+&= V\Sigma^2 V^T \\
+V^{-1} &= V^T \\
+(X^TX)^{-1} &= (V\Sigma^2 V^T)^{-1} \\
+&= V\Sigma^{-2} V^T \\
+\end{aligned}
+$$
+
+The entries of $$\Sigma^{-2}$$ are the reciprocals of the diagonal entries of $$\Sigma^2$$, and are the reciprocals of the eigenvalues of $$X^TX$$.
+
 
