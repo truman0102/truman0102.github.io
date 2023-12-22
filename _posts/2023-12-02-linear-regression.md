@@ -83,7 +83,7 @@ Taking the log of the likelihood function:
 
 $$\ln L = \sum_{i=1}^N \ln \frac{1}{2b}e^{-\frac{|y_i - f(x_i)|}{b}} = -N\ln 2b - \frac{1}{b}\sum_{i=1}^N |y_i - f(x_i)|$$
 
-To maximize the likelihood function, we need to minimize the negative log likelihood function, equivalent to minimizing $$\frac{1}{b}\sum_{i=1}^N \mid y_i - f(x_i)\mid$$, which is a constant times the MAE, similar to the RSS.
+To maximize the likelihood function, we need to minimize the negative log likelihood function, equivalent to minimizing $$\frac{1}{b}\sum_{i=1}^N \vert y_i - f(x_i)\vert$$, which is a constant times the MAE, similar to the RSS.
 
 ## Regularization
 
@@ -133,7 +133,7 @@ p(W) &= \prod_{i=1}^N \frac{1}{\sqrt{2\pi\tau^2}}e^{-\frac{w_i^2}{2\tau^2}} \\
 \end{aligned}
 $$
 
-The posterior distribution of the weights $$\ln p(W\mid X,Y)\propto \ln p(Y\mid X,W) + \ln p(W)$$:
+The posterior distribution of the weights $$\ln p(W\vert X,Y)\propto \ln p(Y\vert X,W) + \ln p(W)$$:
 
 $$
 \begin{aligned}

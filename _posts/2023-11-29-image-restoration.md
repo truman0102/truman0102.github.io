@@ -88,6 +88,10 @@ $$
 
 ### Adaptive Filter
 
+#### Adaptive, local noise reduction filter
+
+#### Adaptive median filter
+
 ## Restoration in the Frequency Domain
 
 ### Notch Filter
