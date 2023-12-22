@@ -5,8 +5,8 @@ date: 2023-12-18 00:00:00-0400
 description: An introduction to linear regression.
 tags: ML math linear-regression
 categories: data-science
-related_posts: false
-giscus_comments: true
+related_posts: true
+giscus_comments: false
 disqus_comments: true
 thumbnail: /assets/img/data_science/LR.png
 toc:
