@@ -196,7 +196,7 @@ P(y|x) &= \frac{P(x|y)P(y)}{P(x)} \\
 &\propto P(x|y)P(y)\\
 &= \mathcal{N}(x|\mu_y, \Sigma_y) \phi_y\\
 \ln P(y|x) &= \ln \mathcal{N}(x|\mu_y, \Sigma_y) + \ln \phi_y\\
-&= -\frac{1}{2} \ln |\Sigma_y| - \frac{1}{2} (x - \mu_y)^T \Sigma_y^{-1} (x - \mu_y) + \ln \phi_y\\
+&= -\frac{D}{2}\ln2\pi -\frac{1}{2} \ln |\Sigma_y| - \frac{1}{2} (x - \mu_y)^T \Sigma_y^{-1} (x - \mu_y) + \ln \phi_y\\
 \ln \frac{P(y=i|x)}{P(y=j|x)} &= -\frac{1}{2} \ln \frac{|\Sigma_i|}{|\Sigma_j|} - \frac{1}{2} (x - \mu_i)^T \Sigma_i^{-1} (x - \mu_i) + \frac{1}{2} (x - \mu_j)^T \Sigma_j^{-1} (x - \mu_j) + \ln \frac{\phi_i}{\phi_j}\\
 \end{aligned}
 $$

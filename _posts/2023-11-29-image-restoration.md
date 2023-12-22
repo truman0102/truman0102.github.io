@@ -62,6 +62,15 @@ $$
 
 ### Periodic Noise
 
+### Estimation of Noise
+
+$$
+\begin{aligned}
+\bar{z} &= \sum_{i=0}^{L-1}z_ip(z_i) \\ 
+\sigma^2 &= \sum_{i=0}^{L-1}(z_i-\bar{z})^2p(z_i)\\
+\end{aligned}
+$$
+
 ## Restoration in the Spatial Domain
 
 Spatial domain methods are used to restore the image that is only degraded by noise, without degradation function.
