@@ -133,7 +133,7 @@ p(W) &= \prod_{i=1}^N \frac{1}{\sqrt{2\pi\tau^2}}e^{-\frac{w_i^2}{2\tau^2}} \\
 \end{aligned}
 $$
 
-The posterior distribution of the weights $$\ln p(W|X,Y)\propto \ln p(Y|X,W) + \ln p(W)$$:
+The posterior distribution of the weights $$\ln p(W\mid X,Y)\propto \ln p(Y\mid X,W) + \ln p(W)$$:
 
 $$
 \begin{aligned}

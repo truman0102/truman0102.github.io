@@ -320,7 +320,7 @@ $$
 \end{matrix}
 $$
 
-Let $w=[0.5, 0.5, 0.5, 0.5]^T$ and $b=0.5$, calculate the gradient of $w$ and $b$ on each sample.
+Let $$w=[0.5, 0.5, 0.5, 0.5]^T$$ and $$b=0.5$$, calculate the gradient of $$w$$ and $$b$$ on each sample.
 
 ### Predict
 
@@ -340,4 +340,4 @@ $$
 \end{aligned}
 $$
 
-So$$P(y=1|T_5)<P(y=0|T_5)$$，the predicted label is 0.
+So$$P(y=1\mid T_5)<P(y=0\mid T_5)$$，the predicted label is 0.
