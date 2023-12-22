@@ -37,7 +37,7 @@ $$x = \begin{bmatrix}1 \\ x_1 \\ x_2 \\ \vdots \\ x_n\end{bmatrix}$$
 
 The cost function is the residual sum of squares (RSS), used to measure the error between the predicted value $$f(x_i)$$ and the actual value $$y_i$$:
 
-$$RSS = \sum_{i=1}^N (y_i - f(x_i))^2 = \sum_{i=1}^N r_i^2$$
+$$\text{RSS} = \sum_{i=1}^N (y_i - f(x_i))^2 = \sum_{i=1}^N r_i^2$$
 
 where $$r_i$$ is the residual. Minimizing the RSS is equivalent to the MLE of white Gaussian noise. The proof is shown below:
 
@@ -83,4 +83,33 @@ Taking the log of the likelihood function:
 
 $$\ln L = \sum_{i=1}^N \ln \frac{1}{2b}e^{-\frac{|y_i - f(x_i)|}{b}} = -N\ln 2b - \frac{1}{b}\sum_{i=1}^N |y_i - f(x_i)|$$
 
-To maximize the likelihood function, we need to minimize the negative log likelihood function, equivalent to minimizing $$\frac{1}{b}\sum_{i=1}^N |y_i - f(x_i)|$$, which is a constant times the MAE.
+To maximize the likelihood function, we need to minimize the negative log likelihood function, equivalent to minimizing $$\frac{1}{b}\sum_{i=1}^N |y_i - f(x_i)|$$, which is a constant times the MAE, similar to the RSS.
+
+## Regularization
+
+Regularization is used to prevent overfitting. It is a technique that adds a penalty term to the cost function. The penalty term is a function of the weights and is used to penalize large weights. The cost function with regularization is:
+
+$$J = RSS + \lambda R(w) = \sum_{i=1}^N (y_i - f(x_i))^2 + \lambda R(w)$$
+
+where $$\lambda$$ is the regularization parameter and $$R(w)$$ is the regularization term. The regularization term can be L1 regularization:
+
+$$R(w) = \sum_{i=1}^N |w_i|$$
+
+or L2 regularization:
+
+$$R(w) = \sum_{i=1}^N w_i^2$$
+
+L1 regularization is also known as Lasso regression and L2 regularization is also known as Ridge regression. It the training data and the weights are represented as matrices, $$X_{D \times N}, Y_{N \times 1}, W_{D \times 1}$$, where $$D$$ is the number of features and $$N$$ is the number of training samples, then the cost function with L1 regularization is:
+
+$$J = ||Y - X^TW||_2^2 + \lambda||W||_1 = (Y - X^TW)^T(Y - X^TW) + \lambda||W||_1$$
+
+and the cost function with L2 regularization is:
+
+$$
+\begin{aligned}
+J &= ||Y - X^TW||_2^2 + \lambda||W||_2^2 \\ &= (Y - X^TW)^T(Y - X^TW) + \lambda W^TW \\ &= (Y^T - W^TX)(Y - X^TW) + \lambda W^TW
+\end{aligned}
+$$
+
+where $$||\cdot||_1$$ is the L1 norm and $$||\cdot||_2$$ is the L2 norm.
+
