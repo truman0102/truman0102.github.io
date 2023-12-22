@@ -133,7 +133,7 @@ Considering $$DC\rightarrow A$$
 
 In the above example, the decomposition is lossless because the third row of the final table are all a, which means that the original relation can be recovered from the decomposed relations.
 
-Let $$\rho={R_1,R_2}$$ be a decomposition of $$R$$, the decomposition is lossless if$$F\mid=(R_1\cap R_2)\rightarrow (R_1-R_2)\mid$$ or $$F\mid=(R_1\cap R_2)\rightarrow (R_2-R_1)\mid$$.
+Let $$\rho={R_1,R_2}$$ be a decomposition of $$R$$, the decomposition is lossless if$$F\vert=(R_1\cap R_2)\rightarrow (R_1-R_2)\vert$$ or $$F\vert=(R_1\cap R_2)\rightarrow (R_2-R_1)\vert$$.
 
 ## Dependency Preservation
 
