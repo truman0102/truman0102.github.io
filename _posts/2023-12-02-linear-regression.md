@@ -63,10 +63,24 @@ The distribution of the residuals is also used to determine whether the linear r
 
 Other cost functions can also be used, such as the mean absolute error (MAE, L1 loss):
 
-$$MAE = \sum_{i=1}^N |y_i - f(x_i)|$$
+$$\text{MAE} = \sum_{i=1}^N |y_i - f(x_i)|$$
 
 and the Huber loss:
 
-$$Huber = \sum_{i=1}^N \begin{cases} \frac{1}{2}(y_i - f(x_i))^2 & \text{if } |y_i - f(x_i)| \leq \delta \\ \delta|y_i - f(x_i)| - \frac{1}{2}\delta^2 & \text{otherwise} \end{cases}$$
+$$\text{Huber} = \sum_{i=1}^N \begin{cases} \frac{1}{2}(y_i - f(x_i))^2 & \text{if } |y_i - f(x_i)| \leq \delta \\ \delta|y_i - f(x_i)| - \frac{1}{2}\delta^2 & \text{otherwise} \end{cases}$$
 
 where $$\delta$$ is a hyperparameter that determines the threshold for the Huber loss. The Huber loss is a combination of the MAE and the RSS. When the residual is small, the Huber loss is equivalent to the RSS. When the residual is large, the Huber loss is equivalent to the MAE.
+
+The residual of MAE obeys the laplace distribution,
+
+$$p(\epsilon_i) = \frac{1}{2b}e^{-\frac{|\epsilon_i|}{b}}$$
+
+where $$b$$ is the scale parameter. And the likelihood function is:
+
+$$L = \prod_{i=1}^N p(y_i|x_i) = \prod_{i=1}^N \frac{1}{2b}e^{-\frac{|y_i - f(x_i)|}{b}}$$
+
+Taking the log of the likelihood function:
+
+$$\ln L = \sum_{i=1}^N \ln \frac{1}{2b}e^{-\frac{|y_i - f(x_i)|}{b}} = -N\ln 2b - \frac{1}{b}\sum_{i=1}^N |y_i - f(x_i)|$$
+
+To maximize the likelihood function, we need to minimize the negative log likelihood function, equivalent to minimizing $$\frac{1}{b}\sum_{i=1}^N |y_i - f(x_i)|$$, which is a constant times the MAE.
