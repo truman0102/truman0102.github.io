@@ -99,17 +99,50 @@ or L2 regularization:
 
 $$R(w) = \sum_{i=1}^N w_i^2$$
 
-L1 regularization is also known as Lasso regression and L2 regularization is also known as Ridge regression. It the training data and the weights are represented as matrices, $$X_{D \times N}, Y_{N \times 1}, W_{D \times 1}$$, where $$D$$ is the number of features and $$N$$ is the number of training samples, then the cost function with L1 regularization is:
+L1 regularization is also known as Lasso regression and L2 regularization is also known as Ridge regression. It the training data and the weights are represented as matrices, $$X_{N \times D}$$, $$Y_{N \times 1}$$, and $$W_{D \times 1}$$, then the cost function of L1 regularization is:
 
-$$J = ||Y - X^TW||_2^2 + \lambda||W||_1 = (Y - X^TW)^T(Y - X^TW) + \lambda||W||_1$$
+$$J = RSS + \lambda R(w) = (Y - XW)^T(Y - XW) + \lambda |W|$$
 
-and the cost function with L2 regularization is:
+and the cost function of L2 regularization is:
 
 $$
 \begin{aligned}
-J &= ||Y - X^TW||_2^2 + \lambda||W||_2^2 \\ &= (Y - X^TW)^T(Y - X^TW) + \lambda W^TW \\ &= (Y^T - W^TX)(Y - X^TW) + \lambda W^TW
+J &= RSS + \lambda R(w) \\
+&= (Y - XW)^T(Y - XW) + \lambda W^TW \\
+&= (Y^T - W^TX^T)(Y - XW) + \lambda W^TW \\
 \end{aligned}
 $$
 
-where $$||\cdot||_1$$ is the L1 norm and $$||\cdot||_2$$ is the L2 norm.
+The bayesian interpretation of L2 regularization is that it is equivalent to a Gaussian prior on the weights. The proof is shown below:
+
+The likelihood function is:
+
+$$L = \prod_{i=1}^N p(y_i|x_i) = \prod_{i=1}^N \frac{1}{\sqrt{2\pi\sigma^2}}e^{-\frac{(y_i - f(x_i))^2}{2\sigma^2}}$$
+
+Taking the log of the likelihood function:
+
+$$\ln L = \sum_{i=1}^N \ln \frac{1}{\sqrt{2\pi\sigma^2}}e^{-\frac{(y_i - f(x_i))^2}{2\sigma^2}} = -\frac{N}{2}\ln 2\pi\sigma^2 - \frac{1}{2\sigma^2}\sum_{i=1}^N (y_i - f(x_i))^2$$
+
+The prior distribution of the weights is:
+
+$$
+\begin{aligned}
+p(w_i) &= \frac{1}{\sqrt{2\pi\tau^2}}e^{-\frac{w_i^2}{2\tau^2}} \\
+p(W) &= \prod_{i=1}^N \frac{1}{\sqrt{2\pi\tau^2}}e^{-\frac{w_i^2}{2\tau^2}} \\
+\ln p(W) &= \sum_{i=1}^N \ln \frac{1}{\sqrt{2\pi\tau^2}}e^{-\frac{w_i^2}{2\tau^2}} = -\frac{N}{2}\ln 2\pi\tau^2 - \frac{1}{2\tau^2}\sum_{i=1}^N w_i^2 \\
+\end{aligned}
+$$
+
+The posterior distribution of the weights $$\ln p(W|X,Y)\propto \ln p(Y|X,W) + \ln p(W)$$:
+
+$$
+\begin{aligned}
+\ln p(W|X,Y) &\propto \ln p(Y|X,W) + \ln p(W) \\
+&= \ln L + \ln p(W) \\
+&= -\frac{N}{2}\ln 2\pi\sigma^2 - \frac{1}{2\sigma^2}\sum_{i=1}^N (y_i - f(x_i))^2 -\frac{N}{2}\ln 2\pi\tau^2 - \frac{1}{2\tau^2}\sum_{i=1}^N w_i^2 \\
+\end{aligned}
+$$
+
+To maximize the posterior distribution, we need to minimize the negative log posterior distribution, equivalent to minimizing $$\frac{1}{2\sigma^2}\sum_{i=1}^N (y_i - f(x_i))^2 + \frac{1}{2\tau^2}\sum_{i=1}^N w_i^2$$, which is a constant times the RSS plus the L2 regularization term. The proof of L1 regularization and laplace prior is similar.
+
 
