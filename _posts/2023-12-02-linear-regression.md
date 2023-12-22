@@ -6,8 +6,8 @@ description: An introduction to linear regression.
 tags: ML math linear-regression
 categories: data-science
 related_posts: true
-giscus_comments: false
-disqus_comments: true
+giscus_comments: true
+disqus_comments: false
 thumbnail: /assets/img/data_science/LR.png
 toc:
   beginning: true
