@@ -186,4 +186,24 @@ $$
 
 The entries of $$\Sigma^{-2}$$ are the reciprocals of the diagonal entries of $$\Sigma^2$$, and are the reciprocals of the eigenvalues of $$X^TX$$.
 
+### Gradient Descent
 
+Gradient descent is an iterative optimization algorithm that is used to find the minimum of a function. It is used to find the weights that minimize the cost function. The weights are initialized and are updated iteratively:
+
+$$W_{t+1} = W_t - \alpha \frac{\partial J}{\partial W}$$
+
+where $$\alpha$$ is the learning rate. The learning rate determines the step size of the gradient descent algorithm. If the learning rate is too small, the algorithm will take a long time to converge. If the learning rate is too large, the algorithm will not converge. The gradient descent algorithm is:
+
+1. Initialize the weights $$W$$.
+2. Calculate the gradient $$\frac{\partial J}{\partial W}$$.
+3. Update the weights $$W$$.
+4. Repeat steps 2 and 3 until convergence.
+5. Return the weights $$W$$.
+
+From the [analytical solution](#analytical-solution), the gradient of the cost function is:
+
+$$\frac{\partial J}{\partial W} = -2X^TY + 2X^TXW$$
+
+If L2 regularization is used, the gradient of the cost function is:
+
+$$\frac{\partial J}{\partial W} = -2X^TY + 2X^TXW + 2\lambda W$$
