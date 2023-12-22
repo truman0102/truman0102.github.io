@@ -143,6 +143,6 @@ $$
 \end{aligned}
 $$
 
-To maximize the posterior distribution, we need to minimize the negative log posterior distribution, equivalent to minimizing $$\frac{1}{2\sigma^2}\sum_{i=1}^N (y_i - f(x_i))^2 + \frac{1}{2\tau^2}\sum_{i=1}^N w_i^2$$, which is a constant times the RSS plus the L2 regularization term. The proof of L1 regularization and laplace prior is similar.
+To maximize the posterior distribution, we need to minimize the negative log posterior distribution, equivalent to minimizing $$\frac{1}{2\sigma^2}\sum_{i=1}^N (y_i - f(x_i))^2 + \frac{1}{2\tau^2}\sum_{i=1}^N w_i^2$$, which is a constant times the RSS plus the L2 regularization term. The proof of L1 regularization and laplace prior is similar, and is omitted here.
 
 
