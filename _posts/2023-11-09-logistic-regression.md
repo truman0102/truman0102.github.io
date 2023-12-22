@@ -340,4 +340,4 @@ $$
 \end{aligned}
 $$
 
-So$$P(y=1\mid T_5)<P(y=0\mid T_5)$$，the predicted label is 0.
+So$$P(y=1\vert T_5)<P(y=0\vert T_5)$$，the predicted label is 0.
