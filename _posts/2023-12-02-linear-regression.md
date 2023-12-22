@@ -83,7 +83,7 @@ Taking the log of the likelihood function:
 
 $$\ln L = \sum_{i=1}^N \ln \frac{1}{2b}e^{-\frac{|y_i - f(x_i)|}{b}} = -N\ln 2b - \frac{1}{b}\sum_{i=1}^N |y_i - f(x_i)|$$
 
-To maximize the likelihood function, we need to minimize the negative log likelihood function, equivalent to minimizing $$\frac{1}{b}\sum_{i=1}^N |y_i - f(x_i)|$$, which is a constant times the MAE, similar to the RSS.
+To maximize the likelihood function, we need to minimize the negative log likelihood function, equivalent to minimizing $$\frac{1}{b}\sum_{i=1}^N \mid y_i - f(x_i)\mid$$, which is a constant times the MAE, similar to the RSS.
 
 ## Regularization
 
