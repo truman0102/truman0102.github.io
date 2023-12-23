@@ -78,3 +78,19 @@ If there are $$C$$ classes, the `One vs. One` method matters in two cases:
 
 1. For all $$k\neq c$$, $$f_{c, k}(x) > 0$$, then $$y = c$$. There are $$\frac{C(C-1)}{2}$$ discriminant functions, as $$f_{c,k}(x) = - f_{k,c}(x)$$.
 2. $$f_{c,k}(x) = f_c(x) - f_k(x)$$, then $$y=\arg\max_{c}f_c(x)$$. In this case, there are $$C$$ discriminant functions $$f_i(x)$$ for $$i=1,2,\dots,C$$.
+
+## Linear Discriminant Classifier
+
+### Fisher's Linear Discriminant
+
+### Perceptron
+
+### Minimum Squared Error
+
+### [Support Vector Machine](/blog/2023/SVM/)
+
+### [Logistic Regression](/blog/2023/logistic-regression/)
+
+## Generalized Linear Discriminant Classifier
+
+### Polynomial Discriminant
