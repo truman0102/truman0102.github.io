@@ -56,6 +56,8 @@ where $$x_0 = 1$$.
 
 ### One vs. Rest
 
+There are $$C$$ discriminant functions for `One vs. Rest` method. A sample $$x$$ is classified as $$y = c$$ if $$f_c(x) > 0$$ and $$f_k(x) \leq 0$$ for all $$k \neq c$$.
+
 $$
 f_c(x) = w_c^Tx \begin{cases}
 > 0 & y = c \\
@@ -72,7 +74,7 @@ f_{c_1, c_2}(x) = w_{c_1, c_2}^Tx \begin{cases}
 \end{cases}
 $$
 
-If there are $$C$$ classes, then there are $$\frac{C(C-1)}{2}$$ discriminant functions. The `One vs. One` method matters in two cases:
+If there are $$C$$ classes, the `One vs. One` method matters in two cases:
 
-1. For all $$k\neq c$$, $$f_{c, k}(x) > 0$$, then $$y = c$$.
-2. $$f_{c,k}(x) = f_c(x) - f_k(x)$$, then $$y=\arg\max_{c}f_c(x)$$.
+1. For all $$k\neq c$$, $$f_{c, k}(x) > 0$$, then $$y = c$$. There are $$\frac{C(C-1)}{2}$$ discriminant functions, as $$f_{c,k}(x) = - f_{k,c}(x)$$.
+2. $$f_{c,k}(x) = f_c(x) - f_k(x)$$, then $$y=\arg\max_{c}f_c(x)$$. In this case, there are $$C$$ discriminant functions $$f_i(x)$$ for $$i=1,2,\dots,C$$.
