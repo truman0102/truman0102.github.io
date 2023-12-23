@@ -181,7 +181,9 @@ F(-u) &= \int_{-\infty}^{\infty} f(x) \cos(-2\pi ux) dx - j\int_{-\infty}^{\inft
 \end{aligned}
 $$
 
-2. 若$f(x)$是虚函数，那么：
+与[对称性](#对称性)的讨论类似，因为空域中的像素值$f(x,y)$都是实数。
+
+1. 若$f(x)$是虚函数，那么：
 
 $$
 \begin{aligned}

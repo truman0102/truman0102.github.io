@@ -186,6 +186,8 @@ $$
 
 The entries of $$\Sigma^{-2}$$ are the reciprocals of the diagonal entries of $$\Sigma^2$$, and are the reciprocals of the eigenvalues of $$X^TX$$.
 
+Know more about [SVD](https://web.mit.edu/be.400/www/SVD/Singular_Value_Decomposition.htm).
+
 ### Gradient Descent
 
 Gradient descent is an iterative optimization algorithm that is used to find the minimum of a function. It is used to find the weights that minimize the cost function. The weights are initialized and are updated iteratively:

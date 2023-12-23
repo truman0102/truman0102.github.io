@@ -7,7 +7,7 @@ tags: generative-classifier ml bayes naive-bayes nb
 categories: data-science
 related_posts: false
 giscus_comments: true
-thumbnail:
+thumbnail: /assets/img/data_science/Bayes_rule.png
 toc:
   beginning: true
 ---

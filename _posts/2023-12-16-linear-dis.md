@@ -7,7 +7,7 @@ tags: ml linear-discriminant-classifier linear-discriminant-classification
 categories: data-science
 related_posts: false
 giscus_comments: true
-thumbnail:
+thumbnail: /assets/img/data_science/LDA.png
 toc:
   beginning: true
 ---
