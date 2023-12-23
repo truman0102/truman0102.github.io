@@ -26,11 +26,11 @@ where $$w_0$$ is a scalar. $$x$$ can also be written as:
 
 $$
 x = \begin{bmatrix}
+1 \\
 x_1 \\
 x_2 \\
 \vdots \\
-x_D \\
-1
+x_D
 \end{bmatrix}
 $$
 
@@ -38,11 +38,11 @@ and $$w$$ can be written as:
 
 $$
 w = \begin{bmatrix}
+w_0 \\
 w_1 \\
 w_2 \\
 \vdots \\
-w_D \\
-w_0
+w_D
 \end{bmatrix}
 $$
 
@@ -77,11 +77,93 @@ $$
 If there are $$C$$ classes, the `One vs. One` method matters in two cases:
 
 1. For all $$k\neq c$$, $$f_{c, k}(x) > 0$$, then $$y = c$$. There are $$\frac{C(C-1)}{2}$$ discriminant functions, as $$f_{c,k}(x) = - f_{k,c}(x)$$.
-2. $$f_{c,k}(x) = f_c(x) - f_k(x)$$, then $$y=\arg\max_{c}f_c(x)$$. In this case, there are $$C$$ discriminant functions $$f_i(x)$$ for $$i=1,2,\dots,C$$.
+2. In this case, there are $$C$$ discriminant functions $$f_i(x)$$ for $$i=1,2,\dots,C$$. $$f_{c,k}(x) = f_c(x) - f_k(x)$$, then $$y=\arg\max_{c}f_c(x)$$. 
 
 ## Linear Discriminant Classifier
 
+Let the data matrix $$X$$ be $$D \times N$$, where $$D$$ is the number of features and $$N$$ is the number of samples. The weight vector $$w$$ is $$D \times 1$$ and the bias $$w_0$$ is a scalar. The transformed data matrix $$Z_{1 \times N}$$ is defined as:
+
+$$
+Z = w^TX
+$$
+<!-- 
+Similarly, $$X$$ can also be written as a $$(D+1) \times N$$ matrix, where the first row is all $$1$$s. $$w$$ is a $$(D+1) \times 1$$ vector. The transformed data matrix $$Z_{1 \times N}=w^TX$$. -->
+
 ### Fisher's Linear Discriminant
+
+Consider a binary classification problem with two classes $$c_1$$ and $$c_2$$. The mean vectors of the two classes are $$\mu_1$$ and $$\mu_2$$, respectively. The within-class scatter matrix $$S_c$$ is defined as:
+
+$$
+S_c = \sum_{n \in c}(x_n - \mu_c)(x_n - \mu_c)^T
+$$
+
+The sum of the within-class scatter matrices $$S_W$$ is defined as:
+
+$$
+S_W = S_{c_1} + S_{c_2}
+$$
+
+And the between-class scatter matrix $$S_B$$ is defined as:
+
+$$
+S_B = (\mu_1 - \mu_2)(\mu_1 - \mu_2)^T
+$$
+
+Once the data is projected onto the line $$w$$, the within-class scatter matrix $$S_W$$ and the between-class scatter matrix $$S_B$$ can be written as:
+
+$$
+\begin{aligned}
+\tilde{S}_c &= \sum_{n \in c}(w^Tx_n - w^T\mu_c)(w^Tx_n - w^T\mu_c)^T = w^TS_cw\\
+\tilde{S}_W &= \tilde{S}_{c_1} + \tilde{S}_{c_2} = w^TS_Ww\\
+\tilde{S}_B &= (w^T\mu_1 - w^T\mu_2)(w^T\mu_1 - w^T\mu_2)^T = w^TS_Bw
+\end{aligned}
+$$
+
+The fisher's linear discriminant tries to maximize the ratio of the between-class scatter matrix and the within-class scatter matrix:
+
+$$
+\max_w \frac{\tilde{S}_B}{\tilde{S}_W} = \max_w \frac{w^TS_Bw}{w^TS_Ww}
+$$
+
+which can be regarded as a rayleigh quotient. The solution is the eigenvector of $$S_W^{-1}S_B$$ with the largest eigenvalue, satisfying the constraint $$S_Bw = \lambda S_Ww$$.
+
+$$
+\begin{aligned}
+S_Bw &= \lambda S_Ww\\
+S_W^{-1}S_Bw &= \lambda w \\
+S_W^{-1}(\mu_1 - \mu_2)\underbrace{(\mu_1 - \mu_2)^Tw}_{1\times 1} &= \lambda w \\
+w &\propto S_W^{-1}(\mu_1 - \mu_2)
+\end{aligned}
+$$
+
+So all you need to do is to find the mean vectors of the two classes and the inverse of the within-class scatter matrix. We can also use SVD to find the inverse of the within-class scatter matrix:
+
+$$
+\begin{aligned}
+S_W &= U\Sigma V^T \\
+S_W^{-1} &= V\Sigma^{-1}U^T
+\end{aligned}
+$$
+
+The decision boundary is defined as:
+
+$$
+w^Tx = \frac{1}{2}(\tilde{\mu}_1 + \tilde{\mu}_2) = \frac{1}{2}w^T(\mu_1 + \mu_2)
+$$
+
+where $$\tilde{\mu}_c = w^T\mu_c$$. Replace $$w$$ with $$S_W^{-1}(\mu_1 - \mu_2)$$, we get:
+
+$$
+\begin{aligned}
+w^T &= (S_W^{-1}(\mu_1 - \mu_2))^T \\
+&= (\mu_1 - \mu_2)^TS_W^{-1} \\
+w^Tx &= \frac{1}{2}w^T(\mu_1 + \mu_2) \\
+(\mu_1 - \mu_2)^TS_W^{-1}x &= \frac{1}{2}(\mu_1 - \mu_2)^TS_W^{-1}(\mu_1 + \mu_2) \\
+0 &= (\mu_1 - \mu_2)^TS_W^{-1}x - \frac{1}{2}\mu_1^TS_W^{-1}\mu_1 + \frac{1}{2}\mu_2^TS_W^{-1}\mu_2 \\
+\end{aligned}
+$$
+
+equivalent to [gasussian discriminant analysis](/blog/2023/gen-classifier/#gaussian-discriminant-analysis).
 
 ### Perceptron
 
