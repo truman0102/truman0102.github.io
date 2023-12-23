@@ -211,3 +211,15 @@ where $$\eta$$ is the learning rate.
 ## Generalized Linear Discriminant Classifier
 
 ### Polynomial Discriminant
+
+Usually, a single point $$x$$ is represented as a vector $$x = [x_1, x_2, \dots, x_D]$$, where $$D$$ is the number of features. The polynomial discriminant combines the features into a $$r$$-degree polynomial:
+
+$$
+\begin{aligned}
+f_1(x) &= w_0 + w_1x_1 + w_2x_2 + \dots + w_Dx_D \\
+f_2(x) &= \sum_{i=1}^{D}\sum_{j=1}^{D}w_{ij}x_ix_j + f_1(x) \\
+f_r(x) &= \sum_{i_1=1}^{D}\sum_{i_2=1}^{D}\dots\sum_{i_r=1}^{D}w_{i_1i_2\dots i_r}x_{i_1}x_{i_2}\dots x_{i_r} + f_{r-1}(x)
+\end{aligned}
+$$
+
+The number of total terms is $$\frac{(D+r)!}{D!r!}$$:
