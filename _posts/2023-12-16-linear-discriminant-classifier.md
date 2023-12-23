@@ -167,6 +167,41 @@ equivalent to [gasussian discriminant analysis](/blog/2023/gen-classifier/#gauss
 
 ### Perceptron
 
+Perceptron is a linear classifier that uses the sign of the discriminant function as the prediction. The prediction $$\hat{y}$$ is defined as:
+
+$$
+\hat{y} = \begin{cases}
+1 & f(x) > 0 \\
+-1 & f(x) \leq 0
+\end{cases}
+$$
+
+where the class labels are $$y \in \{-1, 1\}$$. The absolute value of the discriminant function $$\vert w^Tx+w_0\vert$$ can be written as $$y(w^Tx+w_0)$$, and the loss function is defined as:
+
+$$
+L(w, w_0) = -\sum_{n=1}^{N}y_n(w^Tx_n+w_0)
+$$
+
+The gradient of the loss function is:
+
+$$
+\begin{aligned}
+\nabla_wL(w, w_0) &= -\sum_{n=1}^{N}y_nx_n \\
+\nabla_{w_0}L(w, w_0) &= -\sum_{n=1}^{N}y_n
+\end{aligned}
+$$
+
+The weights are updated when the prediction is wrong (i.e. $$y_n(w^Tx_n+w_0) \leq 0$$):
+
+$$
+\begin{aligned}
+w &\leftarrow w + \eta y_nx_n \\
+w_0 &\leftarrow w_0 + \eta y_n
+\end{aligned}
+$$
+
+where $$\eta$$ is the learning rate.
+
 ### Minimum Squared Error
 
 ### [Support Vector Machine](/blog/2023/SVM/)
