@@ -76,3 +76,11 @@ Gini impurity is another measure of the impurity of the data. It is given by:
 $$
 G(Y) = 1 - \sum_{i=1}^{C} p_i^2 = 1 - \sum_{i=1}^{C} \frac{N_i^2}{N^2}
 $$
+
+## Decision Tree
+
+A decision tree is a tree where each node represents a feature, each branch represents a value of the feature, and each leaf represents a label. The tree is constructed by recursively splitting the data into subsets based on the values of the features, until the data is pure (all the data points in the subset have the same label) or the maximum depth is reached. The tree is then used to predict the label of a data point by traversing the tree from the root to a leaf, where the leaf represents the predicted label. 
+
+Each time to split a node, the feature with the highest information gain (for ID3) or information gain ratio (for C4.5) is chosen, and the node is split into branches for each value of the feature, until the data is pure or the maximum depth is reached, which means that all impure features in the subset of the node need to be iterated through to compute their information gain or information gain ratio. This can be computationally expensive, especially when the number of features is large. For continuous features, the values of the feature are sorted, and the split is chosen to be the midpoint between two consecutive values, similar to a binary search. For categorical features, the splitting is regarded as a `One vs. Rest` problem, where the feature is split into two branches, one for the value of the feature and one for the rest of the values of the feature. Some implementations of decision trees split the node into branches for each value of the categorical feature, too.
+
+The target of decision tree is to `minimize the conditional entropy` of the labels given the features, which is equivalent to `maximizing the information gain` or `information gain ratio`.
