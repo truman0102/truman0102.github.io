@@ -3,7 +3,7 @@ layout: post
 title: Decision Tree
 date: 2023-12-20 23:00:00-0400
 description: An introduction to decision trees in Machine Learning.
-tags: ML entropy decision-tree
+tags: ML entropy decision-tree math
 categories: data-science
 related_posts: false
 giscus_comments: true
@@ -12,3 +12,67 @@ thumbnail: /assets/img/data_science/dt.png
 toc:
   beginning: true
 ---
+
+## Basics
+
+### Entropy
+
+Entropy is a measure of the randomness in the information being processed. It is a measure of the impurity of the data. The higher the entropy, the more the information is disordered. Given a set of data with labels $$y=1,2,3,\dots,C$$, the entropy is given by:
+
+$$
+H(Y) = -\sum_{i=1}^{C} p_i \log_2 p_i = -\sum_{i=1}^{C} \frac{N_i}{N} \log_2 \frac{N_i}{N}
+$$
+
+where $$p_i$$ is the probability of the $$i^{th}$$ label. The entropy is maximum when all the labels are equally likely:
+
+$$
+H_{max}(Y) = -\sum_{i=1}^{C} \frac{1}{C} \log_2 \frac{1}{C} = \log_2 C
+$$
+
+### Conditional Entropy
+
+A dataset $$D$$ can be regarded as a collection of data point $$x$$ and its corresponding label $$y$$, $$D_{i=1}^{N} = \{(X_i, y_i)\}$$. The conditional entropy of $$y$$ given $$x$$ is given by:
+
+$$
+H(Y|X) = -\sum\limits_{m} p(X=m) \sum_{c=1}^{C} p(Y=c|X=m) \log_2 p(Y=c|X=m)
+$$
+
+where $$m$$ represents the unique values of $$X$$ and $$p(X=m)$$ is the probability of $$X$$ taking the value $$m$$, and $$p(Y=c|X=m)$$ is the probability of $$Y$$ taking the value $$c$$ given that $$X$$ takes the value $$m$$. Thus, conditional entropy is a weighted average of the entropy of $$Y$$ given $$X=m$$, where the weights are the probabilities of $$X$$ taking the value $$m$$, describing how uncertain we are about $$Y$$ given a particular value of $$X$$ (usually one of the features).
+
+### Empirical Conditional Entropy
+
+The empirical conditional entropy is the conditional entropy calculated from the data, and is given by replacing the probabilities with their empirical estimates:
+
+$$
+H(Y|X) = -\sum\limits_{m} \frac{N_m}{N} \sum_{c=1}^{C} \frac{N_{m,c}}{N_m} \log_2 \frac{N_{m,c}}{N_m}
+$$
+
+where $$N_m$$ is the number of data points with $$X=m$$, and $$N_{m,c}$$ is the number of data points with $$X=m$$ and $$Y=c$$.
+
+### Information Gain
+
+The information gain is the difference between the entropy of the labels and the conditional entropy of the labels given a feature. It is a measure of how much information about the labels is gained by knowing the value of the feature. It is given by:
+
+$$
+IG(Y|X) = H(Y) - H(Y|X)
+$$
+
+The greater the information gain, the more information about the labels is gained by knowing the value of the feature, and the better the feature is at predicting the labels.
+
+### Information Gain Ratio
+
+ID3 chooses the feature with the highest information gain. However, information gain is biased towards features with a large number of values. The information gain ratio is a modification of the information gain that penalizes features with a large number of values, used by C4.5. It is given by:
+
+$$
+IGR(Y|X) = \frac{IG(Y|X)}{H(X)}
+$$
+
+where $$H(X)$$ is the entropy of the feature. Information gain ratio is biased towards features with a small number of unique values. The smaller the number of unique values, the greater the information gain ratio, and the better the feature is at predicting the labels, as well as having a small number of leaves in the decision tree.
+
+### Gini Impurity
+
+Gini impurity is another measure of the impurity of the data. It is given by:
+
+$$
+G(Y) = 1 - \sum_{i=1}^{C} p_i^2 = 1 - \sum_{i=1}^{C} \frac{N_i^2}{N^2}
+$$

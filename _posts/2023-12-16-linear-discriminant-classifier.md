@@ -223,3 +223,7 @@ f_r(x) &= \sum_{i_1=1}^{D}\sum_{i_2=1}^{D}\dots\sum_{i_r=1}^{D}w_{i_1i_2\dots i_
 $$
 
 The number of total terms is $$\frac{(D+r)!}{D!r!}$$:
+
+## Segemented Linear Discriminant Classifier
+
+### [Decision Tree](/blog/2023/decision-tree/)
