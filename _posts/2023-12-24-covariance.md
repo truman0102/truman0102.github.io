@@ -63,3 +63,25 @@ The covariance matrix is symmetric, and the diagonal elements are the variances 
 $$
 \text{Cov}(X) = \frac{1}{N} \sum_{i=1}^{N} (X_i - \mu)(X_i - \mu)^T
 $$
+
+### Projection
+
+Given a projection vector $$w$$ that is a unit vector, projecting $$X$$ onto $$w$$ gives a scalar $$w^T X$$, which is the projection of $$X$$ onto $$w$$. The covariance of the projected vector is given by:
+
+$$
+\begin{aligned}
+\text{Cov}(w^T X) &= 
+$$
+
+## Properties of Covariance
+
+### Covariance of Sums
+
+$$
+\begin{aligned}
+\text{Cov}(X+Y,Z) &= \frac{1}{N} \sum_{i=1}^{N} [(x_i + y_i) - (\bar{x} + \bar{y})] (z_i - \bar{z}) \\
+&= \frac{1}{N} \sum_{i=1}^{N} [(x_i - \bar{x}) + (y_i - \bar{y})] (z_i - \bar{z}) \\
+&= \frac{1}{N} \sum_{i=1}^{N} (x_i - \bar{x})(z_i - \bar{z}) + \frac{1}{N} \sum_{i=1}^{N} (y_i - \bar{y})(z_i - \bar{z}) \\
+&= \text{Cov}(X,Z) + \text{Cov}(Y,Z)
+\end{aligned}
+$$
