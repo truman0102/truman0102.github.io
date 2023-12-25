@@ -82,15 +82,17 @@ g(x,y) &= f(x,y) + \eta(x,y)\\
 \end{aligned}
 $$
 
-### Mean Filter
+### [Mean Filter](/blog/2023/spatial-filtering/#mean-filter)
 
-### Order-Statistic Filter
+### [Order-Statistic Filter](/blog/2023/spatial-filtering/#order-filter)
+
+Order-statistic filter is a filter that selects the $$k$$-th value in the local area $$S_{xy}$$, containing Median Filter, Max Filter, Min Filter, [Midpoint Filter](/blog/2023/spatial-filtering/#midpoint-filter), [Alpha-Trimmed Mean Filter](/blog/2023/spatial-filtering/#alpha-trimmed-mean-filter), etc.
 
 ### Adaptive Filter
 
 #### Adaptive, local noise reduction filter
 
-#### Adaptive median filter
+#### [Adaptive median filter](/blog/2023/spatial-filtering/#adaptive-median-filter)
 
 ## Restoration in the Frequency Domain
 

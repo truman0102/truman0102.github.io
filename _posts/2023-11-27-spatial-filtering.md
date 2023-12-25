@@ -131,7 +131,12 @@ w(s,t)&=Ke^{-\frac{s^2+t^2}{2\sigma^2}}\\
 \end{aligned}
 $$
 
-### Median Filter
+
+### Order Filter
+
+Generally, the median filter belongs to the order/rank filter, replacing the center value with the $$k$$-th order statistic of the window. The median filter is a special case of the order filter, where $$k$$ is the median of the window. If $$k=1$$ or $$k=mn$$, the order filter becomes the minimum filter or the maximum filter.
+
+#### Median Filter
 
 The median filter is a nonlinear filter that replaces the center value in the window with the median of all the pixel values in the window. The median filter is more effective than the mean filter in removing salt-and-pepper noise.
 
@@ -139,9 +144,12 @@ $$
 g(x, y) = \text{median}\{f(x+s, y+t)\}
 $$
 
-#### Order Filter
 
-Generally, the median filter belongs to the order/rank filter, replacing the center value with the $$k$$-th order statistic of the window. The median filter is a special case of the order filter, where $$k$$ is the median of the window. If $$k=1$$ or $$k=mn$$, the order filter becomes the minimum filter or the maximum filter.
+#### Midpoint Filter
+
+$$
+g(x, y) = \frac{1}{2}(\text{max}\{f(x+s, y+t)\} + \text{min}\{f(x+s, y+t)\})
+$$
 
 #### Adaptive Median Filter
 
