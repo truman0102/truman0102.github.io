@@ -259,12 +259,11 @@ h_x &= \begin{bmatrix}
 -1 & 0 & 1\\
 -1 & 0 & 1\\
 \end{bmatrix}
-&=\begin{bmatrix}
+=\begin{bmatrix}
 1\\
 1\\
 1\\
 \end{bmatrix}
-\ast
 \begin{bmatrix}
 -1&0&1\\
 \end{bmatrix} \\
@@ -273,12 +272,11 @@ h_y &= \begin{bmatrix}
 0 & 0 & 0\\
 1 & 1 & 1\\
 \end{bmatrix}
-&=\begin{bmatrix}
+=\begin{bmatrix}
 -1\\
 0\\
 1\\
 \end{bmatrix}
-\ast
 \begin{bmatrix}
 1&1&1\\
 \end{bmatrix} \\
@@ -305,12 +303,11 @@ h_x &= \begin{bmatrix}
 -2 & 0 & 2\\
 -1 & 0 & 1\\
 \end{bmatrix}
-&=\begin{bmatrix}
+=\begin{bmatrix}
 1\\
 2\\
 1\\
 \end{bmatrix}
-\ast
 \begin{bmatrix}-1&0&1\\
 \end{bmatrix} \\
 h_y &= \begin{bmatrix}
@@ -318,12 +315,11 @@ h_y &= \begin{bmatrix}
 0 & 0 & 0\\
 1 & 2 & 1\\
 \end{bmatrix}
-&=\begin{bmatrix}
+=\begin{bmatrix}
 -1\\
 0\\
 1\\
 \end{bmatrix}
-\ast
 \begin{bmatrix}
 1&2&1\\
 \end{bmatrix} \\

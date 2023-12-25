@@ -24,9 +24,9 @@ There are two primary categories of image enhancement techniques:
 
 The key to enchance an image is to construct a filter function, which is a function that can be applied to an image to produce an enhanced image. The filter function can be constructed in spatial domain or frequency domain. There are four basic types of filters:
 
-1. **Lowpass filter**: allows low frequency components to pass through, while attenuating high frequency components, equivalent to a blurring operation, including [averaging filter](), [median filter](), [gaussian filter](), etc.
-2. **Highpass filter**: allows high frequency components to pass through, while attenuating low frequency components, equivalent to a sharpening operation, including [laplacian filter](), [sobel filter](), [unsharp masking](), etc.
-3. **Bandreject filter**: attenuates components in a specific frequency band, including [notch filter](), etc. Bandreject filter is a combination of lowpass filter and highpass filter.
+1. **Lowpass filter**: allows low frequency components to pass through, while attenuating high frequency components, equivalent to a blurring operation, including [mean filter](/blog/2023/spatial-filtering/#mean-filter), [median filter](/blog/2023/spatial-filtering/#median-filter), [gaussian filter](/blog/2023/spatial-filtering/#gaussian-filter), etc.
+2. **Highpass filter**: allows high frequency components to pass through, while attenuating low frequency components, equivalent to a sharpening operation, including [laplacian filter](/blog/2023/spatial-filtering/#laplacian-filter), [sobel filter](/blog/2023/spatial-filtering/#sobel-operator), [unsharp masking](/blog/2023/spatial-filtering/#unsharp-masking), etc.
+3. **Bandreject filter**: attenuates components in a specific frequency band, including [notch filter](/blog/2023/image-restoration/#notch-filter), etc. Bandreject filter is a combination of lowpass filter and highpass filter.
 4. **Bandpass filter**: allows components in a specific frequency band to pass through. Bandpass filter can be regarded as the difference between a constant and a Bandreject filter.
 
 In the proof of Fourier transform, we have shown that convolution in spatial domain is equivalent to multiplication in frequency domain.
