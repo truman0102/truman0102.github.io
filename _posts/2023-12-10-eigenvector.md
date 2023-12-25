@@ -3,8 +3,8 @@ layout: post
 title: Eigenvalue and eigenvector
 date: 2023-02-11 00:00:00-0400
 description: An introduction to eigenvalue and eigenvector in linear algebra.
-tags: eigenvalue eigenvector
-categories: math linear-algebra
+tags: eigenvalue eigenvector math
+categories: linear-algebra
 related_posts: false
 giscus_comments: true
 thumbnail: 
