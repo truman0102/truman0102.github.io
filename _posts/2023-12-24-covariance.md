@@ -18,7 +18,7 @@ toc:
 Covariance is a measure of how two variables change together. It is a measure of the linear relationship between two variables. It is given by:
 
 $$
-\text{Cov}(X,Y) = \frac{1}{N} \sum_{i=1}^{N} (x_i - \bar{x})(y_i - \bar{y})
+\text{Cov}(X,Y) = \frac{1}{N} \sum_{i=1}^{N} (x_i - \bar{x})(y_i - \bar{y}) = E[(X-E(X))(Y-E(Y))]
 $$
 
 where $$\bar{x}$$ and $$\bar{y}$$ are the means of $$X$$ and $$Y$$ respectively. The covariance is positive if $$X$$ and $$Y$$ are positively correlated, negative if $$X$$ and $$Y$$ are negatively correlated, and zero if $$X$$ and $$Y$$ are uncorrelated.
@@ -32,7 +32,7 @@ $$
 The covariance between a variable and itself is the variance of that variable.
 
 $$
-\text{Cov}(X,X) = \frac{1}{N} \sum_{i=1}^{N} (x_i - \bar{x})^2 = \sigma_X^2
+\text{Cov}(X,X) = \frac{1}{N} \sum_{i=1}^{N} (x_i - \bar{x})^2 = \sigma_X^2 = E[(X-E(X))^2] = E(X^2) - E^2(X) = \text{Var}(X)
 $$
 
 ## Correlation
@@ -70,12 +70,14 @@ Given a projection vector $$w$$ that is a unit vector, projecting $$X$$ onto $$w
 
 $$
 \begin{aligned}
-\text{Cov}(w^T X) &= 
+E(W^T X) &= W^T E(X) \\
+\text{Cov}(W^T X) &= 
+\end{aligned}
 $$
 
 ## Properties of Covariance
 
-### Covariance of Sums
+### Linearity
 
 $$
 \begin{aligned}
@@ -83,5 +85,13 @@ $$
 &= \frac{1}{N} \sum_{i=1}^{N} [(x_i - \bar{x}) + (y_i - \bar{y})] (z_i - \bar{z}) \\
 &= \frac{1}{N} \sum_{i=1}^{N} (x_i - \bar{x})(z_i - \bar{z}) + \frac{1}{N} \sum_{i=1}^{N} (y_i - \bar{y})(z_i - \bar{z}) \\
 &= \text{Cov}(X,Z) + \text{Cov}(Y,Z)
+\end{aligned}
+$$
+
+$$
+\begin{aligned}
+\text{Cov}(aX,Y) &= \frac{1}{N} \sum_{i=1}^{N} [a(x_i - \bar{x})] (y_i - \bar{y}) \\
+&= a \frac{1}{N} \sum_{i=1}^{N} (x_i - \bar{x})(y_i - \bar{y}) \\
+&= a \text{Cov}(X,Y)
 \end{aligned}
 $$

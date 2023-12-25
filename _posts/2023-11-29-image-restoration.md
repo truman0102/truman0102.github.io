@@ -94,7 +94,105 @@ $$
 
 ## Restoration in the Frequency Domain
 
+The origin in the frequency domain is usually located at the center of the image $$(\frac{M}{2},\frac{N}{2})$$, where $$M$$ and $$N$$ are the width and height of the transformed image respectively. The distance from the origin to the point $$(u,v)$$ is defined as follows:
+
+$$
+D(u,v) = \sqrt{(u-\frac{M}{2})^2+(v-\frac{N}{2})^2}
+$$
+
+### Bandreject Filter
+
+Let $$D_0$$ be the center of the rejection band, and $$W$$ be the width of the rejection band. The ideal bandreject filter is defined as follows:
+
+$$
+H_{BR}(u,v) = \left\{
+\begin{aligned}
+&0, &\; &D_0-\frac{W}{2} \leq D(u,v) \leq D_0+\frac{W}{2}\\
+&1, &\; &\text{otherwise}
+\end{aligned}
+\right.
+$$
+
+where $$D(u,v)$$ is the distance from the point $$(u,v)$$ to the center of the frequency plane.
+
+A practical bandreject filter is a $$n$$-order butterworth filter, which is defined as follows:
+
+$$
+H_{BR}(u,v) = \frac{1}{1+\left(\frac{D(u,v)W}{D^2(u,v)-D_0^2}\right)^{2n}}
+$$
+
+And the gaussian bandreject filter is defined as follows:
+
+$$
+H_{BR}(u,v) = 1-e^{-\frac{1}{2}\left(\frac{D^2(u,v)-D_0^2}{D(u,v)W}\right)^2}
+$$
+
+Since the bandreject filter is the difference between the constant $$1$$ and the bandpass filter $$H_{BP}(u,v)$$. The exponent of the gaussian bandreject filter is similar to the high-order component of the denominator of the butterworth bandpass filter. The closer the frequency is to the center of the frequency plane, the smaller the value of the bandreject filter.
+
+### Bandpass Filter
+
+The ideal bandpass filter is defined as follows:
+
+$$
+H_{BP}(u,v) = \left\{
+\begin{aligned}
+&1, &\; &D_0-\frac{W}{2} \leq D(u,v) \leq D_0+\frac{W}{2}\\
+&0, &\; &\text{otherwise}
+\end{aligned}
+\right.
+$$
+
+So a bandpass filter can be obtained by subtracting a bandreject filter from a constant $$1$$.
+
+$$
+H_{BP}(u,v) = 1-H_{BR}(u,v)
+$$
+
+A practical example of a gaussian bandpass filter is similar to the gaussian bandreject filter.
+
+$$
+H_{BP}(u,v) = e^{-\frac{1}{2}\left(\frac{D^2(u,v)-D_0^2}{D(u,v)W}\right)^2}
+$$
+
 ### Notch Filter
+
+The most important feature of the notch filter is that the bandstop centre is symmetric ($$(\frac{M}{2} + u_0, \frac{N}{2} + v_0)$$ and $$(\frac{M}{2} - u_0, \frac{N}{2} - v_0)$$), so there are two corresponding distances $$D_1$$ and $$D_2$$.
+
+$$
+\begin{aligned}
+D_1 &= \sqrt{(u-\frac{M}{2}-u_0)^2+(v-\frac{N}{2}-v_0)^2}\\
+D_2 &= \sqrt{(u-\frac{M}{2}+u_0)^2+(v-\frac{N}{2}+v_0)^2}\\
+\end{aligned}
+$$
+
+The ideal notch filter is defined as follows:
+
+$$
+H_{NR}(u,v) = \left\{
+\begin{aligned}
+&0, &\; &D_1 \leq \frac{W}{2} \; \text{or} \; D_2 \leq \frac{W}{2}\\
+&1, &\; &\text{otherwise}
+\end{aligned}
+\right.
+$$
+
+A practical example of a $$n$$-order butterworth notch filter is defined as follows:
+
+$$
+H_{NR}(u,v) = \frac{1}{1+\left(\frac{W^2}{4D_1D_2}\right)^{n}}
+$$
+
+And the gaussian notch reject filter is defined as follows:
+
+$$
+H_{NR}(u,v) = 1-e^{-\frac{1}{2}\left(\frac{4D_1D_2}{W^2}\right)}
+$$
+
+The notch pass filter is the difference between the constant $$1$$ and the notch reject filter $$H_{NR}(u,v)$$.
+
+$$
+H_{NP}(u,v) = 1-H_{NR}(u,v)
+$$
 
 ### Optimal Notch Filter
 
@@ -132,13 +230,27 @@ $$
 \end{aligned}
 $$
 
-- Degradation function $$H(u,v)$$ is a complex function, $$H^2(u,v)=H(u,v)H^*(u,v)$$.
-- $$H^*(u,v)$$ is the complex conjugate of $$H(u,v)$$.
+- Degradation function $$H(u,v)$$ is a complex function, and $$H^*(u,v)$$ is the complex conjugate of $$H(u,v)$$.
+
+$$
+|H(u,v)|^2 =\left\langle H(u,v), H(u,v) \right\rangle = H^*(u,v)H(u,v)
+$$
+
 - $$\hat{F}(u,v)$$ is the fourier transform of the estimation of the original image.
-- $$S_f(u,v)$$ is the power spectrum of the original image.
-- $$S_\eta(u,v)$$ is the power spectrum of the noise.
-- $$G(u,v)$$ is the fourier transform of the degraded image. 
 - Power spectrum is the quadratic power of the fourier transform.
+- - $$S_f(u,v)$$ is the power spectrum of the original image.
+
+$$
+S_f(u,v) = |F(u,v)|^2
+$$
+
+- - $$S_\eta(u,v)$$ is the power spectrum of the noise.
+
+$$
+S_\eta(u,v) = |N(u,v)|^2
+$$
+
+- $$G(u,v)$$ is the fourier transform of the degraded image. 
 
 Sometimes the power spectrum of the noise is unknown, so it can be replaced by a constant $$K$$.
 

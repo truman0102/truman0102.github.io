@@ -159,8 +159,6 @@ z_{med} &\quad \text{otherwise}
 \right.
 $$
 
-#### [Optimal Notch Filter](/blog/2023/image-restoration/#optimal-notch-filter)
-
 ## Sharpening (High-Pass) Filters
 
 Since spatial filtering is discrete, the derivative of the image intensity function is approximated by the difference between the pixel values in the neighborhood:
@@ -335,7 +333,7 @@ $$
 
 ### Unsharp Masking
 
-In unsharp masking, a blurred image is subtracted from the original image to get its edges only, and the result is added to the original image to get an enhanced version.
+In unsharp masking, a blurred image is subtracted from the original image to get its edges only, the difference between the original image and the blurred image is called the mask (模板), and the mask is added to the original image to get the enhanced image.
 
 $$
 h_o = \left [ \begin{matrix}
@@ -354,6 +352,7 @@ $$
 g(x, y) &= f(x, y) + \alpha (f(x, y) - (f \star h)(x, y)) \\
 &= (1 + \alpha) f(x, y) - \alpha (f \star h)(x, y) \\
 &= (1 + \alpha)(f\star h_o)(x,y) - \alpha (f \star h)(x, y) \\
+&= (f\star (1+\alpha)h_o)(x,y) - (f\star \alpha h)(x, y) \\
 &= (f\star((1 + \alpha)h_o - \alpha h))(x,y)
 \end{aligned}
 $$
