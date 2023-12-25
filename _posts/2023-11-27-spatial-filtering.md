@@ -29,7 +29,7 @@ $$
 where $$a$$ and $$b$$ are the half-widths of the filter. Similarly, the correlation operation is defined as:
 
 $$
-g(x, y) = (f \ast h)(x, y) = \sum_{s=-a}^{a} \sum_{t=-b}^{b} f(x+s, y+t) h(s, t)
+g(x, y) = (f \circ h)(x, y) = \sum_{s=-a}^{a} \sum_{t=-b}^{b} f(x+s, y+t) h(s, t)
 $$
 
 ## [Convolution](/blog/2023/convolution/)
