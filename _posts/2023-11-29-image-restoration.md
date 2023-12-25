@@ -216,6 +216,17 @@ $$
 \hat{f}(x,y) = g(x,y) - \omega(x,y)\eta(x,y)
 $$
 
+The target of the optimal notch filter is to minimize the variance of the restored image $$\hat{f}(x,y)$$.
+
+$$
+\begin{aligned}
+\sigma^2(x,y) &= \frac{1}{mn}\sum\limits_{(r,c)\in S_{xy}}[\hat{f}(r,c)-\bar{\hat{f}}]^2 \\
+&= \frac{1}{mn}\sum\limits_{(r,c)\in S_{xy}}\{[g(r,c)-\omega(w,y)\eta(r,c)]-[\bar{g}-\omega(x,y)\bar{\eta}]\}^2 \\
+\end{aligned}
+$$
+
+By taking the partial derivative of $$\sigma^2(x,y)$$ with respect to $$\omega(x,y)$$, we can obtain the optimal notch filter.
+
 $$
 \omega(x,y) = \frac{\overline{g\eta}-\bar{g}\bar{\eta}}{\overline{\eta^2}-(\bar{\eta})^2}
 $$

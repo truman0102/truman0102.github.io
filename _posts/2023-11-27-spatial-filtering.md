@@ -351,9 +351,24 @@ $$
 f(x,y) = (f\star h_o)(x,y)
 $$
 
+The sum of ideal lowpass filter and ideal highpass filter in frequency domain is a constant $$1$$, so the highpass filter is:
+
+$$
+H_h = 1 - H_l
+$$
+
+Besides, multiplying in frequency domain is equivalent to convolution in spatial domain, so the highpass filter in spatial domain is:
+
 $$
 \begin{aligned}
-g(x, y) &= f(x, y) + \alpha (f(x, y) - (f \star h)(x, y)) \\
+FH_h &= F - FH_l \\
+f\star h_h &= f - f\star h_l \\
+\end{aligned}
+$$
+
+$$
+\begin{aligned}
+g(x, y) &= f(x, y) + \alpha (\underbrace{f(x, y) - (f \star h)(x, y)}_{\text{mask}=f-f_l}) \\
 &= (1 + \alpha) f(x, y) - \alpha (f \star h)(x, y) \\
 &= (1 + \alpha)(f\star h_o)(x,y) - \alpha (f \star h)(x, y) \\
 &= (f\star (1+\alpha)h_o)(x,y) - (f\star \alpha h)(x, y) \\
