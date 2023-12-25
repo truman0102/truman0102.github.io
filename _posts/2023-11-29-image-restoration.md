@@ -268,22 +268,13 @@ where $$\alpha$$ and $$\beta$$ are the non-negative parameters.
 
 ### Constrained Least Squares Filter
 
-The constrained least squares filter is used to estimate the original image when the degradation function is known.
+The constrained least squares filter is used to estimate the original image when the degradation function is known. We try to minimize the following function:
 
 $$
 C = \sum_{x=0}^{M-1}\sum_{y=0}^{N-1}[\triangledown^2f(x,y)]^2\\
 $$
 
-$$
-\begin{aligned}
-\triangledown^2f(x,y) &= f(x+1,y)+f(x-1,y)+f(x,y+1)+f(x,y-1)-4f(x,y)\\
-&=(f\star h)(x,y)
-\end{aligned}
-$$
-
-where $$h$$ is the laplacian filter.
-
-The constrain is
+where the constrain is
 
 $$
 \lVert g-H\hat{f} \rVert^2 = \lVert \eta \rVert^2
@@ -315,7 +306,7 @@ $$
 \end{aligned}
 $$
 
-Therefore, the estimation of the original image is
+Therefore, the solution in the frequency domain is
 
 $$
 \hat{F}(u,v) = \left [ \frac{H^*(u,v)}{|H(u,v)|^2+\gamma|P(u,v)|^2} \right ]G(u,v)
@@ -323,7 +314,7 @@ $$
 
 where $$P(u,v)$$ is the fourier transform of the laplacian filter.
 
-To estimate $$\gamma$$, we need to define a residual $$r=g-H\hat{f}$$, and adjust $$r$$ until $$\lVert r \rVert^2 = \lVert \eta \rVert^2 \pm \epsilon$$.
+To estimate $$\gamma$$, we need to define a residual $$r=g-H\hat{f}$$, and adjust $$r$$ until $$\lVert r \rVert^2 = \lVert \eta \rVert^2 \pm \epsilon$$, where $$\epsilon$$ is a small positive number.
 
 $$
 R(u,v) = G(u,v)-H(u,v)\hat{F}(u,v)
