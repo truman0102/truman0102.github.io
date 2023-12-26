@@ -8,6 +8,8 @@ related_posts: false
 
 This is an introduction to how my image processing posts are organized, aligned with the [Digital Image Processing]() book by Gonzalez and Woods.
 
+***
+
 [Point operations](/blog/2023/point-operation/) are operations that are applied to each pixel in an image. They are the simplest operations that can be performed on an image.
 
 A more complex operation is [spatial filtering](/blog/2023/spatial-filtering/), which is a way to apply a filter to the neighborhood of each pixel in an image. This is a very powerful operation that can be used to perform a wide variety of tasks, such as edge detection, noise removal, and image sharpening.
