@@ -1,6 +1,6 @@
 ---
 layout: post
-date: 2023-12-26 11:12:00-0400
+date: 2023-12-24 11:12:00-0400
 title: An introduction to image processing posts
 inline: false
 related_posts: false
