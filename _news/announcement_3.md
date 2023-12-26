@@ -1,8 +1,9 @@
 ---
 layout: post
-date: 2016-01-15 07:59:00-0400
-inline: true
+date: 2023-12-26 11:12:00-0400
+title: An introduction to image processing posts
+inline: false
 related_posts: false
 ---
 
-A simple inline announcement with Markdown emoji! :sparkles: :smile:
+This is an introduction to how my image processing posts are organized, aligned with the Digital Image Processing book by Gonzalez and Woods.
