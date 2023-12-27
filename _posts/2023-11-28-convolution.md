@@ -153,3 +153,103 @@ Thus, the convolution between $$f$$ and $$h$$ can be calculated by first convolv
 $$
 f \ast h = f \ast (h_1 \ast h_2) = (f \ast h_1) \ast h_2
 $$
+
+## Convolution in Image Processing
+
+In image processing, convolution is performed by sliding a kernel over the image, multiplying the kernel's values with the overlapping image pixel values, and summing them up.
+
+$$
+(w \star f)(x, y) = \sum_{i=-a}^{a} \sum_{j=-b}^{b} w(i, j) f(x-i, y-j)
+$$
+
+where $$w$$ is the kernel, $$f$$ is the image, and $$a$$ and $$b$$ are the kernel's half-width and half-height, respectively.
+
+### Kernel
+
+A kernel is a small matrix used in image processing to perform operations such as blurring, sharpening, edge detection, and more. The kernel is usually a square matrix with odd dimensions. The kernel is also known as a filter.
+
+### Padding
+
+The output of the convolution operation is a matrix that is smaller than the input image. This is because the kernel cannot be centered on pixels at the edges of the image. To solve this problem, the image is padded with some pixels around the edges. The common padding methods are:
+
+- **Zero Padding**: The image is padded with zeros around the edges.
+- **Replicate Padding**: The pixels at the edges of the image are replicated to pad the image.
+- **Symmetric Padding**: The pixels at the edges of the image are mirrored to pad the image.
+
+### Stride
+
+The stride is the number of pixels by which the kernel is shifted when it is moved over the image. The stride is usually set to 1, but it can be set to any value. A larger stride will result in a smaller output image.
+
+### Implementation
+
+```python
+import numpy as np
+
+# gaussian kernel
+def gaussian_kernel(size, sigma=1):
+    """
+    Generates a Gaussian kernel of size size x size and standard deviation sigma.
+    """
+    size = int(size) // 2
+    x, y = np.mgrid[-size:size+1, -size:size+1]
+    normal = 1 / (2.0 * np.pi * sigma**2)
+    g =  np.exp(-((x**2 + y**2) / (2.0*sigma**2))) * normal
+    return g
+
+# convolution
+def convolution(image, kernel, stride=1, padding=None):
+  """
+  Performs convolution between an image and a kernel.
+  : param image: input image, a 2D numpy array
+  : param kernel: kernel, a 2D numpy array
+  : param stride: stride, default 1
+  : param padding: padding method, default None, options: "zero", "replicate", "symmetric", "circular"
+  : return: convolved image, a 2D numpy array
+  """
+  m, n = kernel.shape # kernel dimensions
+  M, N = image.shape # image dimensions
+  image_copy = image.copy() # copy of image
+  assert m % 2 == 1 and n % 2 == 1, "Kernel dimensions must be odd"
+  assert padding in ["zero", "replicate", "symmetric", "Circular", None], "Invalid padding"
+
+
+  a = (m - 1) // 2 # half-width
+  b = (n - 1) // 2 # half-height
+
+  kernel = kernel[::-1, ::-1] # flip kernel
+
+  if padding is None: # no padding
+    res = image.copy()
+    for i in range(a, M-a, stride): # loop over rows
+      for j in range(b, N-b, stride): # loop over columns
+        image_copy[i, j] = np.sum(res[i-a:i+a+1, j-b:j+b+1] * kernel) # convolution
+    return image_copy[a:-a, b:-b] # return image without padding
+  else:
+    res = np.zeros((M + 2*a, N + 2*b)) # padded image
+    res[a:-a, b:-b] = image # copy image to padded image
+    if padding == "zero":
+      pass
+    elif padding == "replicate": # replicate padding
+      res[:a, b:-b] = image[0]
+      res[-a:, b:-b] = image[-1]
+      res[:, :b] = res[:, b:2*b][:, ::-1]
+      res[:, -b:] = res[:, -2*b:-b][:, ::-1]
+    elif padding == "symmetric": # symmetric padding
+      res[:a, b:-b] = image[a:0:-1]
+      res[-a:, b:-b] = image[-2:-a-2:-1]
+      res[:, :b] = res[:, b:2*b][:, ::-1]
+      res[:, -b:] = res[:, -2*b:-b][:, ::-1]
+    elif padding == "circular": # circular padding
+      res[:a, b:-b] = image[-a:]
+      res[-a:, b:-b] = image[:a]
+      res[:, :b] = image[:, -b:]
+      res[:, -b:] = image[:, :b]
+    else:
+      raise ValueError("Invalid padding")
+
+  for i in range(a, M+a, stride): # loop over rows
+    for j in range(b, N+b, stride): # loop over columns
+      image_copy[i-a, j-b] = np.sum(res[i-a:i+a+1, j-b:j+b+1] * kernel) # convolution
+
+  return image_copy
+```
