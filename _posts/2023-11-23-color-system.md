@@ -237,3 +237,138 @@ An HSV color model is the most accurate color model as long as the way humans pe
 
 #### CIELAB
 
+
+## Processing Color Images
+
+The processing of color images is similar to that of grayscale images. The only difference is that color images have three channels, and each channel needs to be processed separately. For example, if we want to convert a color image to grayscale, we can use the following formula:
+
+$$
+I = 0.299R + 0.587G + 0.114B
+$$
+
+where $$R$$, $$G$$, and $$B$$ are the red, green, and blue channels of the image, respectively. Let $$c$$ be the color vector, elements of $$c$$ are the values of the three channels of the image, regarded as different functions of the same point $$(x,y)$$,
+
+$$
+c(x,y) = \begin{bmatrix}
+c_R(x,y)\\
+c_G(x,y)\\
+c_B(x,y)
+\end{bmatrix}
+$$
+
+### Transforming Color Images
+
+$$
+s = T(r)
+$$
+
+An example of a color transformation is linear scaling, which is used to increase or decrease the brightness of an image. The formula for linear scaling is:
+
+$$
+s = \alpha r + \beta
+$$
+
+where $$\alpha$$ is the scaling factor, and $$\beta$$ is the offset. If $$\alpha > 1$$, the image will be brighter, and if $$\alpha < 1$$, the image will be darker. If $$\beta > 0$$, the image will be brighter, and if $$\beta < 0$$, the image will be darker. If $$\beta = 0$$, the image is only scaled, but not shifted. Let's scale the image in RGB space:
+
+$$
+c^\prime = \alpha c = \begin{bmatrix}
+\alpha c_R\\
+\alpha c_G\\
+\alpha c_B
+\end{bmatrix}
+$$
+
+Then, let $$r$$ be the color vector of CMY space, and $$c$$ be the color vector of RGB space, we have:
+
+$$
+\begin{aligned}
+r &= \begin{bmatrix}
+1\\
+1\\
+1
+\end{bmatrix} - c\\
+r^\prime &= \begin{bmatrix}
+1\\
+1\\
+1
+\end{bmatrix} - c^\prime
+= \begin{bmatrix}
+1\\
+1\\
+1
+\end{bmatrix} - \begin{bmatrix}
+\alpha c_R\\
+\alpha c_G\\
+\alpha c_B
+\end{bmatrix} = \begin{bmatrix}
+1 - \alpha \\
+1 - \alpha \\
+1 - \alpha
+\end{bmatrix} + \alpha(
+\begin{bmatrix}
+1\\
+1\\
+1
+\end{bmatrix} - c)\\
+r^\prime &= \alpha r + (1 - \alpha)
+\end{aligned}
+$$
+
+### Color Image Sharpening
+
+The laplacian operator can be used to sharpen color images. The laplacian operator is defined as:
+
+$$
+\nabla^2f = \frac{\partial^2f}{\partial x^2} + \frac{\partial^2f}{\partial y^2}
+$$
+
+Since image function $$f$$ consists of three channels, the laplacian operator can be applied to each channel separately:
+
+$$
+\nabla^2f = \begin{bmatrix}
+\nabla^2f_R\\
+\nabla^2f_G\\
+\nabla^2f_B
+\end{bmatrix}
+$$
+
+The gradient of the image function can be calculated as follows:s
+
+$$
+\begin{aligned}
+u = \frac{\partial R}{\partial x} + \frac{\partial G}{\partial x} + \frac{\partial B}{\partial x}\\
+v = \frac{\partial R}{\partial y} + \frac{\partial G}{\partial y} + \frac{\partial B}{\partial y}
+\end{aligned}
+$$
+
+$$
+\begin{aligned}
+g_{xx} &= |\frac{\partial R}{\partial x}|^2 + |\frac{\partial G}{\partial x}|^2 + |\frac{\partial B}{\partial x}|^2\\
+g_{yy} &= |\frac{\partial R}{\partial y}|^2 + |\frac{\partial G}{\partial y}|^2 + |\frac{\partial B}{\partial y}|^2\\
+g_{xy} &= |\frac{\partial R}{\partial x}\frac{\partial R}{\partial y}| + |\frac{\partial G}{\partial x}\frac{\partial G}{\partial y}| + |\frac{\partial B}{\partial x}\frac{\partial B}{\partial y}|
+\end{aligned}
+$$
+
+The value of the change in the image function is calculated as follows:
+
+$$
+\begin{aligned}
+F &= |u\cos\theta + v\sin\theta| \\
+&= \sqrt{u^2\cos^2\theta + v^2\sin^2\theta + 2uv\cos\theta\sin\theta}\\
+&= \sqrt{u^2(\frac{1 + \cos2\theta}{2}) + v^2(\frac{1 - \cos2\theta}{2}) + uv\sin2\theta}\\
+&= \sqrt{g_{xx}(\frac{1 + \cos2\theta}{2}) + g_{yy}(\frac{1 - \cos2\theta}{2}) + g_{xy}\sin2\theta}
+\end{aligned}
+$$
+
+To maximize the change in the image function, we need to find the value of $$\theta$$ that maximizes $$F^2$$:
+
+$$
+\begin{aligned}
+F^2 &= g_{xx}(\frac{1 + \cos2\theta}{2}) + g_{yy}(\frac{1 - \cos2\theta}{2}) + g_{xy}\sin2\theta\\
+\frac{\partial F^2}{\partial \theta} &= -g_{xx}\sin2\theta + g_{yy}\sin2\theta + 2g_{xy}\cos2\theta = 0\\
+2g_{xy}\cos2\theta &= g_{xx}\sin2\theta - g_{yy}\sin2\theta\\
+\tan2\theta &= \frac{2g_{xy}}{g_{xx} - g_{yy}}\\
+\theta &= \frac{1}{2}\tan^{-1}\frac{2g_{xy}}{g_{xx} - g_{yy}}
+\end{aligned}
+$$
+
