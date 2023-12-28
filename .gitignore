@@ -10,3 +10,4 @@ Gemfile.lock
 vendor
 /assets/jupyter/imgp/__pycache__
 /assets/jupyter/ml/__pycache__
+/assets/markdown/
