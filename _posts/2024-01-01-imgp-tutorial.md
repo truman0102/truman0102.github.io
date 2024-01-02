@@ -5,7 +5,6 @@ date: 2024-01-01 00:00:00-0400
 description: An introduction to image processing aligned with the course of Image Processing at the University of Chinese Academy of Sciences.
 tags: tutorial
 categories: image-processing
-redirect:
 related_posts: false
 giscus_comments: false
 thumbnail: 
