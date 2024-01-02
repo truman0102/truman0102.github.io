@@ -251,7 +251,7 @@ $$
 
 - $$\hat{F}(u,v)$$ is the fourier transform of the estimation of the original image.
 - Power spectrum is the quadratic power of the fourier transform.
-- - $$S_f(u,v)$$ is the power spectrum of the original image.
+- - $$S_f(u,v)$$ is the power spectrum of the original image, which is an approximation but not the exact power spectrum because the original image is unknown.
 
 $$
 S_f(u,v) = |F(u,v)|^2

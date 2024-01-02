@@ -393,3 +393,59 @@ h_s = (1 + \alpha)h_o - \alpha h = \begin{bmatrix}
 -\alpha & -\alpha & -\alpha \\
 \end{bmatrix}
 $$
+
+Unsharp masking is a high-boost filtering, which is a special case of the sharpening filter. The sharpening filter is:
+
+$$
+\begin{aligned}
+g_{mask} &= f - f_{lp} \\ 
+f_{lp} &= f \star h_{lp} \\
+\end{aligned}
+$$
+
+And the high-boost filter is:
+
+$$
+\begin{aligned}
+f_{hb} &= (A - 1)f + g_{mask} \\ &= Af - f_{lp} \\
+&= Af - f \star h_{lp} \\
+&= f \star (Ah_{o} - h_{lp})
+\end{aligned}
+$$
+
+where $$h_o$$ is a filter that only keeps the center pixel, and $$h_{lp}$$ is a low-pass filter, such as the average filter or the Gaussian filter.
+
+$$
+h_o = \begin{bmatrix}
+0 & 0 & 0 \\
+0 & 1 & 0 \\
+0 & 0 & 0 \\
+\end{bmatrix}
+$$
+
+The unsharp mask can also be replaced by a laplacian filter.
+
+$$
+\begin{aligned}
+g_{mask} &= f - \nabla^2 f \text{ if center pixel is negative} \\
+f_{hb} &= (A - 1)f + g_{mask} \\
+&= Af - \nabla^2 f \\
+&= f \star (Ah_{o} - h_{lap})
+\end{aligned}
+$$
+
+$$
+Ah_o - h_{lap} = \begin{bmatrix}
+0 & 0 & 0 \\
+0 & A & 0 \\
+0 & 0 & 0 \\
+\end{bmatrix} - \begin{bmatrix}
+0 & 1 & 0 \\
+1 & -4 & 1 \\
+0 & 1 & 0 \\
+\end{bmatrix} = \begin{bmatrix}
+0 & -1 & 0 \\
+-1 & A+4 & -1 \\
+0 & -1 & 0 \\
+\end{bmatrix}
+$$
