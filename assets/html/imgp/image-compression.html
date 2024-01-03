@@ -295,6 +295,10 @@ class="math inline">\(P(x_1),P(x_2),\cdots,P(x_n)\)</span>，则随机变量<spa
 class="math inline">\(X\)</span>的信息熵为</p>
 <p><span class="math display">\[H(X) = E[I(X)] = \sum_{i=1}^n
 P(x_i)I(x_i) = -\sum_{i=1}^n P(x_i)\log P(x_i)\]</span></p>
+<p>下文我们将介绍条件熵和互信息，在此指出：信息熵是信源符号的平均信息；条件熵<span
+class="math inline">\(H(z|v)\)</span>是<span
+class="math inline">\(z\)</span>关于<span
+class="math inline">\(v\)</span>的条件信息量总平均值（疑义度），表示观察由它引起的输出符号的假设下信源符号的平均信息；互信息，即熵与条件熵之差，表示观察一个单一输出符号时接收到的平均信息量；信道容量是互信息的最大值，表示信道的最大传输速率。</p>
 <h3 id="条件熵">条件熵</h3>
 <p>条件概率下的信息熵公式可以重写为:</p>
 <p><span class="math display">\[H(X|y_i) = -\sum_{j=1}^nP(x_j|y_i)\log
