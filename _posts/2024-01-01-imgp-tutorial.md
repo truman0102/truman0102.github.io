@@ -8,6 +8,7 @@ categories: image-processing
 related_posts: false
 giscus_comments: false
 thumbnail: 
+featured: true
 ---
 
 ## Introduction
