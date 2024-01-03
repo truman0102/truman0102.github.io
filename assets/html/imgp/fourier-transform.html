@@ -517,144 +517,14 @@ class="math inline">\(P\times Q\)</span>，其中<span
 class="math inline">\(P=2M\)</span>，<span
 class="math inline">\(Q=2N\)</span>，然后再乘上<span
 class="math inline">\((-1)^{x+y}\)</span>；同样，反变换处理后的图像最终也要裁剪，我们保留左上角的<span
-class="math inline">\(M\times N\)</span>部分。</p>
-<p>对于图像<span class="math inline">\(f_{A\times
-B}\)</span>和滤波器<span class="math inline">\(h_{C\times
-D}\)</span>，为了避免卷积的边界效应，我们一般将图像进行填充，使其大小为<span
-class="math inline">\(P\times Q\)</span>，其中</p>
+class="math inline">\(M\times N\)</span>部分。对于图像<span
+class="math inline">\(f_{A\times B}\)</span>和滤波器<span
+class="math inline">\(h_{C\times
+D}\)</span>进行填充是为了避免卷积的边界效应，将图像进行填充后的大小为<span
+class="math inline">\(P\times Q\)</span>一般满足</p>
 <p><span class="math display">\[
 P \geq A+C-1 \\
 Q \geq B+D-1
-\]</span></p>
-<h1 id="频率域滤波">频率域滤波</h1>
-<p>频率域滤波是指在频率域上将滤波器<span
-class="math inline">\(H(u,v)\)</span>乘以图像的傅里叶变换<span
-class="math inline">\(F(u,v)\)</span>，得到<span
-class="math inline">\(G(u,v)\)</span>，然后再将<span
-class="math inline">\(G(u,v)\)</span>进行反傅里叶变换，得到滤波后的图像<span
-class="math inline">\(g(x,y)\)</span>。</p>
-<p><span class="math display">\[
-g(x,y) = \Re\{\mathfrak{J}^{-1}\{H(u,v)F(u,v)\}\}(-1)^{x+y}
-\]</span></p>
-<h2 id="低通滤波器">低通滤波器</h2>
-<h3 id="理想低通滤波器">理想低通滤波器</h3>
-<p><span class="math display">\[
-H(u,v) = \begin{cases}
-1 &amp; \text{if } D(u,v) \leq D_0 \\
-0 &amp; \text{if } D(u,v) &gt; D_0
-\end{cases}
-\]</span></p>
-<p>其中<span
-class="math inline">\(D(u,v)\)</span>表示频率域上的距离，<span
-class="math inline">\(D_0\)</span>表示截止频率。</p>
-<p><span class="math display">\[
-D(u,v) = \sqrt{(u-\frac{P}{2})^2+(v-\frac{Q}{2})^2}
-\]</span></p>
-<p>理想低通滤波器包含的功率比例为：</p>
-<p><span class="math display">\[
-p_{D_0} = \frac{\sum_{D(u,v)\leq D_0} |F(u,v)|^2}{\sum_{u=0}^{P-1}
-\sum_{v=0}^{Q-1} |F(u,v)|^2}
-\]</span></p>
-<h3 id="高斯低通滤波器">高斯低通滤波器</h3>
-<p>二维频域上截止频率为<span
-class="math inline">\(D_0\)</span>的高斯低通滤波器：</p>
-<p><span class="math display">\[
-H(u,v) = e^{-D^2(u,v)/2D_0^2}
-\]</span></p>
-<p>一维频域上的标准差为<span
-class="math inline">\(\sigma\)</span>的高斯低通滤波器：</p>
-<p><span class="math display">\[
-H(u) = A e^{-\frac{u^2}{2\sigma^2}}
-\]</span></p>
-<p>反求空间域的滤波器：</p>
-<p><span class="math display">\[
-\begin{aligned}
-h(x) &amp;= \mathfrak{J}^{-1}\{H(u)\} \\
-&amp;= \mathfrak{J}^{-1}\{A e^{-\frac{u^2}{2\sigma^2}}\} \\
-&amp;= \int_{-\infty}^{\infty} A e^{-\frac{u^2}{2\sigma^2}} e^{j2\pi ux}
-du \\
-&amp;= \int_{-\infty}^{\infty} A e^{-\frac{u^2}{2\sigma^2}+j2\pi ux} du
-\\
-&amp;= \int_{-\infty}^{\infty} A
-e^{-(\frac{u}{\sqrt{2}\sigma}-j\sqrt{2}\pi\sigma x)^2}
-e^{-2\pi^2\sigma^2x^2} du \\
-&amp;= Ae^{-2\pi^2\sigma^2x^2}\int_{-\infty}^{\infty}
-e^{-(\frac{u}{\sqrt{2}\sigma}-j\sqrt{2}\pi\sigma x)^2} du \\
-&amp;= Ae^{-2\pi^2\sigma^2x^2}\int_{-\infty}^{\infty}
-e^{-\frac{1}{2\sigma^2}(u-j2\pi\sigma^2x)^2} du \\
-\text{令 }r=u-j2\pi\sigma^2x &amp; \text{ 则 } u =
-r+j2\pi\sigma^2x\text{ ,} du = dr \\
-&amp;= A\sigma\sqrt{2\pi}e^{-2\pi^2\sigma^2x^2}\int_{-\infty}^{\infty}
-\frac{1}{\sigma\sqrt{2\pi}}e^{-\frac{r^2}{2\sigma^2}} dr \\
-&amp;= A\sigma\sqrt{2\pi}e^{-2\pi^2\sigma^2x^2} \\
-\end{aligned}
-\]</span></p>
-<h3 id="巴特沃斯低通滤波器">巴特沃斯低通滤波器</h3>
-<p><span class="math display">\[
-H(u,v) = \frac{1}{1+[D(u,v)/D_0]^{2n}}
-\]</span></p>
-<p>越接近原点的频率越容易通过滤波器，<span
-class="math inline">\(n\)</span>越大，越接近理想低通滤波器。</p>
-<h2 id="高通滤波器">高通滤波器</h2>
-<p>频率域上的高通滤波器可以通过频率域上的低通滤波器得到，即：</p>
-<p><span class="math display">\[
-H_{hp}(u,v) = 1 - H_{lp}(u,v)
-\]</span></p>
-<h3 id="理想高通滤波器">理想高通滤波器</h3>
-<p><span class="math display">\[
-H(u,v) = \begin{cases}
-0 &amp; \text{if } D(u,v) \leq D_0 \\
-1 &amp; \text{if } D(u,v) &gt; D_0
-\end{cases}
-\]</span></p>
-<h3 id="高斯高通滤波器">高斯高通滤波器</h3>
-<p><span class="math display">\[
-H(u,v) = 1 - e^{-\frac{D^2(u,v)}{2D_0^2}}
-\]</span></p>
-<h3 id="巴特沃斯高通滤波器">巴特沃斯高通滤波器</h3>
-<p><span class="math display">\[
-H(u,v) = \frac{1}{1+[D_0/D(u,v)]^{2n}}
-\]</span></p>
-<p>注意巴特沃斯低通滤波器和高通滤波器的分母不同</p>
-<h2 id="频率域中的拉普拉斯">频率域中的拉普拉斯</h2>
-<p><span class="math display">\[
-H(u,v) = -4\pi^2[(u-\frac{P}{2})^2+(v-\frac{Q}{2})^2] = -4\pi^2D^2(u,v)
-\]</span></p>
-<p>给定图像<span class="math inline">\(f(x,y)\)</span>的傅里叶变换<span
-class="math inline">\(F(u,v)\)</span>，那么其拉普拉斯算子为：</p>
-<p><span class="math display">\[
-\nabla^2f(x,y) = \mathfrak{J}^{-1}\{H(u,v)F(u,v)\}
-\]</span></p>
-<p>对应的图像增强/锐化方法为：</p>
-<p><span class="math display">\[
-g(x,y) = f(x,y) + c\nabla^2f(x,y)
-\]</span></p>
-<p>如果<span class="math inline">\(H(u,v)\)</span>是负数，那么<span
-class="math inline">\(c=-1\)</span>，与拉普拉斯核的中心系数的正负关系类似。</p>
-<p><span class="math display">\[
-\begin{aligned}
-g(x,y) &amp;= \mathfrak{J}^{-1}\{F(u,v)-H(u,v)F(u,v)\} \\
-&amp;= \mathfrak{J}^{-1}\{F(u,v)(1+4\pi^2D^2(u,v))\} \\
-\end{aligned}
-\]</span></p>
-<h2 id="频率域中的钝化掩蔽">频率域中的钝化掩蔽</h2>
-<p>空域的钝化掩蔽是从原始图像中减去一个平滑图像，从而得到边缘图像：</p>
-<p><span class="math display">\[
-g_{mask} = f(x,y) - (f\star h_{lp})(x,y)
-\]</span></p>
-<p>再将边缘图像加回到原始图像中，从而得到增强的图像：</p>
-<p><span class="math display">\[
-g(x,y) = f(x,y) + kg_{mask}
-\]</span></p>
-<p>其中<span class="math inline">\(k\)</span>是一个常数，<span
-class="math inline">\(h_{lp}\)</span>是一个低通滤波器的空域核。对应的频域表示为：</p>
-<p><span class="math display">\[
-\begin{aligned}
-g_{mask} &amp;\Leftrightarrow F(u,v) - H_{lp}(u,v)F(u,v) \\
-g(x,y) &amp;\Leftrightarrow F(u,v) + k[F(u,v) - H_{lp}(u,v)F(u,v)] \\
-&amp;\Leftrightarrow (1+k)F(u,v) - kH_{lp}(u,v)F(u,v) \\
-&amp;\Leftrightarrow (1+k-kH_{lp}(u,v))F(u,v) \\
-\end{aligned}
 \]</span></p>
 </body>
 </html>
