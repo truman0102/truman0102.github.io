@@ -99,4 +99,4 @@ Basic steps of image restoration in frequency domain are:
 
 ## Other Topics
 
-[Wavelets analysis](/assets/pdf/wavelet-analysis.pdf) are introduced in the Chinese version. And so is the [image compression](/assets/pdf/imgp/image-compression.pdf), including entropy, Hamming code, Huffman code, and arithmetic code.
+[Wavelets analysis](/assets/pdf/imgp/wavelet-analysis.pdf) are introduced in the Chinese version. And so is the [image compression](/assets/pdf/imgp/image-compression.pdf), including entropy, Hamming code, Huffman code, and arithmetic code.
