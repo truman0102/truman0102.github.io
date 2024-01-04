@@ -417,7 +417,7 @@ class="sourceCode python"><code class="sourceCode python"><span id="cb2-1"><a hr
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> j <span class="op">&amp;</span> (<span class="dv">1</span> <span class="op">&lt;&lt;</span> (i <span class="op">-</span> <span class="dv">1</span>)):</span>
 <span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>                check_groups[index].append(j)</span>
 <span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> check_groups</span></code></pre></div>
-<p>给定校验位和校验组的概念后，我们就可以计算校验位的值了。首先我们在非校验位填入待传输的数据，然后从小到大依次计算每个校验位的值，校验位的值取决于校验组采用的是奇校验还是偶校验，对于奇校验，校验位的值为校验组中所有数据位的异或值，对于偶校验，校验位的值为校验组中所有数据位的或值。</p>
+<p>给定校验位和校验组的概念后，我们就可以计算校验位的值了。首先我们在非校验位填入待传输的数据，然后从小到大依次计算每个校验位的值，校验位的值取决于校验组采用的是奇校验还是偶校验，对于偶校验，校验位的值为校验组中所有数据位的异或值。</p>
 <p><span class="math display">\[
 b_{2^{i-1}} = \oplus_{j\in G_{2^{i-1}} \land j\neq 2^{i-1}}b_j
 \]</span></p>
@@ -490,7 +490,7 @@ class="sourceCode python"><code class="sourceCode python"><span id="cb3-1"><a hr
 <span id="cb3-56"><a href="#cb3-56" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.encode()</span>
 <span id="cb3-57"><a href="#cb3-57" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb3-58"><a href="#cb3-58" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> encode(<span class="va">self</span>):</span>
-<span id="cb3-59"><a href="#cb3-59" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 默认奇校验</span></span>
+<span id="cb3-59"><a href="#cb3-59" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 默认偶校验</span></span>
 <span id="cb3-60"><a href="#cb3-60" aria-hidden="true" tabindex="-1"></a>        code <span class="op">=</span> [<span class="dv">0</span>] <span class="op">*</span> (<span class="va">self</span>.n <span class="op">+</span> <span class="va">self</span>.k)</span>
 <span id="cb3-61"><a href="#cb3-61" aria-hidden="true" tabindex="-1"></a>        data_index <span class="op">=</span> <span class="dv">0</span></span>
 <span id="cb3-62"><a href="#cb3-62" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="va">self</span>.n <span class="op">+</span> <span class="va">self</span>.k <span class="op">+</span> <span class="dv">1</span>):</span>
@@ -500,7 +500,7 @@ class="sourceCode python"><code class="sourceCode python"><span id="cb3-1"><a hr
 <span id="cb3-66"><a href="#cb3-66" aria-hidden="true" tabindex="-1"></a>                code[i <span class="op">-</span> <span class="dv">1</span>] <span class="op">=</span> <span class="va">self</span>.data[<span class="va">self</span>.n <span class="op">-</span> data_index <span class="op">-</span> <span class="dv">1</span>]</span>
 <span id="cb3-67"><a href="#cb3-67" aria-hidden="true" tabindex="-1"></a>                data_index <span class="op">+=</span> <span class="dv">1</span></span>
 <span id="cb3-68"><a href="#cb3-68" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> i, group <span class="kw">in</span> <span class="va">self</span>.check_groups.items():</span>
-<span id="cb3-69"><a href="#cb3-69" aria-hidden="true" tabindex="-1"></a>            code[i <span class="op">-</span> <span class="dv">1</span>] <span class="op">=</span> get_check_code([code[j <span class="op">-</span> <span class="dv">1</span>] <span class="cf">for</span> j <span class="kw">in</span> group], <span class="st">&#39;odd&#39;</span>)</span>
+<span id="cb3-69"><a href="#cb3-69" aria-hidden="true" tabindex="-1"></a>            code[i <span class="op">-</span> <span class="dv">1</span>] <span class="op">=</span> get_check_code([code[j <span class="op">-</span> <span class="dv">1</span>] <span class="cf">for</span> j <span class="kw">in</span> group], <span class="st">&#39;even&#39;</span>)</span>
 <span id="cb3-70"><a href="#cb3-70" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 倒序输出字符串</span></span>
 <span id="cb3-71"><a href="#cb3-71" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>._inverse_print(code)</span>
 <span id="cb3-72"><a href="#cb3-72" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.code <span class="op">=</span> code</span>
@@ -651,6 +651,26 @@ class="sourceCode python"><code class="sourceCode python"><span id="cb7-1"><a hr
 <span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>        left <span class="op">=</span> left <span class="op">+</span> interval <span class="op">*</span> l <span class="co"># 更新左端点</span></span>
 <span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>        <span class="co"># print(c, (left, right))</span></span>
 <span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a>    midpoint <span class="op">=</span> (left <span class="op">+</span> right) <span class="op">/</span> <span class="dv">2</span> <span class="co"># 区间的中点</span></span>
-<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> float2bin(midpoint)[<span class="dv">2</span>:] <span class="co"># 转为二进制，去掉前面的0.</span></span></code></pre></div>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> float2bin(midpoint)[<span class="dv">2</span>:], probs, intervals <span class="co"># 转为二进制，去掉前面的0.</span></span></code></pre></div>
+<p>算术编码的解码过程与编码过程类似，也是利用区间的长度来计算区间的左右端点，然后根据区间的左右端点来确定信源所在的区间，最后得到信源的编码。</p>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> arithmetic_decode(code, probs, intervals):</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    goal <span class="op">=</span> <span class="bu">float</span>(<span class="st">&quot;0.&quot;</span> <span class="op">+</span> code)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    string <span class="op">=</span> <span class="st">&quot;&quot;</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    l <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    r <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="va">True</span>:</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>        interval <span class="op">=</span> r <span class="op">-</span> l</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> k, v <span class="kw">in</span> intervals.items():</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>            l_new <span class="op">=</span> l <span class="op">+</span> interval <span class="op">*</span> v[<span class="dv">0</span>]</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>            r_new <span class="op">=</span> l <span class="op">+</span> interval <span class="op">*</span> v[<span class="dv">1</span>]</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> l_new <span class="op">&lt;=</span> goal <span class="op">&lt;</span> r_new:</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>                string <span class="op">+=</span> k</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>                l <span class="op">=</span> l_new</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>                r <span class="op">=</span> r_new</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>                <span class="cf">break</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="bu">len</span>(string) <span class="op">==</span> <span class="bu">len</span>(code):</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>            <span class="cf">break</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> string</span></code></pre></div>
 </body>
 </html>
