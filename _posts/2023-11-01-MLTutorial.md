@@ -8,6 +8,7 @@ categories: data-science
 related_posts: false
 thumbnail:
 giscus_comments: true
+featured: true
 toc:
   sidebar: left
 ---
