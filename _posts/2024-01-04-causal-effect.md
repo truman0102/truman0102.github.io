@@ -1,4 +1,4 @@
----effect
+---
 layout: post
 title: Causal Effect
 date: 2024-01-04 21:00:00-0400
