@@ -120,18 +120,19 @@ This is the note for the course Advanced AI in University of Chinese Academy of 
 }
 </style>
 
-<table class="fl-table">
+<table 
+    data-toggle="table"
+    class="fl-table">
         <thead>
         <tr>
-            <th>Category</th>
-            <th>Topic</th>
-            <th>Content</th>
+            <th data-field="cat">Category</th>
+            <th data-field="topic">Topic</th>
+            <th data-field="content">Content</th>
         </tr>
         </thead>
         <tbody>
         <tr>
             <td>Symbolic AI</td>
-            <td>Content 1</td>
             <td>Content 1</td>
         </tr>
         <tbody>
