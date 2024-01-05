@@ -74,9 +74,6 @@ $$
 给定$$Y$$，$$X$$和$$Z$$只受外生变量影响，故$$X$$和$$Z$$独立，记作$$X \perp Z \vert Y$$
 
 {% mermaid %}
----
-title: Chain
----
 graph LR
     id1["U{X}"] --> X
     X --> Y
@@ -96,9 +93,6 @@ graph LR
 给定$$X$$，$$Y$$和$$Z$$只受外生变量影响，故$$Y$$和$$Z$$独立，记作$$Y \perp Z \vert X$$
 
 {% mermaid %}
----
-title: Fork
----
 graph LR
     id1["U{X}"] --> X
     id2["U{Y}"] --> Y
@@ -118,9 +112,6 @@ graph LR
 不给定额外信息，$$X$$和$$Y$$独立；给定$$Z$$，$$X$$和$$Y$$的关系内含于$$Z=F_Z\{X, Y, U_Z\}$$，故$$X$$和$$Y$$不独立，记作$$X \not\perp Y \vert Z$$
 
 {% mermaid %}
----
-title: Collision
----
 graph LR
     id1["U{X}"] --> X
     X --> Z
