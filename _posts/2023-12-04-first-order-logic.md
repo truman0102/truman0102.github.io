@@ -220,14 +220,14 @@ $$
 
 给定要存储的语句，可以对所有可能与之合一的查询构建索引，构成一个包容格 (subsumption lattice)。
 
-```mermaid
+{% mermaid %}
 graph LR;
     id1["P(x,y)"] --> id2["P(John, y)"];
     id1 --> id3["P(x, Jane)"];
     id2 --> id4["P(John, Jane)"];
     id3 --> id4;
-```
-```mermaid
+{% endmermaid %}
+{% mermaid %}
 graph LR;
     id1["P(x,y)"] --> id2["P(John, y)"];
     id1 --> id3["P(x, John)"];
@@ -235,7 +235,8 @@ graph LR;
     id2 --> id5["P(John, John)"];
     id3 --> id5;
     id4 --> id5;
-```
+{% endmermaid %}
+
 ## Forward and Backward Chaining
 
 ### First-order Definite Clauses (一阶确定子句)
