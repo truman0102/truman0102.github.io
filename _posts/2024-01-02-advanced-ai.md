@@ -1,9 +1,9 @@
 ---
 layout: post
-title: Advanced AI
+title: Advanced Artificial Intelligence
 date: 2024-01-01 00:12:00-0400
 description: The tutorial on Advanced AI course in University of Chinese Academy of Sciences
-tags: tutorial ai
+tags: tutorial AI
 categories: aritificial-intelligence
 related_posts: false
 giscus_comments: false
@@ -24,7 +24,6 @@ This is the note for the course Advanced AI in University of Chinese Academy of 
 body{
     font-family: Helvetica;
     -webkit-font-smoothing: antialiased;
-    background: rgba( 71, 147, 227, 1);
 }
 h2{
     text-align: center;
@@ -146,95 +145,31 @@ h2{
 }
 </style>
 
-<h2>Responsive Table</h2>
 <div class="table-wrapper">
     <table class="fl-table">
         <thead>
         <tr>
-            <th>Header 1</th>
-            <th>Header 2</th>
-            <th>Header 3</th>
-            <th>Header 4</th>
-            <th>Header 5</th>
+            <th>Category</th>
+            <th>Topic</th>
+            <th>Content</th>
         </tr>
         </thead>
         <tbody>
         <tr>
+            <td>Symbolic AI</td>
             <td>Content 1</td>
             <td>Content 1</td>
+        </tr>
+        <tr>
+            <td>Connectionist AI</td>
             <td>Content 1</td>
             <td>Content 1</td>
+        </tr>
+        <tr>
+            <td>Hybrid AI</td>
             <td>Content 1</td>
-        </tr>
-        <tr>
-            <td>Content 2</td>
-            <td>Content 2</td>
-            <td>Content 2</td>
-            <td>Content 2</td>
-            <td>Content 2</td>
-        </tr>
-        <tr>
-            <td>Content 3</td>
-            <td>Content 3</td>
-            <td>Content 3</td>
-            <td>Content 3</td>
-            <td>Content 3</td>
-        </tr>
-        <tr>
-            <td>Content 4</td>
-            <td>Content 4</td>
-            <td>Content 4</td>
-            <td>Content 4</td>
-            <td>Content 4</td>
-        </tr>
-        <tr>
-            <td>Content 5</td>
-            <td>Content 5</td>
-            <td>Content 5</td>
-            <td>Content 5</td>
-            <td>Content 5</td>
-        </tr>
-        <tr>
-            <td>Content 6</td>
-            <td>Content 6</td>
-            <td>Content 6</td>
-            <td>Content 6</td>
-            <td>Content 6</td>
-        </tr>
-        <tr>
-            <td>Content 7</td>
-            <td>Content 7</td>
-            <td>Content 7</td>
-            <td>Content 7</td>
-            <td>Content 7</td>
-        </tr>
-        <tr>
-            <td>Content 8</td>
-            <td>Content 8</td>
-            <td>Content 8</td>
-            <td>Content 8</td>
-            <td>Content 8</td>
-        </tr>
-        <tr>
-            <td>Content 9</td>
-            <td>Content 9</td>
-            <td>Content 9</td>
-            <td>Content 9</td>
-            <td>Content 9</td>
-        </tr>
-        <tr>
-            <td>Content 10</td>
-            <td>Content 10</td>
-            <td>Content 10</td>
-            <td>Content 10</td>
-            <td>Content 10</td>
+            <td>Content 1</td>
         </tr>
         <tbody>
     </table>
 </div>
-
-## Symbolic AI
-
-## Connectionist AI
-
-## Hybrid AI
