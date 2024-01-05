@@ -15,8 +15,8 @@ This is the note for the course Advanced AI in University of Chinese Academy of 
 
 ***
 
-|  Category   |    Topic     |                 Content                  |
-| :---------: | :----------: | :--------------------------------------: |
+| Category    | Topic        | Content                                  |
+| :---------- | :----------- | :--------------------------------------- |
 | Symbolic AI | Logic agents | [pdf](),[page](/blog/2023/logic-agents/) |
 |             |              |                                          |
 |             |              |                                          |
