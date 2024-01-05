@@ -5,7 +5,7 @@ date: 2023-12-04 12:00:00-0400
 description: An introduction to first-order logic in artificial intelligence.
 tags: first-order-logic ai
 categories: artificial-intelligence
-redirect: /assets/pdf/first-order-logic.pdf
+redirect:
 related_posts: false
 giscus_comments: true
 thumbnail: 
@@ -49,17 +49,17 @@ toc:
 
 将指代对象的项与指代关系的谓词符号结合起来，就可以得到原子语句[^3]。
 
-[^3]: 对于原子语句$P(x,y)$，一般遵循$x$是$y$的$P$的关系。
+[^3]: 对于原子语句$$P(x,y)$$，一般遵循$$x$$是$$y$$的$$P$$的关系。
 
 如果谓词符号所指代的关系在参数所指代的对象之间成立，则在给定模型中原子句为真。
 
 ### Complex Sentences (复合语句)
 
-复合语句是由原子语句和逻辑连接词 (logical connective) 构成的语句。比如，$P(x,y) \land Q(x)$。
+复合语句是由原子语句和逻辑连接词 (logical connective) 构成的语句。比如，$$P(x,y) \land Q(x)$$。
 
 ### Quantifiers (量词)
 
-量词是用来指定变量的范围的；一阶逻辑中有两种量词：全称量词 (universal quantifier) $\forall$ 和存在量词 (existential quantifier) $\exists$，它们的关系为:
+量词是用来指定变量的范围的；一阶逻辑中有两种量词：全称量词 (universal quantifier) $$\forall$$ 和存在量词 (existential quantifier) $$\exists$$，它们的关系为:
 
 $$
 \begin{aligned}
@@ -70,7 +70,7 @@ $$
 \end{aligned}
 $$
 
-一般来说，$\forall$通常和$\Rightarrow$一起使用，$\exists$通常和$\land$一起使用。
+一般来说，$$\forall$$通常和$$\Rightarrow$$一起使用，$$\exists$$通常和$$\land$$一起使用。
 
 $$
 \begin{aligned}
@@ -79,11 +79,11 @@ $$
 \end{aligned}
 $$
 
-一种错误的表达是$\forall x At(x, Berkeley) \land Smart(x)$，他的意思是所有人都在伯克利并且聪明，而不是在伯克利的人都聪明。
+一种错误的表达是$$\forall x At(x, Berkeley) \land Smart(x)$$，他的意思是所有人都在伯克利并且聪明，而不是在伯克利的人都聪明。
 
 ### Equality (等词)
 
-等词表示两个项指代的对象相等，它是一种特殊的谓词符号，用 $=$ 表示；$x\neq y$ 可以表示为 $\lnot (x=y)$。
+等词表示两个项指代的对象相等，它是一种特殊的谓词符号，用 $$=$$ 表示；$$x\neq y$$ 可以表示为 $$\lnot (x=y)$$。
 
 ## Using First-Order Logic
 
@@ -107,7 +107,7 @@ $$
 Ask(KB, \exists x Person(x))
 $$
 
-这里返回的结果是真，因为存在一个人。但我们更想知道的是这个人是谁，所以我们可以使用AskVars，它返回一个变量的绑定 (binding) 列表/置换 (substitution)，这里返回的结果是$\{x/John\}$。
+这里返回的结果是真，因为存在一个人。但我们更想知道的是这个人是谁，所以我们可以使用AskVars，它返回一个变量的绑定 (binding) 列表/置换 (substitution)，这里返回的结果是$$\{x/John\}$$。
 
 ### Numbers, Sets, and Lists
 
@@ -115,7 +115,7 @@ $$
 
 #### Numbers
 
-以定义自然数为例，需要谓词$NatNum$判断一个对象是否是自然数，常量符合$0$和后继函数$S$。
+以定义自然数为例，需要谓词$$NatNum$$判断一个对象是否是自然数，常量符合$$0$$和后继函数$$S$$。
 
 1. 自然数是递归的
 
@@ -178,7 +178,7 @@ $$
 \frac{\forall x\; \alpha}{SUBST(\{x/t\},\alpha)} \\
 $$
 
-$\alpha$是一个语句，$x$是全称变量，$t$是项，$SUBST(\{x/t\},\alpha)$表示将$\alpha$中的$x$替换为$t$。
+$$\alpha$$是一个语句，$$x$$是全称变量，$$t$$是项，$$SUBST(\{x/t\},\alpha)$$表示将$$\alpha$$中的$$x$$替换为$$t$$。
 
 存在量词实例化就是用一个尚未指代对象的常量符号替换量词变量。
 
@@ -186,7 +186,7 @@ $$
 \frac{\exists x\; \alpha}{SUBST(\{x/k\},\alpha)} \\
 $$
 
-$\alpha$是一个语句，$x$是存在变量，$k$是没有出现过的常量符号，$SUBST(\{x/k\},\alpha)$表示将$\alpha$中的$x$替换为$k$。
+$$\alpha$$是一个语句，$$x$$是存在变量，$$k$$是没有出现过的常量符号，$$SUBST(\{x/k\},\alpha)$$表示将$$\alpha$$中的$$x$$替换为$$k$$。
 
 ### Reduction to Propositional Inference (归约为命题推断)
 
@@ -196,13 +196,13 @@ $\alpha$是一个语句，$x$是存在变量，$k$是没有出现过的常量符
 
 ## Unification and First-Order Inference
 
-一般化肯定前件 (generalized Modus Ponens): 对于原子语句$p_i$, $p_i^{\prime}$和$q$，存在置换使得对所有$i$有$SUBST(\theta, p_i)=SUBST(\theta, p_i^{\prime})$，则有
+一般化肯定前件 (generalized Modus Ponens): 对于原子语句$$p_i$$, $$p_i^{\prime}$$和$$q$$，存在置换使得对所有$$i$$有$$SUBST(\theta, p_i)=SUBST(\theta, p_i^{\prime})$$，则有
 
 $$
 \frac{p_1^{\prime},\dots,p_n^{\prime},(p_1\land\dots\land p_n)\Rightarrow q}{SUBST(\theta, q)}
 $$
 
-这个推理规则有$n+1$个前提，其中$n$个是原子语句，最后一个是蕴含语句，结论是对后件$q$置换的结果。
+这个推理规则有$$n+1$$个前提，其中$$n$$个是原子语句，最后一个是蕴含语句，结论是对后件$$q$$置换的结果。
 
 ### Unification (合一)
 
@@ -254,7 +254,7 @@ $$
 
 从事实出发，触发所有前提被满足的规则，将结论添加到事实中，重复这个过程直到查询被证明为真或者无法推理出新的结论[^4]。
 
-[^4]: 重命名不是新的事实，形如$Likes(x,icecream)$和$Likes(y,icecream)$的事实只会被添加一次。
+[^4]: 重命名不是新的事实，形如$$Likes(x,icecream)$$和$$Likes(y,icecream)$$的事实只会被添加一次。
 
 在前向链接终止时，每个可以用前向链接得出的语句已经显式地被纳入知识库，这种知识库被称为推断过程的不动点。对一阶确定子句使用前向链接得到的不动点和对命题逻辑使用前向链接得到的不动点是类似的，区别在于一阶确定子句的不动点可以包含含有全称量词的语句。
 
@@ -285,15 +285,15 @@ $$
 \frac{p_1\lor\dots\lor p_n,\; q_1\lor\dots\lor q_m}{SUBST(\theta, p_1\lor\dots\lor p_{i-1}\lor p_{i+1}\lor\dots\lor p_n\lor q_1\lor\dots\lor q_{j-1}\lor q_{j+1}\lor\dots\lor q_m)} \text{ 其中 } UNIFY(p_i, \lnot q_j)=\theta
 $$
 
-通过合一子$\theta$消去互补的文字生成新的归结子句，这个规则叫做二元归结 (binary resolution)。
+通过合一子$$\theta$$消去互补的文字生成新的归结子句，这个规则叫做二元归结 (binary resolution)。
 
 #### BFS
 
 #### 删除策略
 
-纯文字删除策略: 如果对于某个文字$L$，在子句集中不存在其互补文字$\lnot L$，那么$L$就是纯文字；纯文字不影响归结的结果，因此可以从子句集中删除。
+纯文字删除策略: 如果对于某个文字$$L$$，在子句集中不存在其互补文字$$\lnot L$$，那么$$L$$就是纯文字；纯文字不影响归结的结果，因此可以从子句集中删除。
 
-重言式删除: 重言式是永真的子句；如果一个子句中包含$\lnot L$和$L$，那么这个子句就是重言式，可以从子句集中删除[^5]。
+重言式删除: 重言式是永真的子句；如果一个子句中包含$$\lnot L$$和$$L$$，那么这个子句就是重言式，可以从子句集中删除[^5]。
 
 [^5]: 子句是析取式
 

@@ -5,7 +5,7 @@ date: 2023-12-05 22:00:00-0400
 description: An introduction to adversarial search in artificial intelligence.
 tags: adversarial-search
 categories: artificial-intelligence
-redirect: /assets/pdf/adversarial-search.pdf
+redirect:
 related_posts: false
 giscus_comments: true
 thumbnail: 

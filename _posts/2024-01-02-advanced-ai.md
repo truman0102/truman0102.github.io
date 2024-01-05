@@ -3,7 +3,7 @@ layout: post
 title: Advanced Artificial Intelligence
 date: 2024-01-01 00:12:00-0400
 description: The tutorial on Advanced AI course in University of Chinese Academy of Sciences
-tags: tutorial AI
+tags: tutorial ai
 categories: aritificial-intelligence
 related_posts: false
 giscus_comments: false
