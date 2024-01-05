@@ -4,7 +4,7 @@ title: Artificial Intelligence
 date: 2024-01-01 00:12:00-0400
 description: The tutorial on Advanced AI course in University of Chinese Academy of Sciences
 tags: tutorial ai
-categories: aritificial-intelligence
+categories: artificial-intelligence
 related_posts: false
 giscus_comments: false
 thumbnail: 
@@ -144,9 +144,7 @@ h2{
     }
 }
 </style>
-
-<div class="table-wrapper">
-    <table class="fl-table">
+<table class="fl-table">
         <thead>
         <tr>
             <th>Category</th>
@@ -171,5 +169,4 @@ h2{
             <td>Content 1</td>
         </tr>
         <tbody>
-    </table>
-</div>
+</table>
