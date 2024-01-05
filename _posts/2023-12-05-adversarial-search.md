@@ -10,7 +10,7 @@ related_posts: false
 giscus_comments: true
 thumbnail: 
 toc:
-  sidebar: left
+  beginning: true
 ---
 
 ### 双人零和博弈
@@ -122,17 +122,17 @@ def Max_Value(state, player: int, max_reached_value: list) -> (value, action):
 
 - 结果状态比例估计，使用结果状态的比例对其最终收益加权求和，即
 
-$$$$
+$$
 \text{Eval}(S, P) = \sum\limits_{i=1}^{Count_{S_{T}}}\frac{Count_{S,S_{T_i}}}{\sum_{j=1}^{Count_{S_{T}}}{Count_{S,S_{T_j}}}}\text{Utility}(S_{T_i}, P)
-$$$$
+$$
 
 - 加权线性函数，对局面的每个特征进行加权求和[^2]，令$$f_i(S)$$为局面$$S$$的第$$i$$个特征的价值，$$w_i$$为第$$i$$个特征的权重，则
 
 [^2]: 假设特征的贡献是独立的
 
-$$$$
+$$
 \text{Eval}(S, P) = \sum\limits_{i=1}^{n}w_i f_i(S)
-$$$$
+$$
 
 ### 截断搜索 (Cutoff Search)
 
@@ -140,9 +140,9 @@ $$$$
 
 截断搜索可以与深度限制搜索结合，当遇到终止状态或达到深度限制时，返回评价函数的值。
 
-$$$$
+$$
 \text{if IsCutoff}(S, d) \text{ then return Eval}(S, P)
-$$$$
+$$
 
 ### 前向剪枝 (Forward Pruning)
 
@@ -210,9 +210,9 @@ def Expected_Value(state, action, player) -> value:
 
 纳什均衡 (Nash Equilibrium) 是指在博弈中，当满足特定条件时，任何一位玩家在改变自身策略而其他玩家保持策略不变时，都不会获得更好的收益。纳什均衡是一种稳定的策略，它可以用于解决部分可观测博弈。
 
-$$$$
+$$
 V_i(\pi_1^*, \pi_2^*, \cdots, \pi_i^*, \cdots, \pi_n^*) \geq V_i(\pi_1^*, \pi_2^*, \cdots, \pi_i, \cdots, \pi_n^*)
-$$$$
+$$
 
 ## Limitations of Adversarial Search
 
