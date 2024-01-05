@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Tutorial for Machine Learning
+title: Machine Learning
 date: 2023-11-01 12:00:00-0400
 description: An tutorial for machine learning
 tags: ML tutorial
