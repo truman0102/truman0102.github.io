@@ -21,25 +21,8 @@ This is the note for the course Advanced AI in University of Chinese Academy of 
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
 }
-body{
-    font-family: Helvetica;
-    -webkit-font-smoothing: antialiased;
-}
-h2{
-    text-align: center;
-    font-size: 18px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    color: white;
-    padding: 30px 0;
-}
 
 /* Table Styles */
-
-.table-wrapper{
-    margin: 10px 70px 70px;
-    box-shadow: 0px 35px 50px rgba( 0, 0, 0, 0.2 );
-}
 
 .fl-table {
     border-radius: 5px;
@@ -84,14 +67,6 @@ h2{
     .fl-table {
         display: block;
         width: 100%;
-    }
-    .table-wrapper:before{
-        content: "Scroll horizontally >";
-        display: block;
-        text-align: right;
-        font-size: 11px;
-        color: white;
-        padding: 0 0 10px;
     }
     .fl-table thead, .fl-table tbody, .fl-table thead th {
         display: block;
@@ -144,6 +119,7 @@ h2{
     }
 }
 </style>
+
 <table class="fl-table">
         <thead>
         <tr>
@@ -155,16 +131,6 @@ h2{
         <tbody>
         <tr>
             <td>Symbolic AI</td>
-            <td>Content 1</td>
-            <td>Content 1</td>
-        </tr>
-        <tr>
-            <td>Connectionist AI</td>
-            <td>Content 1</td>
-            <td>Content 1</td>
-        </tr>
-        <tr>
-            <td>Hybrid AI</td>
             <td>Content 1</td>
             <td>Content 1</td>
         </tr>
