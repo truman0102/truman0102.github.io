@@ -41,13 +41,56 @@ If the agent knows the transition probability $$p(s'\vert s, a)$$ and the reward
 
 ### Markov Decision Process
 
+$$
+p(s_{t+1}\vert s_t) = \sum_a p(s_{t+1}\vert s_t, a) \pi(a\vert s_t)
+$$
+
+$$
+p(\tau \vert \pi) = p(s_0) \prod_{t=0}^{\infty} p(s_{t+1}\vert s_t, a_t) \pi(a_t\vert s_t)
+$$
+
 ### Markov Reward Process
 
-A trajectory $$\tau$$ of a Markov decision process is a sequence of state, action, and reward. It is defined as $$\tau = (S_0, A_0, R_1, S_1, A_1, R_2, S_2, \cdots)$$, where $$S_t$$ is the state at time $$t$$, $$A_t$$ is the action at time $$t$$, and $$R_{t+1}$$ is the reward of State $$S_t$$ and Action $$A_t$$, R_{t+1} = r(S_t, A_t).
+A trajectory $$\tau$$ of a Markov decision process is a sequence of state, action, and reward. It is defined as $$\tau = (S_0, A_0, R_1, S_1, A_1, R_2, S_2, \cdots)$$, where $$S_t$$ is the state at time $$t$$, $$A_t$$ is the action at time $$t$$, and $$R_{t+1}$$ is the reward of State $$S_t$$ and Action $$A_t$$. 
 
-The reward of a trajectory is defined as the sum of the rewards of each step. It is defined as $$R(\tau) = \sum_{t=0}^{\infty} R_{t+1}$$, which is undiscounted. If the reward is discounted, it is defined as $$G_{t:t+n} = \sum_{k=0}^{n-1} \gamma^k R_{t+k+1}$$, where $$\gamma$$ is the discount factor.
+$$
+R_{t+1} = r(S_t, A_t)
+$$
 
+The reward of a trajectory is defined as the sum of the rewards of each step. It is defined as 
+
+$$R(\tau) = \sum_{t=0}^{\infty} R_{t+1}$$
+
+, which is undiscounted. If the reward is discounted, it is defined as 
+
+$$G_{t:t+n} = \sum_{k=0}^{n-1} \gamma^k R_{t+k+1}$$
+
+, where $$\gamma$$ is the discount factor.
 
 ### Value Function
 
+$$
+G_t = R_{t+1} + \gamma R_{t+2} + \gamma^2 R_{t+3} + \cdots = \sum_{k=0}^{\infty} \gamma^k R_{t+k+1}
+$$
+
+$$
+G_t = R_{t+1} + \gamma G_{t+1}
+$$
+
+$$
+V(s) = \mathbb{E}[G_t\vert S_t=s]
+$$
+
+$$
+Q(s, a) = \mathbb{E}[G_t\vert S_t=s, A_t=a]
+$$
+
+$$
+V(s) = \sum_a \pi(a\vert s) Q(s, a)
+$$
+
 ### Bellman Equation
+
+$$
+V(s) = \mathbb{E}[G_t\vert S_t=s] = \mathbb{E}[R_{t+1} + \gamma V(S_{t+1})\vert S_t=s] = \sum_a \pi(a\vert s) \sum_{s'} p(s'\vert s, a) [r(s, a) + \gamma V(s')]
+$$
