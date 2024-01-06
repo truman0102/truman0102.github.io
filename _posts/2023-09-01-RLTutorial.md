@@ -41,6 +41,13 @@ If the agent knows the transition probability $$p(s'\vert s, a)$$ and the reward
 
 ### Markov Decision Process
 
+### Markov Reward Process
+
+A trajectory $$\tau$$ of a Markov decision process is a sequence of state, action, and reward. It is defined as $$\tau = (S_0, A_0, R_1, S_1, A_1, R_2, S_2, \cdots)$$, where $$S_t$$ is the state at time $$t$$, $$A_t$$ is the action at time $$t$$, and $$R_{t+1}$$ is the reward of State $$S_t$$ and Action $$A_t$$, R_{t+1} = r(S_t, A_t).
+
+The reward of a trajectory is defined as the sum of the rewards of each step. It is defined as $$R(\tau) = \sum_{t=0}^{\infty} R_{t+1}$$, which is undiscounted. If the reward is discounted, it is defined as $$G_{t:t+n} = \sum_{k=0}^{n-1} \gamma^k R_{t+k+1}$$, where $$\gamma$$ is the discount factor.
+
+
 ### Value Function
 
 ### Bellman Equation
