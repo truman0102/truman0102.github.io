@@ -31,6 +31,14 @@ Some of the basic concepts in reinforcement learning are as follows:
 - **Policy** ($$\pi$$): The policy is the strategy that the agent uses to select actions. It is a mapping from states to actions. The goal of the agent is to learn a policy that maximizes the cumulative reward. The policy can be deterministic or stochastic. A deterministic policy is a mapping from states to actions $$a^{*} = \arg \max_{a} \pi(s, a)$$, while a stochastic policy is a probability distribution over actions $$\pi(a|s)=p(a_t=a|s_t=s)$$.
 - **Value Function**: The value function is a function that estimates how good a state or an action is. It is often used to evaluate the policy. If the value function is defined for states, it is called the state-value function, denoted as $$V(s)$$, which is the expected cumulative reward starting from state $$s$$. If the value function is defined for actions, it is called the action-value function, denoted as $$Q(s, a)$$, which is the expected cumulative reward starting from state $$s$$, taking action $$a$$.
 
+### Agent
+
+Value-based agents, policy-based agents, and actor-critic agents are three types of agents in reinforcement learning. Value-based agents learn the value function and use it to select actions. Policy-based agents learn the policy directly without learning the value function. Actor-critic agents learn both the policy and the value function.
+
+For value-based agents, the policy is derived from the value function. The agent selects the action with the highest value. If the environment is discrete, the agent can use a `q-table` to store the value function. If the environment is continuous, the agent can use a function approximator to estimate the value function. Algorithms such as Q-learning and SARSA are value-based agents.
+
+If the agent knows the transition probability $$p(s'|s, a)$$ and the reward function $$r(s, a)$$, it is called a model-based agent. If the agent does not know the transition probability and the reward function, it is called a model-free agent. `Q-learning` and `SARSA` are common model-free agents. Actually, most of the reinforcement learning algorithms are model-free agents.
+
 ### Markov Decision Process
 
 ### Value Function
