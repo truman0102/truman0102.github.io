@@ -8,7 +8,7 @@ categories: artificial-intelligence
 redirect:
 related_posts: false
 giscus_comments: true
-thumbnail: 
+thumbnail: assets/img/ai/mak-causal-effect.png
 toc:
   sidebar: left
 ---
