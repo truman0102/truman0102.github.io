@@ -28,7 +28,7 @@ Some of the basic concepts in reinforcement learning are as follows:
 - **State** ($$S$$): The state is a representation of the environment. It is often modeled as a node in a Markov decision graph or the tree of a Markov decision process. A state can be fully observable or partially observable. And it can be discrete or continuous, also can be a single value or a vector.
 - **Action** ($$a$$): The action is the decision made by the agent. It can be discrete if the action set is finite, or continuous if the action space is continuous.
 - **Reward** ($$r$$): The reward is the feedback from the environment. It is a scalar value that indicates how good the action is. The goal of the agent is to maximize the cumulative reward. Given a state $$s$$ and an action $$a$$, the reward is defined as $$r(s, a)$$.
-- **Policy** ($$\pi$$): The policy is the strategy that the agent uses to select actions. It is a mapping from states to actions. The goal of the agent is to learn a policy that maximizes the cumulative reward. The policy can be deterministic or stochastic. A deterministic policy is a mapping from states to actions $$a^{*} = \arg \max_{a} \pi(s, a)$$, while a stochastic policy is a probability distribution over actions $$\pi(a\verts)=p(a_t=a\verts_t=s)$$.
+- **Policy** ($$\pi$$): The policy is the strategy that the agent uses to select actions. It is a mapping from states to actions. The goal of the agent is to learn a policy that maximizes the cumulative reward. The policy can be deterministic or stochastic. A deterministic policy is a mapping from states to actions $$a^{*} = \arg \max_{a} \pi(s, a)$$, while a stochastic policy is a probability distribution over actions $$\pi(a\vert s)=p(a_t=a\vert s_t=s)$$.
 - **Value Function**: The value function is a function that estimates how good a state or an action is. It is often used to evaluate the policy. If the value function is defined for states, it is called the state-value function, denoted as $$V(s)$$, which is the expected cumulative reward starting from state $$s$$. If the value function is defined for actions, it is called the action-value function, denoted as $$Q(s, a)$$, which is the expected cumulative reward starting from state $$s$$, taking action $$a$$.
 
 ### Agent
@@ -37,7 +37,7 @@ Value-based agents, policy-based agents, and actor-critic agents are three types
 
 For value-based agents, the policy is derived from the value function. The agent selects the action with the highest value. If the environment is discrete, the agent can use a `q-table` to store the value function. If the environment is continuous, the agent can use a function approximator to estimate the value function. Algorithms such as Q-learning and SARSA are value-based agents.
 
-If the agent knows the transition probability $$p(s'\verts, a)$$ and the reward function $$r(s, a)$$, it is called a model-based agent. If the agent does not know the transition probability and the reward function, it is called a model-free agent. `Q-learning` and `SARSA` are common model-free agents. Actually, most of the reinforcement learning algorithms are model-free agents.
+If the agent knows the transition probability $$p(s'\vert s, a)$$ and the reward function $$r(s, a)$$, it is called a model-based agent. If the agent does not know the transition probability and the reward function, it is called a model-free agent. `Q-learning` and `SARSA` are common model-free agents. Actually, most of the reinforcement learning algorithms are model-free agents.
 
 ### Markov Decision Process
 
