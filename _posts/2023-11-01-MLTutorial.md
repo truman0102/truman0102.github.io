@@ -32,3 +32,21 @@ toc:
 ### Semi-supervised Learning
 
 ### [Reinforcement Learning](/blog/2023/RLTutorial/)
+
+## Machine Learning Algorithms
+
+## Machine Learning Workflow
+
+### Data Collection
+
+### Data Cleaning
+
+### Data Exploration
+
+### Feature Engineering
+
+### Model Selection
+
+### Model Training
+
+### Model Evaluation
