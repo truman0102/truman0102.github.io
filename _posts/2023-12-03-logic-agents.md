@@ -7,7 +7,9 @@ tags: logic-agents ai
 categories: artificial-intelligence
 related_posts: false
 giscus_comments: true
-thumbnail: 
+mermaid:
+  enabled: true
+  zoomable: true
 toc:
   sidebar: left
 ---
@@ -251,7 +253,7 @@ $$
 
 前向链接算法查询单个命题符号$$q$$是否被确定子句的知识库$$KB$$蕴含，它从知识库的已知事实开始；如果一个蕴含式的前提都是已知的，那么它的结论也是已知的，就将结论添加到已知事实中；重复这个过程直到$$q$$被确定或者无法推出新的结论。
 
-{% mermaid %}
+```mermaid
 graph LR;
   id6["A"] --> id3;
   id5["B"] --> id4;
@@ -261,7 +263,7 @@ graph LR;
   id4["M"] --> id1;
   id3["L"] --> id1;
   id3 --> id4;
-{% endmermaid %}
+```
 
 ```python
 # Forward chaining algorithm

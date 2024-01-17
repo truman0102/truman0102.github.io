@@ -8,6 +8,9 @@ categories: artificial-intelligence
 redirect:
 related_posts: false
 giscus_comments: true
+mermaid:
+  enabled: true
+  zoomable: true
 thumbnail: assets/img/ai/mak-causal-effect.png
 toc:
   sidebar: left
@@ -73,14 +76,14 @@ $$
 
 给定$$Y$$，$$X$$和$$Z$$只受外生变量影响，故$$X$$和$$Z$$独立，记作$$X \perp Z \vert Y$$
 
-{% mermaid %}
+```mermaid
 graph LR
     id1["U{X}"] --> X
     X --> Y
     id2["U{Y}"] --> Y
     Y --> Z
     id3["U{Z}"] --> Z
-{% endmermaid %}
+```
 
 ### 分叉结构
 
@@ -92,14 +95,14 @@ graph LR
 
 给定$$X$$，$$Y$$和$$Z$$只受外生变量影响，故$$Y$$和$$Z$$独立，记作$$Y \perp Z \vert X$$
 
-{% mermaid %}
+```mermaid
 graph LR
     id1["U{X}"] --> X
     id2["U{Y}"] --> Y
     X --> Y
     X --> Z
     id3["U{Z}"] --> Z
-{% endmermaid %}
+```
 
 ### 对撞结构
 
@@ -111,14 +114,14 @@ graph LR
 
 不给定额外信息，$$X$$和$$Y$$独立；给定$$Z$$，$$X$$和$$Y$$的关系内含于$$Z=F_Z\{X, Y, U_Z\}$$，故$$X$$和$$Y$$不独立，记作$$X \not\perp Y \vert Z$$
 
-{% mermaid %}
+```mermaid
 graph LR
     id1["U{X}"] --> X
     X --> Z
     id2["U{Z}"] --> Z
     id3["U{Y}"] --> Y
     Y --> Z
-{% endmermaid %}
+```
 
 ### d-分离
 
