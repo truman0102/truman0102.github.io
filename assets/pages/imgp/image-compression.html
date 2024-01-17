@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Image compression and Information theory</title>
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"
+  type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Image compression and Information theory</h1>
+</header>
+<nav id="TOC" role="doc-toc">
+
+</nav>
+<h2 id="基础知识">基础知识</h2>
+<p>衡量数据压缩的基本单位是比特，也就是二进制位。比特是信息论中的基本单位，它可以表示两种状态，比如0和1，或者是黑和白。比特是信息论中的基本单位，而字节是计算机中的基本单位，一个字节等于8个比特。</p>
+<h3 id="压缩率">压缩率</h3>
+<p>记压缩前的数据大小为<span
+class="math inline">\(n\)</span>，压缩后的数据大小为<span
+class="math inline">\(m\)</span>，则压缩率为</p>
+<p><span class="math display">\[C_R =
+\frac{n}{m}\in(0,\infty)\]</span></p>
+<p>压缩率越高，说明压缩效果越好。</p>
+<h3 id="相对数据冗余">相对数据冗余</h3>
+<p>我们希望压缩率一般是一个大于1的数，因为这样才能说明压缩后的数据比压缩前的数据更小。那么压缩率的倒数就反映了原始数据中所需的最小携带信息量，换言之，压缩率越大则原始数据中的冗余成分越多。因此，我们可以用压缩率的倒数来衡量数据的冗余程度，常数<span
+class="math inline">\(1\)</span>表示没有冗余，浮点数<span
+class="math inline">\(0.2\)</span>表示有<span
+class="math inline">\(80\%\)</span>的冗余。由此，我们定义相对数据冗余为</p>
+<p><span class="math display">\[R_D = 1 -
+\frac{1}{C_R}\in(-\infty,1)\]</span></p>
+<h3 id="冗余的种类">冗余的种类</h3>
+<ol type="1">
+<li>编码冗余：由于使用了不必要的编码方式，导致数据冗余。最常见的就是使用8位二进制表示一个字符，而实际上可能只需要5位二进制就可以表示所有的字符了。在解决编码冗余问题时，我们通常对高频字符使用短编码，对低频字符使用长编码，这样可以减少编码冗余。<code>编码冗余是本文所探讨的重点</code>。</li>
+<li>像素间冗余
+(空间和时间冗余)：在图像中，相邻像素之间的值通常是相似的，因此我们可以通过空间和时间上的冗余来压缩图像。比如，我们可以通过差分编码来压缩视频，因为视频中相邻帧之间的像素值通常是相似的。</li>
+<li>心理视觉冗余 (无关信息): 心理视觉冗余可能会导致信息量的丢失。</li>
+</ol>
+<h3 id="自相关">自相关</h3>
+<p>自相关用于衡量像素间冗余，计算沿某一方向延伸的像素之间的相关性，自相关的值越大，说明这一方向上的像素值越接近，空间冗余越大。以<span
+class="math inline">\(y\)</span>方向的自相关为例，其定义为</p>
+<p><span class="math display">\[
+\gamma(\Delta n) = \frac{A(\Delta n)}{A(0)} = \frac{\frac{1}{N-\Delta
+n}\sum_{y=0}^{N-1-\Delta n}f(x,y)f(x,y+\Delta
+n)}{\frac{1}{N}\sum_{y=0}^{N-1}f^2(x,y)}
+\]</span></p>
+<h3 id="信息量">信息量</h3>
+<p>如果一件事总是发生或总是不发生，我们认为这件事是没有信息量的，因为它是确定性的。相反，如果一件事发生的概率很小，我们认为这件事的发生会提供更多的信息量。对于一件随机事件<span
+class="math inline">\(E\)</span>，规定其概率为<span
+class="math inline">\(P(E)\)</span>，则事件<span
+class="math inline">\(E\)</span>的信息量为</p>
+<p><span class="math display">\[I(E) = \log\frac{1}{P(E)}=-\log
+P(E)\]</span></p>
+<p>如果<span class="math inline">\(P(E)=1\)</span>，则<span
+class="math inline">\(I(E)=0\)</span>，<span
+class="math inline">\(P(E)\)</span>越小，<span
+class="math inline">\(I(E)\)</span>越大。</p>
+<h3 id="信息熵">信息熵</h3>
+<p>信息熵是对信息量的期望，它是对信息量的平均值。对于一个随机事件<span
+class="math inline">\(X\)</span>，可能取值的集合为<span
+class="math inline">\(\{x_1,x_2,\cdots,x_n\}\)</span>，其概率分布为<span
+class="math inline">\(P(x_1),P(x_2),\cdots,P(x_n)\)</span>，则随机变量<span
+class="math inline">\(X\)</span>的信息熵为</p>
+<p><span class="math display">\[H(X) = E[I(X)] = \sum_{i=1}^n
+P(x_i)I(x_i) = -\sum_{i=1}^n P(x_i)\log P(x_i)\]</span></p>
+<p>下文我们将介绍条件熵和互信息，在此指出：信息熵是信源符号的平均信息；条件熵<span
+class="math inline">\(H(z|v)\)</span>是<span
+class="math inline">\(z\)</span>关于<span
+class="math inline">\(v\)</span>的条件信息量总平均值（疑义度），表示观察由它引起的输出符号的假设下信源符号的平均信息；互信息，即熵与条件熵之差，表示观察一个单一输出符号时接收到的平均信息量；信道容量是互信息的最大值，表示信道的最大传输速率。</p>
+<h3 id="条件熵">条件熵</h3>
+<p>条件概率下的信息熵公式可以重写为:</p>
+<p><span class="math display">\[H(X|y_i) = -\sum_{j=1}^nP(x_j|y_i)\log
+P(x_j|y_i)\]</span></p>
+<p>全概率公式：</p>
+<p><span class="math display">\[P(A) =
+\sum_{i=1}^nP(A|B_i)P(B_i)=\sum_{i=1}^nP(A,B_i)\]</span></p>
+<p>给定某一伴随变量<span
+class="math inline">\(Y\)</span>，则随机变量<span
+class="math inline">\(X\)</span>的条件熵为</p>
+<p><span class="math display">\[
+\begin{aligned}
+H(X|Y) &amp;= \sum_{i=1}^mP(y_i)H(X|y_i)\\ &amp;=
+-\sum_{i=1}^m\sum_{j=1}^nP(y_i)P(x_j|y_i)\log P(x_j|y_i)\\
+&amp;= -\sum_{i=1}^m\sum_{j=1}^nP(x_j,y_i)\log P(x_j|y_i)\\
+\end{aligned}
+\]</span></p>
+<h3 id="互信息">互信息</h3>
+<p>互信息 (也称信息增益)
+是目标变量的信息熵与考虑特征变量的条件熵之差，即</p>
+<p><span class="math display">\[
+\begin{aligned}
+I(X;Y) &amp;= H(X) - H(X|Y)\\
+&amp;= -\sum_{j=1}^nP(x_j)\log P(x_j) +
+\sum_{i=1}^m\sum_{j=1}^nP(x_j,y_i)\log P(x_j|y_i)\\
+&amp;= -\sum_{j=1}^n[\sum_{i=1}^mP(x_j,y_i)]\log P(x_j) +
+\sum_{i=1}^m\sum_{j=1}^nP(x_j,y_i)\log P(x_j|y_i)\\
+&amp;= \sum_{i=1}^m\sum_{j=1}^nP(x_j,y_i)[\log P(x_j|y_i) - \log
+P(x_j)]\\
+&amp;= \sum_{i=1}^m\sum_{j=1}^nP(x_j,y_i)\log\frac{P(x_j|y_i)}{P(x_j)}\\
+\text{分式上下同乘}P(y_i)&amp;=
+\sum_{i=1}^m\sum_{j=1}^nP(x_j,y_i)\log\frac{P(x_j,y_i)}{P(x_j)P(y_i)}\\
+\text{或分母扩展为全概公式}&amp;=
+\sum_{i=1}^m\sum_{j=1}^nP(x_j,y_i)\log\frac{P(x_j|y_i)}{\sum_{k=1}^mP(x_j,y_k)}\\
+\end{aligned}
+\]</span></p>
+<p>互信息的性质包括：</p>
+<ol type="1">
+<li>对称性：<span
+class="math inline">\(I(X;Y)=I(Y;X)\)</span>；从上式可以看出<span
+class="math inline">\(I(X;Y)=\sum_{i=1}^m\sum_{j=1}^nP(x_j,y_i)\log\frac{P(x_j,y_i)}{P(x_j)P(y_i)}\)</span>，交换<span
+class="math inline">\(X\)</span>和<span
+class="math inline">\(Y\)</span>的位置依然成立，所以互信息是对称的。</li>
+<li>当<span class="math inline">\(X\)</span>和<span
+class="math inline">\(Y\)</span>相互独立时，<span
+class="math inline">\(P(x_j,y_i)=P(x_j)P(y_i)\)</span>，此时<span
+class="math inline">\(I(X;Y)=0\)</span>，即<span
+class="math inline">\(X\)</span>和<span
+class="math inline">\(Y\)</span>相互独立时，信息熵和条件熵相等，信息增益为0。</li>
+<li>可加性：<span
+class="math inline">\(I(X;Y,Z)=I(X;Y)+I(X;Z|Y)\)</span>；联合事件<span
+class="math inline">\(Y\)</span>和<span
+class="math inline">\(Z\)</span>所提供的关于<span
+class="math inline">\(X\)</span>的信息量等于<span
+class="math inline">\(Y\)</span>所提供的关于<span
+class="math inline">\(X\)</span>的信息量加上<span
+class="math inline">\(Z\)</span>所提供的关于<span
+class="math inline">\(X\)</span>的信息量在给定<span
+class="math inline">\(Y\)</span>的条件下的条件熵。</li>
+</ol>
+<h3 id="保真度">保真度</h3>
+<p>令<span
+class="math inline">\(\hat{f}(x,y)\)</span>表示压缩解压后的图像，<span
+class="math inline">\(f(x,y)\)</span>表示原始图像，则压缩误差为</p>
+<p><span class="math display">\[e(x,y) = f(x,y) -
+\hat{f}(x,y)\]</span></p>
+<p>总误差为<span
+class="math inline">\(\sum_{x=0}^{M-1}\sum_{y=0}^{N-1}e(x,y)\)</span>，我们一般使用均方误差来衡量压缩的保真度，即</p>
+<p><span class="math display">\[MSE =
+\frac{1}{MN}\sum_{x=0}^{M-1}\sum_{y=0}^{N-1}e^2(x,y)\]</span></p>
+<p>或使用均方根误差</p>
+<p><span class="math display">\[RMSE = \sqrt{MSE} =
+\sqrt{\frac{1}{MN}\sum_{x=0}^{M-1}\sum_{y=0}^{N-1}[f(x,y) -
+\hat{f}(x,y)]^2}\]</span></p>
+<p>均方信噪比 (<span class="math inline">\(\text{SNR}_{ms}\)</span>)
+是信号/解压图像的功率与噪音/误差的功率之比，即</p>
+<p><span class="math display">\[\text{SNR}_{ms} =
+\frac{P_{signal}}{P_{noise}} =
+\frac{\sum_{x=0}^{M-1}\sum_{y=0}^{N-1}\hat{f}^2(x,y)}{\sum_{x=0}^{M-1}\sum_{y=0}^{N-1}e^2(x,y)}\]</span></p>
+<h2 id="汉明码">汉明码</h2>
+<p>汉明码是一种纠错码，在传输数据中插入冗余的校验信息，使得数据内部实现多组校验。假设我们要传输的实际有效数据长度为<span
+class="math inline">\(n\)</span>，校验位个数为<span
+class="math inline">\(k\)</span>，那么应当满足：</p>
+<p><span class="math display">\[2^k \geq n + k + 1\]</span></p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_k(n):</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    k <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="dv">2</span> <span class="op">**</span> k <span class="op">&lt;</span> n <span class="op">+</span> k <span class="op">+</span> <span class="dv">1</span>:</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>        k <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> k</span></code></pre></div>
+<p>得到<span
+class="math inline">\(k\)</span>的大小后，我们就得到了待校验位的编码总长<span
+class="math inline">\(n+k\)</span>，其中的校验位为<span
+class="math inline">\(\{1,2,4,\dots,2^{k-1}\}\)</span>，其余位为待校验位。这里我们要引入校验组的概念：对于第<span
+class="math inline">\(i\)</span>个校验位，易得其二进制索引为<span
+class="math inline">\(1\underbrace{0\cdots
+0}_{i-1}\)</span>，那么该校验位<span
+class="math inline">\(i\)</span>对应的校验组为所有二进制表示中倒数第<span
+class="math inline">\(i\)</span>位为<span
+class="math inline">\(1\)</span>的数据位，如<span
+class="math inline">\(4\)</span>的二进制表示为<span
+class="math inline">\(100\)</span>，那么<span
+class="math inline">\(4\)</span>对应的校验组为<span
+class="math inline">\(\{5(101),6(110),7(111),12(1100),\cdots\}\)</span>。</p>
+<p><span class="math display">\[
+G_{2^{i-1}} = \{j | j\text{的二进制形如 }\dots
+\text{xxx}1\underbrace{\text{xxx}}_{i-1}\}
+\]</span></p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_check_groups(n, k):</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    check_groups <span class="op">=</span> {}</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, k <span class="op">+</span> <span class="dv">1</span>):</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>        index <span class="op">=</span> <span class="dv">2</span> <span class="op">**</span> (i <span class="op">-</span> <span class="dv">1</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>        check_groups[index] <span class="op">=</span> []</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(index <span class="op">+</span> <span class="dv">1</span>, n <span class="op">+</span> k <span class="op">+</span> <span class="dv">1</span>):</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> j <span class="op">&amp;</span> (<span class="dv">1</span> <span class="op">&lt;&lt;</span> (i <span class="op">-</span> <span class="dv">1</span>)):</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>                check_groups[index].append(j)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> check_groups</span></code></pre></div>
+<p>给定校验位和校验组的概念后，我们就可以计算校验位的值了。首先我们在非校验位填入待传输的数据，然后从小到大依次计算每个校验位的值，校验位的值取决于校验组采用的是奇校验还是偶校验，对于偶校验，校验位的值为校验组中所有数据位的异或值。</p>
+<p><span class="math display">\[
+b_{2^{i-1}} = \oplus_{j\in G_{2^{i-1}} \land j\neq 2^{i-1}}b_j
+\]</span></p>
+<p>检验错误位时，我们从小到大遍历校验位，对于每个校验位，我们取出其对应的校验组，然后计算校验组中所有数据位的异或值（包括该校验位），如果异或值为<span
+class="math inline">\(1\)</span>，则说明该校验位对应的数据位有错，否则该校验位对应的数据位无错，记录该异或值为<span
+class="math inline">\(c_i\)</span>。最后得到的二进制表示<span
+class="math inline">\(c_kc_{k-1}\cdots
+c_1\)</span>就是错误位的索引，如果<span
+class="math inline">\(c_kc_{k-1}\cdots
+c_1=0\)</span>，则说明没有错误。</p>
+<p><span class="math display">\[
+c_{2^{i-1}} = \oplus_{j\in G_{2^{i-1}}\cup \{2^{i-1}\}}b_j
+\]</span></p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_check_code(group_data, parity):</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">&quot;&quot;&quot;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co">    group_data: 校验组中的数据位</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co">    parity: 奇校验或偶校验</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co">    :return: 校验位的值</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co">    &quot;&quot;&quot;</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> parity <span class="op">==</span> <span class="st">&#39;odd&#39;</span>:</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="dv">1</span> <span class="op">-</span> <span class="bu">sum</span>(group_data) <span class="op">%</span> <span class="dv">2</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> parity <span class="op">==</span> <span class="st">&#39;even&#39;</span>:</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="bu">sum</span>(group_data) <span class="op">%</span> <span class="dv">2</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="st">&#39;parity must be odd or even&#39;</span>)</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> HammingCode:</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, data: (<span class="bu">list</span>, <span class="bu">tuple</span>, <span class="bu">str</span>, <span class="bu">int</span>)<span class="op">=</span><span class="va">None</span>):</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> data <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>._process(data)</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> _process(<span class="va">self</span>, data: (<span class="bu">list</span>, <span class="bu">tuple</span>, <span class="bu">str</span>, <span class="bu">int</span>)):</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="bu">isinstance</span>(data, <span class="bu">str</span>):</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>            data <span class="op">=</span> [<span class="bu">int</span>(i) <span class="cf">for</span> i <span class="kw">in</span> data]</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>        <span class="cf">elif</span> <span class="bu">isinstance</span>(data, <span class="bu">int</span>):</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>            <span class="co"># 转为二进制列表</span></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>            data <span class="op">=</span> [<span class="bu">int</span>(i) <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">bin</span>(data)[<span class="dv">2</span>:]]</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.data <span class="op">=</span> data</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.n <span class="op">=</span> <span class="bu">len</span>(data)</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.k <span class="op">=</span> get_k(<span class="va">self</span>.n)</span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.check_groups <span class="op">=</span> get_check_groups(<span class="va">self</span>.n, <span class="va">self</span>.k)</span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> _inverse_print(<span class="va">self</span>, code):</span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">&quot;Hamming Code: </span><span class="sc">{}</span><span class="st">&quot;</span>.<span class="bu">format</span>(<span class="st">&quot;&quot;</span>.join([<span class="bu">str</span>(i) <span class="cf">for</span> i <span class="kw">in</span> code[::<span class="op">-</span><span class="dv">1</span>]])))</span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> _check_error(<span class="va">self</span>, code<span class="op">=</span><span class="va">None</span>):</span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> code <span class="kw">is</span> <span class="va">None</span>:</span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>            code <span class="op">=</span> <span class="va">self</span>.code</span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>        errors <span class="op">=</span> []</span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> i, group <span class="kw">in</span> <span class="va">self</span>.check_groups.items():</span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>            res <span class="op">=</span> get_check_code([code[j <span class="op">-</span> <span class="dv">1</span>] <span class="cf">for</span> j <span class="kw">in</span> group <span class="op">+</span> [i]], <span class="st">&#39;odd&#39;</span>)</span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> res: <span class="co"># 有错</span></span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a>                errors.append(<span class="dv">1</span>) <span class="co"># 补1</span></span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a>            <span class="cf">else</span>:</span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a>                errors.append(<span class="dv">0</span>) <span class="co"># 补0</span></span>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="bu">sum</span>(errors) <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="va">None</span></span>
+<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="bu">sum</span>([<span class="dv">2</span> <span class="op">**</span> i <span class="cf">for</span> i, e <span class="kw">in</span> <span class="bu">enumerate</span>(errors) <span class="cf">if</span> e])</span>
+<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="bu">len</span>(errors) <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="va">None</span></span>
+<span id="cb3-50"><a href="#cb3-50" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb3-51"><a href="#cb3-51" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> errors</span>
+<span id="cb3-52"><a href="#cb3-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-53"><a href="#cb3-53" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__call__</span>(<span class="va">self</span>, data<span class="op">=</span><span class="va">None</span>):</span>
+<span id="cb3-54"><a href="#cb3-54" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> data <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
+<span id="cb3-55"><a href="#cb3-55" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>._process(data)</span>
+<span id="cb3-56"><a href="#cb3-56" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.encode()</span>
+<span id="cb3-57"><a href="#cb3-57" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb3-58"><a href="#cb3-58" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> encode(<span class="va">self</span>):</span>
+<span id="cb3-59"><a href="#cb3-59" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 默认偶校验</span></span>
+<span id="cb3-60"><a href="#cb3-60" aria-hidden="true" tabindex="-1"></a>        code <span class="op">=</span> [<span class="dv">0</span>] <span class="op">*</span> (<span class="va">self</span>.n <span class="op">+</span> <span class="va">self</span>.k)</span>
+<span id="cb3-61"><a href="#cb3-61" aria-hidden="true" tabindex="-1"></a>        data_index <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb3-62"><a href="#cb3-62" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="va">self</span>.n <span class="op">+</span> <span class="va">self</span>.k <span class="op">+</span> <span class="dv">1</span>):</span>
+<span id="cb3-63"><a href="#cb3-63" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> i <span class="kw">in</span> <span class="va">self</span>.check_groups:</span>
+<span id="cb3-64"><a href="#cb3-64" aria-hidden="true" tabindex="-1"></a>                code[i <span class="op">-</span> <span class="dv">1</span>] <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb3-65"><a href="#cb3-65" aria-hidden="true" tabindex="-1"></a>            <span class="cf">else</span>:</span>
+<span id="cb3-66"><a href="#cb3-66" aria-hidden="true" tabindex="-1"></a>                code[i <span class="op">-</span> <span class="dv">1</span>] <span class="op">=</span> <span class="va">self</span>.data[<span class="va">self</span>.n <span class="op">-</span> data_index <span class="op">-</span> <span class="dv">1</span>]</span>
+<span id="cb3-67"><a href="#cb3-67" aria-hidden="true" tabindex="-1"></a>                data_index <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb3-68"><a href="#cb3-68" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> i, group <span class="kw">in</span> <span class="va">self</span>.check_groups.items():</span>
+<span id="cb3-69"><a href="#cb3-69" aria-hidden="true" tabindex="-1"></a>            code[i <span class="op">-</span> <span class="dv">1</span>] <span class="op">=</span> get_check_code([code[j <span class="op">-</span> <span class="dv">1</span>] <span class="cf">for</span> j <span class="kw">in</span> group], <span class="st">&#39;even&#39;</span>)</span>
+<span id="cb3-70"><a href="#cb3-70" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 倒序输出字符串</span></span>
+<span id="cb3-71"><a href="#cb3-71" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>._inverse_print(code)</span>
+<span id="cb3-72"><a href="#cb3-72" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.code <span class="op">=</span> code</span>
+<span id="cb3-73"><a href="#cb3-73" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> code</span>
+<span id="cb3-74"><a href="#cb3-74" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb3-75"><a href="#cb3-75" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> decode(<span class="va">self</span>, code<span class="op">=</span><span class="va">None</span>):</span>
+<span id="cb3-76"><a href="#cb3-76" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> code <span class="kw">is</span> <span class="va">None</span>:</span>
+<span id="cb3-77"><a href="#cb3-77" aria-hidden="true" tabindex="-1"></a>            code <span class="op">=</span> <span class="va">self</span>.code</span>
+<span id="cb3-78"><a href="#cb3-78" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 默认奇校验</span></span>
+<span id="cb3-79"><a href="#cb3-79" aria-hidden="true" tabindex="-1"></a>        errors <span class="op">=</span> <span class="va">self</span>._check_error(code)</span>
+<span id="cb3-80"><a href="#cb3-80" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> errors <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
+<span id="cb3-81"><a href="#cb3-81" aria-hidden="true" tabindex="-1"></a>            code[errors <span class="op">-</span> <span class="dv">1</span>] <span class="op">=</span> <span class="dv">1</span> <span class="op">-</span> code[errors <span class="op">-</span> <span class="dv">1</span>]</span>
+<span id="cb3-82"><a href="#cb3-82" aria-hidden="true" tabindex="-1"></a>        data <span class="op">=</span> []</span>
+<span id="cb3-83"><a href="#cb3-83" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="va">self</span>.n <span class="op">+</span> <span class="va">self</span>.k <span class="op">+</span> <span class="dv">1</span>):</span>
+<span id="cb3-84"><a href="#cb3-84" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> i <span class="kw">not</span> <span class="kw">in</span> <span class="va">self</span>.check_groups:</span>
+<span id="cb3-85"><a href="#cb3-85" aria-hidden="true" tabindex="-1"></a>                data.append(code[i <span class="op">-</span> <span class="dv">1</span>])</span>
+<span id="cb3-86"><a href="#cb3-86" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.data <span class="op">=</span> data[::<span class="op">-</span><span class="dv">1</span>]</span>
+<span id="cb3-87"><a href="#cb3-87" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">&quot;&quot;</span>.join([<span class="bu">str</span>(i) <span class="cf">for</span> i <span class="kw">in</span> data[::<span class="op">-</span><span class="dv">1</span>]])</span></code></pre></div>
+<h2 id="压缩技术">压缩技术</h2>
+<p>主要是针对编码冗余的压缩技术，即如何用更少的比特来表示一个字符。我们定义编码单位对象(一般是字母)为<span
+class="math inline">\(\{a_1,a_2,\cdots,a_n\}\)</span>，其概率分布为<span
+class="math inline">\(P(a_1),P(a_2),\cdots,P(a_n)\)</span>，对应的编码长度(bit)为<span
+class="math inline">\(l_1,l_2,\cdots,l_n\)</span>，则平均编码长度为</p>
+<p><span class="math display">\[l_{avg} =
+\sum_{i=1}^nP(a_i)l_i\]</span></p>
+<p>如果所有的编码长度都相同，那么<span
+class="math inline">\(l_{avg}=l\)</span>；我们的目的是使<span
+class="math inline">\(l_{avg}\)</span>尽可能小，即使得编码冗余尽可能小，一种合理的思路是让高频字符的编码更短，即<span
+class="math inline">\(P(a_i)\)</span>越大，<span
+class="math inline">\(l_i\)</span>越小，并且保证编码的唯一性。前文提到信息量<span
+class="math inline">\(I= -\log
+P\)</span>，因此我们可以说信息量越小，编码长度越短，这也是合理的，所以我们令编码长度(整数)与信息量相关联，即</p>
+<p><span class="math display">\[\log\frac{1}{P(a_i)} \leq l_i &lt;
+\log\frac{1}{P(a_i)} + 1\]</span></p>
+<p>代入平均编码长度公式，得到</p>
+<p><span class="math display">\[\sum_{i=1}^nP(a_i)\log\frac{1}{P(a_i)}
+\leq \sum_{i=1}^nP(a_i)l_i &lt; \sum_{i=1}^nP(a_i)\log\frac{1}{P(a_i)} +
+\sum_{i=1}^nP(a_i)\]</span></p>
+<p>即</p>
+<p><span class="math display">\[H(X) \leq l_{avg} &lt; H(X) +
+1\]</span></p>
+<h3 id="霍夫曼编码">霍夫曼编码</h3>
+<p>霍夫曼编码的基本思想是：将出现频率较高的字符用较短的编码，出现频率较低的字符用较长的编码，并自底向上依次合并低频信源，直至合并到根节点；在合并的过程中，左子树编码为0，右子树编码为1。霍夫曼编码是一种前缀编码，即任何一个字符的编码都不是另一个字符编码的前缀，这样可以保证解码的唯一性。</p>
+<p>霍夫曼编码的过程如下：</p>
+<ol type="1">
+<li>将信源按照概率从小到大排序</li>
+<li>将概率最小的两个信源合并，得到一个新的信源，其概率为两个信源概率之和</li>
+<li>重复步骤2，直至合并到根节点</li>
+<li>从根节点开始，左子树编码为0，右子树编码为1</li>
+<li>重复步骤4，直至叶子节点</li>
+<li>得到每个信源的编码</li>
+</ol>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 信源</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Node:</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, symbol, prob):</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.symbol <span class="op">=</span> symbol</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.prob <span class="op">=</span> prob</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.left <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.right <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.code <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 信源按照概率从小到大排序</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> sort_nodes(nodes):</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">sorted</span>(nodes, key<span class="op">=</span><span class="kw">lambda</span> x: x.prob)</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="co"># 合并两个信源</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> merge_nodes(node1, node2):</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    node <span class="op">=</span> Node(<span class="va">None</span>, node1.prob <span class="op">+</span> node2.prob)</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>    node.left <span class="op">=</span> node1</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>    node.right <span class="op">=</span> node2</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> node</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="co"># 生成霍夫曼编码</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> huffman(nodes):</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 信源按照概率从小到大排序</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>    nodes <span class="op">=</span> sort_nodes(nodes)</span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 重复合并两个信源，直至合并到根节点</span></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="bu">len</span>(nodes) <span class="op">&gt;</span> <span class="dv">1</span>:</span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>        node1 <span class="op">=</span> nodes.pop(<span class="dv">0</span>)</span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>        node2 <span class="op">=</span> nodes.pop(<span class="dv">0</span>)</span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>        node <span class="op">=</span> merge_nodes(node1, node2)</span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(nodes)):</span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> nodes[i].prob <span class="op">&gt;</span> node.prob:</span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>                nodes.insert(i, node)</span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>                <span class="cf">break</span></span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>            nodes.append(node)</span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 从根节点开始，左子树编码为0，右子树编码为1</span></span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>    codes <span class="op">=</span> {}</span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>    root <span class="op">=</span> nodes[<span class="dv">0</span>]</span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>    root.code <span class="op">=</span> <span class="st">&#39;&#39;</span></span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>    stack <span class="op">=</span> [root]</span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> stack:</span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>        node <span class="op">=</span> stack.pop()</span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> node.symbol:</span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a>            codes[node.symbol] <span class="op">=</span> node.code</span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> node.left:</span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a>            node.left.code <span class="op">=</span> node.code <span class="op">+</span> <span class="st">&#39;0&#39;</span></span>
+<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a>            stack.append(node.left)</span>
+<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> node.right:</span>
+<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a>            node.right.code <span class="op">=</span> node.code <span class="op">+</span> <span class="st">&#39;1&#39;</span></span>
+<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a>            stack.append(node.right)</span>
+<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 输出编码</span></span>
+<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> codes</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>probs <span class="op">=</span> [<span class="fl">0.1</span>, <span class="fl">0.2</span>, <span class="fl">0.3</span>, <span class="fl">0.4</span>]</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>symbols <span class="op">=</span> [<span class="st">&#39;A&#39;</span>, <span class="st">&#39;B&#39;</span>, <span class="st">&#39;C&#39;</span>, <span class="st">&#39;D&#39;</span>]</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>nodes <span class="op">=</span> [Node(symbol, prob) <span class="cf">for</span> symbol, prob <span class="kw">in</span> <span class="bu">zip</span>(symbols, probs)]</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>codes <span class="op">=</span> huffman(nodes)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(codes)</span></code></pre></div>
+<pre class="text"><code>{&#39;B&#39;: &#39;111&#39;, &#39;A&#39;: &#39;110&#39;, &#39;C&#39;: &#39;10&#39;, &#39;D&#39;: &#39;0&#39;}</code></pre>
+<h3 id="算术编码">算术编码</h3>
+<p>算术编码的基本思想是：将整个信源看作一个整体，将整个信源的编码看作一个区间，区间的左端点为0，右端点为1，区间的长度为1，每个信源的编码都是区间的一个子区间，子区间的长度等于信源的概率。算术编码是一种无前缀编码，即任何一个字符的编码都不是另一个字符编码的前缀，这样可以保证解码的唯一性。</p>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> collections <span class="im">import</span> Counter</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>string <span class="op">=</span> <span class="st">&quot;ABAACCAACB&quot;</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> float2bin(f):</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> f <span class="op">&gt;=</span> <span class="dv">1</span> <span class="kw">or</span> f <span class="op">&lt;=</span> <span class="dv">0</span>:</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">&quot;Error&quot;</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    res <span class="op">=</span> <span class="st">&quot;0.&quot;</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> f <span class="op">&gt;</span> <span class="dv">0</span>:</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>        f <span class="op">*=</span> <span class="dv">2</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> f <span class="op">&gt;=</span> <span class="dv">1</span>:</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>            res <span class="op">+=</span> <span class="st">&quot;1&quot;</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>            f <span class="op">-=</span> <span class="dv">1</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>            res <span class="op">+=</span> <span class="st">&quot;0&quot;</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> res</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> arithmetic_encode(string):</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>    probs <span class="op">=</span> Counter(string)</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>    probs <span class="op">=</span> {k: v <span class="op">/</span> <span class="bu">len</span>(string) <span class="cf">for</span> k, v <span class="kw">in</span> probs.items()}</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>    left <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>    intervals <span class="op">=</span> {}</span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> k <span class="kw">in</span> probs:</span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>        intervals[k] <span class="op">=</span> (left, left <span class="op">+</span> probs[k])</span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>        left <span class="op">+=</span> probs[k]</span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>    left, right <span class="op">=</span> <span class="dv">0</span>, <span class="dv">1</span></span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> c <span class="kw">in</span> string:</span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>        l, r <span class="op">=</span> intervals[c] <span class="co"># 信源的编码区间</span></span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>        interval <span class="op">=</span> right <span class="op">-</span> left <span class="co"># 区间长度</span></span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>        right <span class="op">=</span> left <span class="op">+</span> interval <span class="op">*</span> r <span class="co"># 更新右端点</span></span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>        left <span class="op">=</span> left <span class="op">+</span> interval <span class="op">*</span> l <span class="co"># 更新左端点</span></span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>        <span class="co"># print(c, (left, right))</span></span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a>    midpoint <span class="op">=</span> (left <span class="op">+</span> right) <span class="op">/</span> <span class="dv">2</span> <span class="co"># 区间的中点</span></span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> float2bin(midpoint)[<span class="dv">2</span>:], probs, intervals <span class="co"># 转为二进制，去掉前面的0.</span></span></code></pre></div>
+<p>算术编码的解码过程与编码过程类似，也是利用区间的长度来计算区间的左右端点，然后根据区间的左右端点来确定信源所在的区间，最后得到信源的编码。</p>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> arithmetic_decode(code, probs, intervals):</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    goal <span class="op">=</span> <span class="bu">float</span>(<span class="st">&quot;0.&quot;</span> <span class="op">+</span> code)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    string <span class="op">=</span> <span class="st">&quot;&quot;</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    l <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    r <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="va">True</span>:</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>        interval <span class="op">=</span> r <span class="op">-</span> l</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> k, v <span class="kw">in</span> intervals.items():</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>            l_new <span class="op">=</span> l <span class="op">+</span> interval <span class="op">*</span> v[<span class="dv">0</span>]</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>            r_new <span class="op">=</span> l <span class="op">+</span> interval <span class="op">*</span> v[<span class="dv">1</span>]</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> l_new <span class="op">&lt;=</span> goal <span class="op">&lt;</span> r_new:</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>                string <span class="op">+=</span> k</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>                l <span class="op">=</span> l_new</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>                r <span class="op">=</span> r_new</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>                <span class="cf">break</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="bu">len</span>(string) <span class="op">==</span> <span class="bu">len</span>(code):</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>            <span class="cf">break</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> string</span></code></pre></div>
+</body>
+</html>

@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="description" content="An introduction to search in artificial intelligence." />
+  <title>Sovling Problems by Searching</title>
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"
+  type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Sovling Problems by Searching</h1>
+<p class="date">2023-12-04 22:00:00-0400</p>
+</header>
+<nav id="TOC" role="doc-toc">
+
+</nav>
+<h2 id="introduction">Introduction</h2>
+<p>搜索是指提前规划并形成一个通往目标状态路径的动作序列，是一个前向计算的过程。</p>
+<h2 id="problem-solving-agents">Problem-Solving Agents</h2>
+<p>假设智能体能够访问与世界相关的信息，那么可以执行以下4个阶段的问题求解过程</p>
+<ol type="1">
+<li>目标形式化 (Goal formulation): 将问题的目标形式化为一个目标状态</li>
+<li>问题形式化 (Problem formulation):
+刻画实现目标所必需的状态和动作，进而得到一个抽象模型</li>
+<li>搜索 (Search):
+在抽象模型上进行搜索，找到一个能达到目标的动作序列，这样的序列称为<code>解</code>
+(solution)</li>
+<li>执行 (Execution):
+执行搜索得到的动作序列，一次执行一个动作，直到达到目标状态</li>
+</ol>
+<p>搜索问题的形式化定义如下</p>
+<ul>
+<li>初始状态 (initial state): 搜索开始时智能体所处的状态</li>
+<li>状态空间 (state space): 所有可能的状态的集合</li>
+<li>目标状态 (goal state): 智能体希望达到的状态</li>
+<li>行动 (action): 智能体可以执行的动作；给定一个状态<span
+class="math inline">\(s\)</span>，<span
+class="math inline">\(A(s)\)</span>表示智能体在状态<span
+class="math inline">\(s\)</span>下可以执行的动作的集合</li>
+<li>转移模型 (transition model): 给定一个状态<span
+class="math inline">\(s\)</span>和一个动作<span
+class="math inline">\(a\)</span>，<span class="math inline">\(Result(s,
+a)\)</span>表示在状态<span
+class="math inline">\(s\)</span>下执行动作<span
+class="math inline">\(a\)</span>后得到的新状态</li>
+<li>动作代价函数 (action cost function): 给定一个状态<span
+class="math inline">\(s\)</span>和一个动作<span
+class="math inline">\(a\)</span>，<span class="math inline">\(Cost(s,
+a)\)</span>表示在状态<span
+class="math inline">\(s\)</span>下执行动作<span
+class="math inline">\(a\)</span>的代价</li>
+</ul>
+<p>一个动作序列形成一条路径
+(path)，路径的代价是路径上所有动作的代价之和；解是从初始状态到目标状态的一条路径，解的代价是解的路径的代价；最优解是代价最小的解。</p>
+<p>状态空间可以用图 (graph)
+表示，图中的节点表示状态，图中的有向边表示动作，图中的边的属性/权重表示动作的代价。</p>
+<h2 id="search-algorithms">Search Algorithms</h2>
+<p>搜索算法的输入是搜索问题，输出是一个解或者报告无解。事实上我们并不希望解中有重复的状态，因此一般可以在状态空间图上叠加一层搜索树
+(search
+tree)，搜索树中的节点表示状态，根节点表示初始状态，搜索树中的有向边表示动作，搜索树中的边的属性/权重表示动作的代价，搜索树中的每个节点都有一个父节点，表示上一步的状态。</p>
+<p>使用搜索树可以对节点进行扩展
+(expand)，即从一个节点出发，根据转移模型和动作代价函数，生成该节点的所有子节点<a
+href="#fn1" class="footnote-ref" id="fnref1"
+role="doc-noteref"><sup>1</sup></a>，即下一步的可能状态。每一步的搜索都是通过扩展当前搜索树的叶子节点来进行的；已扩展过的节点对应的状态称为已达
+(reached) 状态，未扩展过的节点是搜索树的边界 (frontier)。</p>
+<p>树搜索和图搜索的区别是图搜索在扩展节点时需要检查节点是否已达，如果已达则不扩展该节点，这样可以避免重复扩展节点，但是需要额外的内存空间来存储已达状态；树搜索不需要检查节点是否已达，因此不需要额外的内存空间，但是可能会重复扩展节点，导致无限循环。</p>
+<h3 id="best-first-search-最佳优先搜索">Best-First Search
+(最佳优先搜索)</h3>
+<p>最佳优先搜索是一种比较通用的搜索方法，其重点在于评估函数 (evaluation
+function) <span
+class="math inline">\(f(n)\)</span>，评估函数是一个从节点到实数的映射，表示从初始状态到目标状态的代价估计，最佳优先搜索每次都扩展评估函数值最小的节点。</p>
+<p>在每次迭代过程，选择边界上<span
+class="math inline">\(f(n)\)</span>最小的节点进行扩展:</p>
+<ul>
+<li>若该节点是目标状态，则搜索结束，返回该节点的路径</li>
+<li>否则，扩展该节点的子节点
+<ul>
+<li>若子节点未达，则将子节点加入边界</li>
+<li>若子节点已达，且<span
+class="math inline">\(f(n^{\prime})\)</span>值比<span
+class="math inline">\(f(n)\)</span>值小，则将子节点加入边界；已达状态重新加入边界的条件是该节点的路径代价比之前的路径代价更小</li>
+</ul></li>
+<li>若边界为空，则搜索失败，返回无解</li>
+</ul>
+<h3 id="search-data-structures">Search Data Structures</h3>
+<p>一个树搜索 (tree search) 算法的实现需要以下数据结构:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Node: <span class="co"># 树搜索中的节点</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, state, parent<span class="op">=</span><span class="va">None</span>, action<span class="op">=</span><span class="va">None</span>, action_cost<span class="op">=</span><span class="dv">0</span>):</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.state <span class="op">=</span> state <span class="co"># 节点对应的状态</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.parent <span class="op">=</span> parent <span class="co"># 父节点，即上一步的状态</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.children <span class="op">=</span> [] <span class="co"># 子节点，即下一步的状态表</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.action <span class="op">=</span> action <span class="co"># 从父节点到该节点的动作</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.action_cost <span class="op">=</span> action_cost <span class="co"># 从父节点到该节点的动作代价</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.path_cost <span class="op">=</span> parent.path_cost <span class="op">+</span> action_cost <span class="cf">if</span> parent <span class="cf">else</span> <span class="va">None</span> <span class="co"># 从初始状态到该节点的路径代价</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.depth <span class="op">=</span> <span class="dv">0</span> <span class="co"># 节点的深度</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> path(<span class="va">self</span>):</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>        node, path_back <span class="op">=</span> <span class="va">self</span>, []</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>        <span class="cf">while</span> node:</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>            path_back.append(node.state) <span class="co"># 将节点的状态加入路径中</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>            node <span class="op">=</span> node.parent <span class="co"># 回溯到父节点</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="bu">list</span>(<span class="bu">reversed</span>(path_back))</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> cloeset_child(<span class="va">self</span>):</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="bu">len</span>(<span class="va">self</span>.children) <span class="op">==</span> <span class="dv">0</span>: <span class="cf">return</span> <span class="va">None</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>: <span class="cf">return</span> <span class="bu">min</span>(<span class="va">self</span>.children, key<span class="op">=</span><span class="kw">lambda</span> x: x.action_cost) <span class="co"># 返回子节点中代价最小的节点</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Frontier:</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.container <span class="op">=</span> [] <span class="co"># 用于存储边界上的节点</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.value <span class="op">=</span> []</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.reached <span class="op">=</span> {} <span class="co"># 用于存储已达状态</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> empty(<span class="va">self</span>): <span class="cf">return</span> <span class="bu">len</span>(<span class="va">self</span>.container) <span class="op">==</span> <span class="dv">0</span> <span class="co"># 判断边界是否为空</span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> add(<span class="va">self</span>, node, list_type<span class="op">=</span><span class="st">&#39;priority&#39;</span>, value<span class="op">=</span><span class="va">None</span>):</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>        list_type <span class="op">=</span> list_type.lower()</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> list_type <span class="op">==</span> <span class="st">&#39;priority&#39;</span>: <span class="co"># 优先队列，可用于最佳优先搜索</span></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>            index <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>            <span class="cf">while</span> <span class="va">self</span>.value[index] <span class="op">&lt;</span> value:</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>                index <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.container.insert(index, node) <span class="co"># 将节点加入边界中，按照路径代价从小到大排序</span></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.value.insert(index, value) <span class="co"># 将节点的评估函数值加入边界中，按照评估函数值从小到大排序</span></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>        <span class="cf">elif</span> list_type <span class="op">==</span> <span class="st">&#39;fifo&#39;</span>: <span class="va">self</span>.container.append(node) <span class="co"># 将节点加入边界中；先进先出队列，可用于宽度优先搜索</span></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>        <span class="cf">elif</span> list_type <span class="op">==</span> <span class="st">&#39;lifo&#39;</span>: <span class="va">self</span>.container.insert(<span class="dv">0</span>, node) <span class="co"># 将节点加入边界中；后进先出队列，可用于深度优先搜索</span></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>: <span class="cf">raise</span> <span class="pp">Exception</span>(<span class="st">&#39;Invalid type&#39;</span>)</span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> top(<span class="va">self</span>):</span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="va">self</span>.empty(): <span class="cf">raise</span> <span class="pp">Exception</span>(<span class="st">&#39;Frontier is empty&#39;</span>)</span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>: <span class="cf">return</span> <span class="va">self</span>.container[<span class="dv">0</span>] <span class="co"># 返回边界上的第一个节点</span></span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> pop(<span class="va">self</span>):</span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="va">self</span>.empty(): <span class="cf">raise</span> <span class="pp">Exception</span>(<span class="st">&#39;Frontier is empty&#39;</span>)</span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>            res <span class="op">=</span> <span class="va">self</span>.container[<span class="dv">0</span>] <span class="co"># 从边界中取出节点</span></span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.container <span class="op">=</span> <span class="va">self</span>.container[<span class="dv">1</span>:] <span class="co"># 弹出边界中的第一个节点</span></span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> res</span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__contains__</span>(<span class="va">self</span>, node): <span class="cf">return</span> <span class="bu">any</span>(node.state <span class="op">==</span> n.state <span class="cf">for</span> n <span class="kw">in</span> <span class="va">self</span>.container) <span class="co"># 判断节点是否在边界上</span></span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> __reached__(<span class="va">self</span>, node): <span class="cf">return</span> node.state <span class="kw">in</span> <span class="va">self</span>.reached <span class="co"># 判断节点是否已达</span></span></code></pre></div>
+<p>搜索算法使用了3种不同类型的队列(存储边界上的节点):</p>
+<ul>
+<li>优先队列 (priority queue): 每次从边界中取出评估函数值最小的节点</li>
+<li>先进先出队列 (first-in first-out queue):
+首先弹出的是最早加入边界的节点，用于宽度优先搜索</li>
+<li>后进先出队列 (last-in first-out queue):
+首先弹出的是最晚加入边界的节点，用于深度优先搜索</li>
+</ul>
+<p>已达状态可以存储为一个查找表 (lookup table)，例如哈希表 (hash
+table)，每个键值对的键是状态，值是该状态对应的节点。</p>
+<h3 id="redundant-paths-冗余路径">Redundant Paths (冗余路径)</h3>
+<p>循环是冗余路径的一种特殊情况，冗余路径是指从初始状态到目标状态的路径中包含重复的状态。解决冗余路径的方法有3种:</p>
+<ol type="1">
+<li>记录所有已达状态，若新加入边界的节点对应的状态已经在已达状态中，则不加入边界</li>
+<li>不引入额外的记录，交给算法处理；如果搜索算法会检查冗余路径，那么就是图搜索
+(graph search)，否则就是树搜索 (tree search)</li>
+<li>检查循环，但不检查冗余路径；通过对每个节点的父节点进行追溯，检查是否有循环</li>
+</ol>
+<h3
+id="measuring-problem-solving-performance-衡量问题求解性能">Measuring
+problem-solving performance (衡量问题求解性能)</h3>
+<ol type="1">
+<li>完备性 (completeness): 搜索算法是否能够找到解</li>
+<li>代价最优性 (cost optimality): 搜索算法是否能够找到最优解</li>
+<li>时间复杂度 (time complexity): 搜索算法的时间复杂度</li>
+<li>空间复杂度 (space complexity): 搜索算法的空间复杂度</li>
+</ol>
+<h2 id="uninformed-search-strategies">Uninformed Search Strategies</h2>
+<h3 id="breadth-first-search-宽度优先搜索">Breadth-First Search
+(宽度优先搜索)</h3>
+<p>宽度优先搜索 (亦称广度优先搜索)
+是一种树搜索算法，其使用先进先出队列作为边界，每次从边界中取出最早加入边界的节点进行扩展；当BFS扩展深度为d的节点时，说明深度为d-1的节点都已经扩展过了，因此BFS能找到一个路径最短的解。</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> BFS(root, goal_state):</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    frontier <span class="op">=</span> Frontier() <span class="co"># 边界，使用先进先出队列</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    frontier.add(root, <span class="bu">type</span><span class="op">=</span><span class="st">&#39;fifo&#39;</span>) <span class="co"># 将初始状态加入边界中</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="kw">not</span> frontier.empty():</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>        node <span class="op">=</span> frontier.pop() <span class="co"># 从边界中取出节点</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> node.state <span class="op">==</span> goal_state: <span class="cf">return</span> node.path() <span class="co"># 若节点是目标状态，则返回该节点的路径</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> child <span class="kw">in</span> node.children: <span class="co"># 扩展节点的子节点</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>            child.parent <span class="op">=</span> node <span class="co"># 将子节点的父节点设为该节点</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>            frontier.add(child, <span class="bu">type</span><span class="op">=</span><span class="st">&#39;fifo&#39;</span>) <span class="co"># 将子节点加入边界中</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="va">None</span> <span class="co"># 若边界为空，则返回无解</span></span></code></pre></div>
+<p>BFS的问题是空间复杂度很高，因为它需要存储边界上的所有节点，对内存的要求很高；BFS没有考虑动作的代价，因此它不一定是代价最优解。时间复杂度和空间复杂度都是指数级别的，即<span
+class="math inline">\(O(b^d)\)</span>，其中<span
+class="math inline">\(b\)</span>是分支因子，<span
+class="math inline">\(d\)</span>是解的深度，因此BFS只适用于解的深度较小的问题。</p>
+<h3 id="uniform-cost-search-一致代价搜索">Uniform-Cost Search
+(一致代价搜索)</h3>
+<p>一致代价搜索使用优先队列，每次从边界中取出路径代价最小的节点进行扩展；具体来说，每次迭代时，遍历边界上的节点和已达节点中尚有未扩展子节点的节点，选择路径代价最小的节点进行扩展。</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> UCS(root, goal_state):</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    frontier <span class="op">=</span> Frontier() <span class="co"># 边界，使用优先队列</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    frontier.add(root, <span class="bu">type</span><span class="op">=</span><span class="st">&#39;priority&#39;</span>, value<span class="op">=</span>root.path_cost) <span class="co"># 将初始状态加入边界中</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="va">True</span>:</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> frontier.empty(): <span class="cf">return</span> <span class="va">None</span> <span class="co"># 若边界为空，则返回无解</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>        node,child <span class="op">=</span> <span class="bu">min</span>(</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>            [(node,child) <span class="cf">for</span> node <span class="kw">in</span> frontier.container <span class="cf">for</span> child <span class="kw">in</span> node.closest_child()],</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>            key<span class="op">=</span><span class="kw">lambda</span> x: x[<span class="dv">1</span>].path_cost <span class="co"># 从边界中取出路径代价最小的节点</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>        node.children.remove(child) <span class="co"># 将子节点从父节点的子节点表中删除</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="bu">len</span>(node.children) <span class="op">==</span> <span class="dv">0</span>: frontier.container.remove(node) <span class="co"># 若父节点的子节点表为空，则将父节点从边界中删除</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>        child.parent <span class="op">=</span> node <span class="co"># 将子节点的父节点设为该节点</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> child.state <span class="op">==</span> goal_state: <span class="cf">return</span> child.path() <span class="co"># 若节点是目标状态，则返回该节点的路径</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>        frontier.add(child, <span class="bu">type</span><span class="op">=</span><span class="st">&#39;priority&#39;</span>, value<span class="op">=</span>child.path_cost) <span class="co"># 将子节点加入边界中</span></span></code></pre></div>
+<p>UCS是完备的，因为它会扩展所有的节点；UCS是代价最优的，因为它得到的第一个解的代价至少与边界上其他节点的代价一样小；一直代价搜索的时间和空间复杂度不小于BFS，当代价相同时，UCS退化为BFS。</p>
+<h3 id="depth-first-search-深度优先搜索">Depth-First Search
+(深度优先搜索)</h3>
+<p>深度优先搜索优先扩展深度最深的节点，因此使用后进先出队列<a
+href="#fn2" class="footnote-ref" id="fnref2"
+role="doc-noteref"><sup>2</sup></a>，评价函数可以看作节点深度的负数，这样深度越深，代价越低；深度优先搜索不一定能找到最优解，因为它可能会陷入局部最优解，因此他在树搜索中完备，但在图搜索中并不完备；在有环时，深度优先搜索可能会陷入无限循环。</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> DFS(root, goal_state):</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    frontier <span class="op">=</span> Frontier() <span class="co"># 边界，使用后进先出队列</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    frontier.add(root, <span class="bu">type</span><span class="op">=</span><span class="st">&#39;priority&#39;</span>, value<span class="op">=-</span>root.depth) <span class="co"># 将初始状态加入边界中</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="kw">not</span> frontier.empty():</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>        node <span class="op">=</span> frontier.pop() <span class="co"># 从边界中取出节点</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> node.state <span class="op">==</span> goal_state: <span class="cf">return</span> node.path() <span class="co"># 若节点是目标状态，则返回该节点的路径</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> child <span class="kw">in</span> node.children: <span class="co"># 扩展节点的子节点</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>            child.parent <span class="op">=</span> node <span class="co"># 将子节点的父节点设为该节点</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>            child.depth <span class="op">=</span> node.depth <span class="op">+</span> <span class="dv">1</span> <span class="co"># 将子节点的深度设为父节点的深度加1</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>            frontier.add(child, <span class="bu">type</span><span class="op">=</span><span class="st">&#39;priority&#39;</span>, value<span class="op">=-</span>child.depth) <span class="co"># 将子节点加入边界中</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="va">None</span> <span class="co"># 若边界为空，则返回无解</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> Backtracking(node, goal_state):</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> node.state <span class="op">==</span> goal_state: <span class="cf">return</span> node.path() <span class="co"># 若节点是目标状态，则返回该节点的路径</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> child <span class="kw">in</span> node.children: <span class="co"># 扩展节点的子节点</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>        child.parent <span class="op">=</span> node <span class="co"># 将子节点的父节点设为该节点</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>        res <span class="op">=</span> Backtracking(child, goal_state) <span class="co"># 递归调用回溯方法</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> res <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>: <span class="cf">return</span> res <span class="co"># 若子节点是目标状态，则返回该节点的路径</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="va">None</span> <span class="co"># 若节点的所有子节点都不是目标状态，则返回无解</span></span></code></pre></div>
+<p>深度优先的优点是空间复杂度较低，仅为<span
+class="math inline">\(O(bd_m)\)</span>，其中<span
+class="math inline">\(b\)</span>是分支因子，<span
+class="math inline">\(d_m\)</span>是最大深度；回溯方法的空间复杂度更低，仅为<span
+class="math inline">\(O(d_m)\)</span>，因为它不需要存储边界上的节点，只需要存储当前节点和父节点即可。</p>
+<h3
+id="depth-limited-and-iterative-deepening-search-深度限制搜索和迭代加深搜索">Depth-Limited
+and Iterative Deepening Search (深度限制搜索和迭代加深搜索)</h3>
+<p>深度受限搜索 (depth-limited search)
+是深度优先搜索的变体，其在深度达到限制时停止扩展节点，好处是防止陷入循环；深度限制搜索是不完备的，因为最大深度可能不够大，导致无法找到解。</p>
+<p>迭代加深搜索 (iterative deepening search)
+是深度限制搜索的变体，其在深度达到限制时停止扩展节点，但是会逐渐增加深度限制，直到找到解为止；迭代加深搜索是完备的；通常，当搜索状态空间大于内存容量而且解的深度未知时，迭代加深搜索是首选的无信息搜索方法。</p>
+<h3 id="bidirectional-search-双向搜索">Bidirectional Search
+(双向搜索)</h3>
+<p>同时从初始状态和目标状态开始搜索，直到两个搜索树相遇；每次迭代时扩展两个边界中代价最小的节点；双向搜索是完备的；双向搜索过程可以使用不同的搜索策略，如果使用BFS或UCS且动作代价全都相同，那么双向搜索是代价最优的</p>
+<h3 id="comparing-uninformed-search-strategies">Comparing Uninformed
+Search Strategies</h3>
+<table>
+<thead>
+<tr class="header">
+<th>指标</th>
+<th>BFS</th>
+<th>UCS</th>
+<th>DFS</th>
+<th>DLS</th>
+<th>IDS</th>
+<th>Bi-directional</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>完备性</td>
+<td>是</td>
+<td>是</td>
+<td>否</td>
+<td>否</td>
+<td>是</td>
+<td>是</td>
+</tr>
+<tr class="even">
+<td>代价最优性</td>
+<td>是<a href="#fn3" class="footnote-ref" id="fnref3"
+role="doc-noteref"><sup>3</sup></a></td>
+<td>是</td>
+<td>否</td>
+<td>否</td>
+<td>是<a href="#fn4" class="footnote-ref" id="fnref4"
+role="doc-noteref"><sup>4</sup></a></td>
+<td>是 <a href="#fn5" class="footnote-ref" id="fnref5"
+role="doc-noteref"><sup>5</sup></a></td>
+</tr>
+</tbody>
+</table>
+<h2 id="informed-heuristic-search-strategies-启发式搜索">Informed
+(Heuristic) Search Strategies (启发式搜索)</h2>
+<p>启发式搜索函数<span
+class="math inline">\(h(n)\)</span>是从当前节点状态到目标状态的最小代价的估计</p>
+<h3 id="greedy-best-first-search-贪心最佳优先搜索">Greedy Best-First
+Search (贪心最佳优先搜索)</h3>
+<p>贪心最佳优先搜索使用优先队列，每次从边界中取出启发式函数值最小的节点进行扩展。如使用当前位置距目标位置的直线距离作为启发式函数，那么贪心最佳优先搜索会优先扩展离目标位置最近的节点。</p>
+<h3 id="a-search-a搜索">A* Search (A*搜索)</h3>
+<p>A*搜索的评价函数是<span
+class="math inline">\(f(n)=g(n)+h(n)\)</span>，其中<span
+class="math inline">\(g(n)\)</span>是从初始状态到节点<span
+class="math inline">\(n\)</span>的路径代价，<span
+class="math inline">\(h(n)\)</span>是从节点<span
+class="math inline">\(n\)</span>到目标状态的最小代价的估计，<span
+class="math inline">\(f(n)\)</span>是从初始状态到目标状态的最小代价的估计；A*搜索使用优先队列，每次从边界中取出评价函数值最小的节点进行扩展；A*搜索是完备的；代价最优性取决于启发式函数<span
+class="math inline">\(h(n)\)</span>的质量。</p>
+<p>可容许 (admissible)的启发函数是指对于任意的节点<span
+class="math inline">\(n\)</span>，有<span class="math inline">\(h(n)\leq
+h^*(n)\)</span>，其中<span
+class="math inline">\(h^*(n)\)</span>是从节点<span
+class="math inline">\(n\)</span>到目标状态的最小代价的实际值；可容许的启发式函数的估计值不会超过实际值，因此可容许的启发式函数是比较保守的估计函数；可容许的启发函数一定是最优的，假设最优路径的代价是<span
+class="math inline">\(C^*\)</span>，但是<span
+class="math inline">\(f(n)\)</span>返回的代价<span
+class="math inline">\(C&gt;C^*\)</span>，并且<span
+class="math inline">\(n\)</span>是最优路径上的一个节点:</p>
+<p><span class="math display">\[
+\begin{aligned}
+f(n) &amp;= g(n) + h(n)&amp;\\
+f(n)&amp;&gt;C^*&amp; \text{假设估计值大于最优解代价}\\
+f(n)&amp;=g^*(n)+h(n)&amp;\text{从初始状态到节点n的路径代价是最优的}\\
+f(n)&amp;\leq
+g^*(n)+h^*(n)&amp;\text{可容许的启发式函数的估计值不会超过实际值}\\
+f(n)&amp;\leq C^*&amp;\text{由上一步推出，与假设矛盾}\\
+\end{aligned}
+\]</span></p>
+<p>一致性 (consistency) 是指对于任意的节点<span
+class="math inline">\(n\)</span>和<span
+class="math inline">\(n\)</span>的子节点<span
+class="math inline">\(n^{\prime}\)</span>，有<span
+class="math inline">\(h(n)\leq Cost(n,
+n^{\prime})+h(n^{\prime})\)</span>，即从节点<span
+class="math inline">\(n\)</span>到目标状态的最小代价的估计不会超过从节点<span
+class="math inline">\(n\)</span>到子节点<span
+class="math inline">\(n^{\prime}\)</span>的代价加上从子节点<span
+class="math inline">\(n^{\prime}\)</span>到目标状态的最小代价的估计，并且<span
+class="math inline">\(h(goal)=0\)</span>；一致性是可容许的启发式函数的充分条件，即一致的启发式函数一定是可容许的启发式函数，是比可容许的启发式函数更强的条件。</p>
+<p><span class="math display">\[
+\begin{aligned}
+f(n^{\prime}) &amp;= g(n^{\prime}) + h(n^{\prime})&amp;\\
+&amp;= g(n) + Cost(n, n^{\prime}) + h(n^{\prime})&amp;\\
+&amp;\geq g(n) + h(n)\\
+&amp;= f(n)
+\end{aligned}
+\]</span></p>
+<p>一致的启发式函数下一步的估计值不会比当前节点的估计值更小，因此任一状态的估计值都不会超过目标状态的估计值，即解的实际值，所以一致的启发式函数是可容许的启发式函数。一致性类似于三角不等式，即从初始状态到目标状态的最小代价的估计值不会超过从初始状态到当前节点的代价加上从当前节点到目标状态的最小代价的估计值。</p>
+<p><span class="math display">\[
+\begin{aligned}
+h(n^i) &amp;\leq Cost(n^i, n^{i+1}) + h(n^{i+1})&amp;\\
+&amp;\leq Cost(n^i, n^{i+1}) + Cost(n^{i+1}, n^{i+2}) +
+h(n^{i+2})&amp;\\
+&amp;\leq \underbrace{Cost(n^i, n^{i+1}) + \dots + Cost(n^{i+k-1},
+n^{i+k})}_{h^*(n^i)} + \underbrace{h(n^{i+k})}_{0}&amp;\\
+\end{aligned}
+\]</span></p>
+<h4 id="proof-of-optimality-最优性证明">Proof of Optimality
+(最优性证明)</h4>
+<p>由可容许性和一致性的证明可以得知，可容许的A*搜索是代价最优的，因为算法总是返回代价最小的解，即每次扩展时开表中总是有代价最小节点满足<span
+class="math inline">\(f(n)\leq C^*\)</span>，其中<span
+class="math inline">\(C^*\)</span>是最优解的代价。</p>
+<ul>
+<li>树搜索：满足可容许性的A*搜索是代价最优的</li>
+<li>图搜索：
+<ul>
+<li>允许重复扩展节点 (reopening closed nodes)：满足可容许性即可</li>
+<li>不允许重复扩展节点：要求满足一致性</li>
+</ul></li>
+</ul>
+<h3 id="search-contours-搜索等值线">Search Contours (搜索等值线)</h3>
+<p>类似地图中的等高线，搜索等值线是指所有代价相同的节点的集合，如果等值线的值为<span
+class="math inline">\(400\)</span>，那么对所有等值线内的节点<span
+class="math inline">\(f(n)=g(n)+h(n)\leq
+400\)</span>；等值线的作用是可视化搜索，因为A*搜索扩展的是<span
+class="math inline">\(f(n)\)</span>最小的节点，因此搜索等值线可以帮助我们理解搜索的过程。</p>
+<p>实际已有代价<span
+class="math inline">\(g(n)\)</span>是单调递增的，而<span
+class="math inline">\(g(n+1)=g(n)+Cost(n, n+1)\)</span>，因此如果<span
+class="math inline">\(f(n)\)</span>是一致的，那么<span
+class="math inline">\(f(n+1)=g(n+1)+h(n+1)=g(n)+Cost(n, n+1)+h(n+1)\geq
+g(n)+h(n)=f(n)\)</span>，即<span
+class="math inline">\(f(n)\)</span>是单调递增<a href="#fn6"
+class="footnote-ref" id="fnref6"
+role="doc-noteref"><sup>6</sup></a>的，因此搜索等值线是单调递增的。</p>
+<p>假设最优路径代价是<span
+class="math inline">\(C^*\)</span>，那么我们扩展的所有节点
+(必然扩展节点) 都满足<span class="math inline">\(f(n)\leq
+C^*\)</span>，因此搜索等值线的值不会超过<span
+class="math inline">\(C^*\)</span>，即搜索等值线<span
+class="math inline">\(C^*\)</span>外的节点都不会被扩展，因此搜索等值线<span
+class="math inline">\(C^*\)</span>是最优解的边界；换句话说，A*搜索实现了对边界外的节点的剪枝。</p>
+<h3 id="satisficing-search-满意搜索">Satisficing Search (满意搜索)</h3>
+<p>满意解 (satisficing solution)
+是指代价低于某个阈值的解，即考虑那些非最优解的次优解；满意搜索
+(satisficing search) 是指搜索满意解的搜索算法。</p>
+<p>受等值线的启发，我们可以将满意搜索看成对等值线的值的扩大<a
+href="#fn7" class="footnote-ref" id="fnref7"
+role="doc-noteref"><sup>7</sup></a>；一般地，我们令<span
+class="math inline">\(f(n)=g(n)+wh(n)\)</span>，其中<span
+class="math inline">\(w\)</span>是一个大于1的常数，<span
+class="math inline">\(h(n)\)</span>是启发式函数，<span
+class="math inline">\(f(n)\)</span>是从初始状态到目标状态的最小代价的估计；当<span
+class="math inline">\(w=1\)</span>时，满意搜索退化为A*搜索。</p>
+<p>使用加权搜索可能会扩大搜索空间，但同时也可能会降低搜索时间，因为增加了搜索的广度和解的数量。</p>
+<h3 id="设计启发式函数">设计启发式函数</h3>
+<ul>
+<li>距离启发式函数 (distance heuristic): <span
+class="math inline">\(h(n)\)</span>是从节点<span
+class="math inline">\(n\)</span>到目标状态的最小代价的估计，例如欧几里得距离、曼哈顿距离等</li>
+<li></li>
+</ul>
+<h2 id="local-search-and-optimization-problems-局部搜索和优化问题">Local
+Search and Optimization Problems (局部搜索和优化问题)</h2>
+<p>局部搜索 (local search)
+是指不考虑从初始状态到目标状态的路径，而是考虑如何从初始状态到目标状态的状态；局部搜索的优点是不需要存储整个状态空间，因此可以处理非常大的状态空间；局部搜索的缺点是可能会陷入局部最优解，因此局部搜索不一定能找到最优解。</p>
+<h3 id="hill-climbing-search-爬山搜索">Hill-Climbing Search
+(爬山搜索)</h3>
+<p>爬山搜索 (hill-climbing search)
+是一种局部搜索算法，其从初始状态开始，每次都扩展当前状态的最优子节点，直到达到局部最优解。</p>
+<h3 id="simulated-annealing-模拟退火">Simulated Annealing
+(模拟退火)</h3>
+<p>模拟退火<a href="#fn8" class="footnote-ref" id="fnref8"
+role="doc-noteref"><sup>8</sup></a> (simulated annealing)
+与爬山算法类似，不同点在于不选择最优解，而是以一定概率随机移动，具体来说:</p>
+<ul>
+<li>如果扩展节点更优，则移动到该节点</li>
+<li>否则以一定概率移动到该节点</li>
+</ul>
+<p>扩展节点的优劣对应<span class="math inline">\(\Delta
+E\)</span>的正负，<span class="math inline">\(\Delta
+E\)</span>是当前节点与扩展节点的评价函数值的差，<span
+class="math inline">\(\Delta
+E&lt;0\)</span>表示扩展节点是一个坏解，使用指数函数将概率控制在<span
+class="math inline">\((0,
+1)\)</span>之间；此外还有一个随时间降低的温度参数<span
+class="math inline">\(T\)</span>，<span
+class="math inline">\(T\)</span>越大，接受劣解的概率越大，<span
+class="math inline">\(T\)</span>越小，接受劣解的概率越小<a href="#fn9"
+class="footnote-ref" id="fnref9"
+role="doc-noteref"><sup>9</sup></a>。这个概率可以用玻尔兹曼分布
+(Boltzmann distribution) 表示:</p>
+<p><span class="math display">\[
+P(\Delta E) = e^{\frac{\Delta E}{T}} \quad \Delta E &lt; 0, T &gt; 0
+\]</span></p>
+<h3 id="local-beam-search-局部束搜索">Local Beam Search
+(局部束搜索)</h3>
+<p>局部束搜索 (local beam search) 是一种局部搜索算法，其从<span
+class="math inline">\(k\)</span>个随机生成的状态开始，每次都扩展当前状态的全部子节点，然后选择其中最优的<span
+class="math inline">\(k\)</span>个节点作为下一次迭代的初始状态，直到达到局部最优解。</p>
+<p>局部束搜索不是简单的并行算法，因为<span
+class="math inline">\(k\)</span>个搜索过程可以共享信息，例如全局最优或避免重复搜索。</p>
+<h3 id="genetic-algorithms-遗传算法">Genetic Algorithms (遗传算法)</h3>
+<h4 id="基本概念">基本概念</h4>
+<ul>
+<li>种群 (population): 多个备选解的集合
+<ul>
+<li>个体 (individual): 种群中的一个备选解</li>
+<li>个体的编码 (encoding):
+个体的表示方法，例如二进制编码、格雷码、符号编码等</li>
+</ul></li>
+<li>适应度 (fitness): 个体的质量，用于评价个体的好坏
+<ul>
+<li>适应函数 (fitness function): 用于计算个体的适应度</li>
+<li>适应函数的值 (fitness value):
+个体的适应度，值越大解被保留的概率越大</li>
+<li>精英主义 (elitism):
+保留适应度最高的个体，不参与遗传操作而是直接复制到下一代中</li>
+</ul></li>
+<li>遗传操作 (genetic operator): 用于产生新个体的操作，包括选择
+(selection)、交叉 (crossover) 和变异 (mutation)
+<ul>
+<li>选择 (selection):
+选择个体，用于产生下一代的种群，被选中的概率与适应度成正相关</li>
+<li>交叉 (crossover): 交换个体的编码，用于产生下一代的种群</li>
+<li>变异 (mutation): 改变个体的编码，有利于种群的多样性</li>
+</ul></li>
+</ul>
+<h4 id="基本过程">基本过程</h4>
+<ol type="1">
+<li>初始化种群，随机生成多个个体并对其编码</li>
+<li>计算每个个体的适应度，并对其评价</li>
+<li>判断是否满足终止条件，若满足则返回解，否则继续</li>
+<li>通过适当的选择方法选择个体，通常适应度越高的个体被选中的概率越大</li>
+<li>通过适当的交叉方法交换个体的编码，用于产生下一代的种群</li>
+<li>变异的发生概率很小，但是变异的个体可能会被选中，随机改变个体的编码生成新个体；变异操作主要用于解决早熟问题，即种群过早地收敛到局部最优解</li>
+<li>重复步骤2-6，直到满足终止条件</li>
+</ol>
+<pre class="mermaid"><code>graph TD
+    A[初始化种群] --&gt; B[计算适应度]
+    B --&gt; C[判断是否满足终止条件]
+    C --&gt; |是| D[返回解]
+    C --&gt; |否| E[选择]
+    E --&gt; F[交叉]
+    F --&gt; G[变异]
+    G --&gt; B</code></pre>
+<h2 id="local-search-in-continuous-spaces-连续空间中的局部搜索">Local
+Search in Continuous Spaces (连续空间中的局部搜索)</h2>
+<p>假设搜索问题的评估函数是连续可微的，其输入是一个n维向量<span
+class="math inline">\(x = (x_1, x_2, \dots,
+x_n)\)</span>，对应n个变量，输出是一个实数<span class="math inline">\(f:
+\mathbb{R}^n \rightarrow
+\mathbb{R}\)</span>，表示目标函数的值，目标函数是指需要优化的函数，例如最小化函数值；记<span
+class="math inline">\(\nabla f(x)\)</span>为目标函数在<span
+class="math inline">\(x\)</span>处的梯度:</p>
+<p><span class="math display">\[
+\nabla f(x) = \left(\frac{\partial f}{\partial x_1}, \frac{\partial
+f}{\partial x_2}, \dots, \frac{\partial f}{\partial x_n}\right)
+\]</span></p>
+<p>梯度下降法 (gradient descent) 是一种局部搜索算法，其使用梯度
+(gradient)
+的信息来指导搜索方向，梯度是一个向量，指向函数值增加最快的方向，梯度下降法的思想是沿着梯度的反方向进行搜索，直到达到局部最优解。</p>
+<p><span class="math display">\[
+x \leftarrow x + \alpha \nabla f(x)
+\]</span></p>
+<p>牛顿法 (Newton’s method) 是一种局部搜索算法，其使用梯度和海森矩阵
+(Hessian matrix) 的信息来指导搜索方向，海森矩阵是一个方阵，其第<span
+class="math inline">\(i\)</span>行第<span
+class="math inline">\(j\)</span>列的元素是<span
+class="math inline">\(\frac{\partial^2 f}{\partial x_i \partial
+x_j}\)</span>，牛顿法的思想是沿着海森矩阵的逆矩阵的方向进行搜索，直到达到局部最优解。</p>
+<p><span class="math display">\[
+x\leftarrow x - H_f^{-1} \nabla f(x)
+\]</span></p>
+<p>约束优化 (constrained optimization)
+是指优化问题中存在约束条件的优化问题，例如线性规划 (linear programming)
+问题；线性规划问题是凸优化 (convex optimization)
+问题的一种特殊情况，凸优化问题是指目标函数是凸函数 (convex function)
+的优化问题，凸函数是指函数的二阶导数大于等于0的函数。</p>
+<aside id="footnotes" class="footnotes footnotes-end-of-document"
+role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn1"><p>生成的子节点中不应当包括已达状态，否则会导致无限循环<a
+href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li
+id="fn2"><p>实际上使用回溯方法，不需要reached表，也不需要记录节点的扩展次数，所需的内存空间更少<a
+href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>如果每一步的代价都是相同的，那么BFS和IDS都是代价最优的<a
+href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>如果每一步的代价都是相同的，那么BFS和IDS都是代价最优的<a
+href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p>如果每一步的代价都是相同的，那么BFS和IDS都是代价最优的<a
+href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn6"><p>单调启发式函数是一致启发式函数的同义词<a href="#fnref6"
+class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn7"><p>加权A*搜索是有界的<a href="#fnref7"
+class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li
+id="fn8"><p>模拟退火的思想是模拟金属退火的过程，金属在高温下会变得柔软，因此可以接受劣解，而在低温下会变得坚硬，因此不接受劣解<a
+href="#fnref8" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn9"><p><span class="math inline">\(T\)</span>较大时会使<span
+class="math inline">\(\frac{\Delta
+E}{T}\)</span>更接近0，此时接受劣解的概率较大；<span
+class="math inline">\(T\)</span>较小时会使<span
+class="math inline">\(\frac{\Delta E}{T}\)</span>更接近<span
+class="math inline">\(-\infty\)</span>，此时接受劣解的概率较小；因此<span
+class="math inline">\(T\)</span>越小，越趋向于爬山算法，即只接受更优的解。<a
+href="#fnref9" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</aside>
+</body>
+</html>

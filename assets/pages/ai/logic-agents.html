@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="description" content="An introduction to logic agents in artificial intelligence." />
+  <title>Logic Agents</title>
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"
+  type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Logic Agents</h1>
+<p class="date">2023-12-03 23:00:00-0400</p>
+</header>
+<nav id="TOC" role="doc-toc">
+
+</nav>
+<h2 id="knowledge-based-agents">Knowledge-Based Agents</h2>
+<p>基于知识的智能体的核心部件是<code>知识库</code> (Knowledge base,
+KB)，知识库是语句的集合；语句用知识表示语言 (knowledge representation
+language)
+表示，是关于世界的断言/陈述；直接给出（并非推导而来）的语句称为公理
+(axiom)。</p>
+<p>知识库涉及的操作主要有告知 (tell) 和询问 (ask)
+两种，当向KB询问时，答案应当遵循告知的内容而得出。</p>
+<p>语句是根据语法 (syntax) 构造的，语法是语句的合法形式；语义
+(semantics) 是语句的含义，语义定义了语句的真值 (truth)，在不同的模型
+(model) 中，语句的真值可能不同。</p>
+<h2 id="logic">Logic</h2>
+<p>在一个模型 (model)中，语句的真值 (truth) 是确定的。如果语句<span
+class="math inline">\(\alpha\)</span>在模型<span
+class="math inline">\(m\)</span>中为真，我们说<span
+class="math inline">\(m\)</span>满足<span
+class="math inline">\(\alpha\)</span>，或者说<span
+class="math inline">\(m\)</span>是<span
+class="math inline">\(\alpha\)</span>的一个模型。所有满足<span
+class="math inline">\(\alpha\)</span>的模型的集合称为<span
+class="math inline">\(\alpha\)</span>的模型集合，记为<span
+class="math inline">\(M(\alpha)\)</span>。</p>
+<h3 id="entailment-蕴含">Entailment (蕴含)</h3>
+<p>蕴含是说一个语句逻辑上引发另一个语句；<span
+class="math inline">\(\alpha\)</span>蕴含<span
+class="math inline">\(\beta\)</span>当且仅当<span
+class="math inline">\(\alpha\)</span>的所有模型都是<span
+class="math inline">\(\beta\)</span>的模型，记为<span
+class="math inline">\(\alpha \models \beta\)</span>，也就是说<span
+class="math inline">\(\alpha\)</span>的模型是<span
+class="math inline">\(\beta\)</span>模型集合的子集。例如<span
+class="math inline">\(\alpha\)</span>为<span
+class="math inline">\(x=0\)</span>，<span
+class="math inline">\(\beta\)</span>为<span
+class="math inline">\(xy=0\)</span>，显然<span
+class="math inline">\(\alpha\)</span>是比<span
+class="math inline">\(\beta\)</span>更强的断言。</p>
+<p><span class="math display">\[
+\alpha \models \beta \Leftrightarrow M(\alpha) \subseteq M(\beta)
+\]</span></p>
+<h3 id="逻辑推断">逻辑推断</h3>
+<p>对于一个智能体的知识库<span
+class="math inline">\(KB\)</span>和一个语句<span
+class="math inline">\(\alpha\)</span>，<span
+class="math inline">\(KB\)</span>可以看作一组语句的集合或一个断言了所有语句的语句；所有使得<span
+class="math inline">\(KB\)</span>为真的模型的集合称为<span
+class="math inline">\(KB\)</span>的模型集合，记为<span
+class="math inline">\(M(KB)\)</span>。</p>
+<p>比较<span class="math inline">\(M(KB)\)</span>和<span
+class="math inline">\(M(\alpha)\)</span>的关系的过程称为<a
+href="#truth-table-enumeration-真值表枚举"><code>模型检验</code></a>，是一种枚举式的推断算法（<span
+class="math inline">\(2^n\)</span>个模型，<span
+class="math inline">\(n\)</span>是命题符号的个数，显然是开销很大的）；如果<span
+class="math inline">\(M(KB) \subseteq M(\alpha)\)</span>，则称<span
+class="math inline">\(\alpha\)</span>可以从<span
+class="math inline">\(KB\)</span>推出，记为<span
+class="math inline">\(KB \models \alpha\)</span>；如果一个推断算法<span
+class="math inline">\(i\)</span>可以从<span
+class="math inline">\(KB\)</span>推出<span
+class="math inline">\(\alpha\)</span>，则记为</p>
+<p><span class="math display">\[
+KB \vdash_i \alpha
+\]</span></p>
+<p>如果<span
+class="math inline">\(KB\)</span>在现实世界中为真，那么从<span
+class="math inline">\(KB\)</span>推出的语句也应当在现实世界中为真，前提是这个推断过程是可靠的。</p>
+<h3 id="soundness-可靠性">Soundness (可靠性)</h3>
+<p>如果一个推断算法<span
+class="math inline">\(i\)</span>是可靠的，那么对于任何<span
+class="math inline">\(KB\)</span>和<span
+class="math inline">\(\alpha\)</span>，如果<span
+class="math inline">\(KB \vdash_i \alpha\)</span>，那么<span
+class="math inline">\(KB \models
+\alpha\)</span>，也就是说仅推导蕴含的语句。</p>
+<p><code>模型检验</code>在模型空间<code>有限</code>的情况下是<code>可靠</code>/<code>保真</code>的。</p>
+<h3 id="completeness-完备性">Completeness (完备性)</h3>
+<p>如果一个推断算法<span
+class="math inline">\(i\)</span>是完备的，那么对于任何<span
+class="math inline">\(KB\)</span>和<span
+class="math inline">\(\alpha\)</span>，如果<span
+class="math inline">\(KB \models \alpha\)</span>，那么<span
+class="math inline">\(KB \vdash_i
+\alpha\)</span>，也就是说能推导出所有蕴含的语句。</p>
+<h2 id="propositional-logic-命题逻辑">Propositional Logic
+(命题逻辑)</h2>
+<h3 id="syntax-语法">Syntax (语法)</h3>
+<p>语法定义了语句的合法形式。</p>
+<p><code>原子语句</code> (atomic sentence)
+是最基本的语句，它们是<code>命题符号</code> (propositional
+symbol)，用字母<span class="math inline">\(P, q, W_{1,3},
+\dots\)</span>表示，它们表示命题，命题的真值是确定的。</p>
+<p>使用括号和<code>逻辑联结词</code> (logical connective)
+可以构造<code>复合语句</code> (complex
+sentence)；复合语句的真值依赖于原子语句的真值和逻辑联结词。常用的逻辑联结词有:</p>
+<ul>
+<li>否定 (negation)：<span class="math inline">\(\neg P\)</span>，<span
+class="math inline">\(P\)</span>的否定</li>
+<li>合取 (conjunction)：<span class="math inline">\(P \land
+Q\)</span>，<span class="math inline">\(P\)</span>和<span
+class="math inline">\(Q\)</span>的合取</li>
+<li>析取 (disjunction)：<span class="math inline">\(P \lor
+Q\)</span>，<span class="math inline">\(P\)</span>和<span
+class="math inline">\(Q\)</span>的析取</li>
+<li>蕴含 (implication)：<span class="math inline">\(P \Rightarrow
+Q\)</span>，<span class="math inline">\(P\)</span>蕴含<span
+class="math inline">\(Q\)</span>；<span
+class="math inline">\(P\)</span>是前提 (premise)或前件
+(antecedent)，<span class="math inline">\(Q\)</span>是结论
+(conclusion)或后件 (consequent)；蕴含式也被称为规则 (rule)
+或if-then声明</li>
+<li>双蕴含 (biconditional)：<span class="math inline">\(P
+\Leftrightarrow Q\)</span>，<span
+class="math inline">\(P\)</span>当且仅当<span
+class="math inline">\(Q\)</span></li>
+</ul>
+<h3 id="semantics-语义">Semantics (语义)</h3>
+<p>语义定义了判断语句真值的规则。</p>
+<p>模型就是对每个命题符号的真值的赋值，对于一个含有<span
+class="math inline">\(n\)</span>个命题符号的<span
+class="math inline">\(KB\)</span>，它有<span
+class="math inline">\(2^n\)</span>个可能的模型。</p>
+<p>命题逻辑的语义必须指定在给定模型下如何计算任一语句的真值，即需要指定如何计算原子语句的真值和如何计算复合语句的真值。对于不同的逻辑联结词，复合语句的规则如下:</p>
+<ul>
+<li><span class="math inline">\(\neg P\)</span>的真值为真当且仅当<span
+class="math inline">\(P\)</span>的真值在模型中为假</li>
+<li><span class="math inline">\(P \land
+Q\)</span>的真值为真当且仅当<span
+class="math inline">\(P\)</span>和<span
+class="math inline">\(Q\)</span>的真值在模型中都为真</li>
+<li><span class="math inline">\(P \lor Q\)</span>的真值为真当且仅当<span
+class="math inline">\(P\)</span>和<span
+class="math inline">\(Q\)</span>的真值在模型中至少有一个为真</li>
+<li><span class="math inline">\(P \Rightarrow
+Q\)</span>的真值为真除非<span
+class="math inline">\(P\)</span>为真而<span
+class="math inline">\(Q\)</span>为假<span
+class="math inline">\(\neg(\underbrace{P \land \neg
+Q}_{P真Q假})\)</span></li>
+<li><span class="math inline">\(P \Leftrightarrow
+Q\)</span>的真值为真当且仅当<span
+class="math inline">\(P\)</span>和<span
+class="math inline">\(Q\)</span>的真值在模型中相同</li>
+</ul>
+<p>可以看出:</p>
+<ul>
+<li><span class="math inline">\(P \Leftrightarrow Q\)</span>等价于<span
+class="math inline">\((P \Rightarrow Q) \land (Q \Rightarrow
+P)\)</span></li>
+<li><span class="math inline">\(P \Rightarrow Q\)</span>等价于<span
+class="math inline">\(\neg P \lor Q\)</span></li>
+</ul>
+<h3 id="inference-推断">Inference (推断)</h3>
+<h4 id="truth-table-enumeration-真值表枚举">Truth Table Enumeration
+(真值表枚举)</h4>
+<p>真值表枚举是一种枚举式的推断算法，它枚举了所有可能的模型，然后检查<span
+class="math inline">\(KB\)</span>是否是<span
+class="math inline">\(\alpha\)</span>的模型的子集。</p>
+<p>最坏的情况下，真值表枚举的时间复杂度是<span
+class="math inline">\(O(2^n)\)</span>，其中<span
+class="math inline">\(n\)</span>是命题符号的个数，空间复杂度是<span
+class="math inline">\(O(n)\)</span>，因为枚举的模型是深度优先的，只需要存储每个命题符号的真值。</p>
+<h4 id="modus-ponens"><a href="#modus-ponens-肯定前提">Modus
+Ponens</a></h4>
+<h4 id="and-elimination"><a
+href="#and-elimination-合取消去">And-Elimination</a></h4>
+<h4 id="resolution-归结"><a
+href="#proof-by-resolution-归结证明">Resolution</a> (归结)</h4>
+<h2 id="propositional-theorem-proving-命题定理证明">Propositional
+Theorem Proving (命题定理证明)</h2>
+<p>逻辑等价 (logical
+equivalence)：如果两个语句在相同的模型集合中都为真，那么它们是逻辑等价的，记为<span
+class="math inline">\(\alpha \equiv \beta\)</span><a href="#fn1"
+class="footnote-ref" id="fnref1"
+role="doc-noteref"><sup>1</sup></a>。</p>
+<p>标准的逻辑等价包括:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\text{交换律 }
+\alpha \land \beta &amp;\equiv \beta \land \alpha \\
+\alpha \lor \beta &amp;\equiv \beta \lor \alpha \\
+\text{结合律 }
+(\alpha \land \beta) \land \gamma &amp;\equiv \alpha \land (\beta \land
+\gamma) \\
+(\alpha \lor \beta) \lor \gamma &amp;\equiv \alpha \lor (\beta \lor
+\gamma) \\
+\neg (\neg \alpha) &amp;\equiv \alpha \\
+\alpha \Rightarrow \beta &amp;\equiv \neg \beta \Rightarrow \neg \alpha
+\\
+\alpha \Rightarrow \beta &amp;\equiv \neg \alpha \lor \beta \\
+\alpha \Leftrightarrow \beta &amp;\equiv (\alpha \Rightarrow \beta)
+\land (\beta \Rightarrow \alpha) \\
+\neg (\alpha \land \beta) &amp;\equiv \neg \alpha \lor \neg \beta \\
+\neg (\alpha \lor \beta) &amp;\equiv \neg \alpha \land \neg \beta \\
+\text {分配律 } \alpha \land (\beta \lor \gamma) &amp;\equiv (\alpha
+\land \beta) \lor (\alpha \land \gamma) \\
+\alpha \lor (\beta \land \gamma) &amp;\equiv (\alpha \lor \beta) \land
+(\alpha \lor \gamma) \\
+\end{aligned}
+\]</span></p>
+<p>逻辑等价的另一种定义是两个语句<code>互相蕴含</code></p>
+<p><span class="math display">\[
+\alpha \equiv \beta \text{ 当且仅当 } \alpha \models \beta \text{ and }
+\beta \models \alpha
+\]</span></p>
+<p>有效性
+(validity)：如果一个语句在所有模型中都为真，那么它是有效的，有效语句也被称为重言式
+(tautology)，如<span class="math inline">\(P \lor \neg
+P\)</span>；从蕴含可以推导出古希腊人的演绎定理:</p>
+<p><span class="math display">\[
+\alpha \models \beta \text{ 当且仅当语句 } \alpha \Rightarrow \beta
+\text{ 是有效的}
+\]</span></p>
+<p>因此，如果<span class="math inline">\(\alpha \models
+\beta\)</span>可以通过检验<span class="math inline">\(\alpha \Rightarrow
+\beta\)</span>是否是有效 (等价于True)的来判断；<span
+class="math inline">\(\alpha \Rightarrow
+\beta\)</span>是有效的当且仅当<span class="math inline">\(\alpha \land
+\neg \beta\)</span>是不可满足的。</p>
+<p>可满足性
+(satisfiability)：如果一个语句在某个模型中为真，那么它是可满足的，可满足语句也被称为可满足的
+(satisfiable)。</p>
+<p>有效性和可满足性的关系：</p>
+<ul>
+<li>都是针对语句的，而不是针对模型的</li>
+<li>有效性类似于<code>所有</code>，可满足性类似于<code>存在</code></li>
+<li>有效性是可满足性的特殊情况，即如果一个语句是有效的，那么它是可满足的；反之不成立</li>
+<li><span class="math inline">\(\alpha\)</span>是有效的当且仅当<span
+class="math inline">\(\neg \alpha\)</span>是不可满足的</li>
+<li><span class="math inline">\(\alpha\)</span>是可满足的当且仅当<span
+class="math inline">\(\neg \alpha\)</span>是无效的</li>
+<li><span class="math inline">\(\alpha \models
+\beta\)</span>当且仅当<span class="math inline">\(\alpha \land \neg
+\beta\)</span>是无效的<a href="#fn2" class="footnote-ref" id="fnref2"
+role="doc-noteref"><sup>2</sup></a></li>
+</ul>
+<p><span
+class="math inline">\(KB\Rightarrow\alpha\)</span>表示的句子是<span
+class="math inline">\(\alpha_1\land\dots\land\alpha_n\Rightarrow\alpha\)</span>，其中<span
+class="math inline">\(\alpha_1, \dots, \alpha_n\)</span>是<span
+class="math inline">\(KB\)</span>中的语句。</p>
+<h3 id="inference-and-proofs-推断和证明3">Inference and proofs
+(推断和证明)<a href="#fn3" class="footnote-ref" id="fnref3"
+role="doc-noteref"><sup>3</sup></a></h3>
+<h4 id="modus-ponens-肯定前提">Modus Ponens (肯定前提)</h4>
+<p>若<span class="math inline">\(KB\)</span>中有<span
+class="math inline">\(P \Rightarrow Q\)</span>和<span
+class="math inline">\(P\)</span>，则可以推出<span
+class="math inline">\(Q\)</span>。</p>
+<p><span class="math display">\[
+\frac{P \Rightarrow Q, P}{Q}
+\]</span></p>
+<p>从真值表可以证明肯定前提是可靠的，也就是说如果<span
+class="math inline">\(KB\)</span>中有<span class="math inline">\(P
+\Rightarrow Q\)</span>和<span
+class="math inline">\(P\)</span>，那么<span class="math inline">\(KB
+\models
+Q\)</span>。对于确定子句构成的知识库，肯定前提是完备的，即如果<span
+class="math inline">\(KB\models Q\)</span>，那么<span
+class="math inline">\(KB\vdash Q\)</span>，证明如下：</p>
+<ol type="1">
+<li>令<span class="math inline">\(RC(KB)\)</span>为<span
+class="math inline">\(KB\)</span>的肯定前件闭包，是确定子句集合<span
+class="math inline">\(KB\)</span>的所有子句及使用Modus
+Ponens规则生成的所有子句的集合</li>
+<li>构建一种真值指派，使<span class="math inline">\(\forall c\in
+RC(KB)\)</span>，<span class="math inline">\(c\)</span>为真，即<span
+class="math inline">\(RC(KB)\)</span>是可满足的</li>
+<li>现用反证法证明<span class="math inline">\(KB\)</span>为真，假设<span
+class="math inline">\(KB\)</span>为假，即至少有一个确定子句为假
+<ol type="1">
+<li>若该子句为implication子句，即<span
+class="math inline">\(P\Rightarrow Q\)</span>，那么<span
+class="math inline">\(P\)</span>真<span
+class="math inline">\(Q\)</span>假，<span class="math inline">\(P\in
+RC(KB)\)</span>，同时<span class="math inline">\(Q\in
+RC(KB)\)</span>，那么<span
+class="math inline">\(Q\)</span>为真，这与假设矛盾</li>
+<li>假设该子句为单文字，那么它同时属于<span
+class="math inline">\(RC(KB)\)</span>，必然为真，这与假设矛盾</li>
+</ol></li>
+<li>如上说明，如果<span
+class="math inline">\(RC(KB)\)</span>是可满足的，那么<span
+class="math inline">\(KB\)</span>为真；即<span
+class="math inline">\(m\in M(RC(KB))\)</span>，那么<span
+class="math inline">\(m\in M(KB)\)</span></li>
+<li>若<span class="math inline">\(KB\models \alpha\)</span>，说明在<span
+class="math inline">\(M(KB)\)</span>中，<span
+class="math inline">\(\alpha\)</span>为真；同理在<span
+class="math inline">\(m\)</span>中，<span
+class="math inline">\(\alpha\)</span>也为真，即<span
+class="math inline">\(\alpha\in RC(KB)\)</span>，也就是说<span
+class="math inline">\(KB\vdash \alpha\)</span></li>
+</ol>
+<h4 id="and-elimination-合取消去">And-Elimination (合取消去)</h4>
+<p>若<span class="math inline">\(KB\)</span>中有<span
+class="math inline">\(P \land Q\)</span>，则可以推出<span
+class="math inline">\(P\)</span>和<span
+class="math inline">\(Q\)</span>。</p>
+<p><span class="math display">\[
+\frac{P \land Q}{P}
+\]</span></p>
+<h4 id="单调性">单调性</h4>
+<p>如果<span class="math inline">\(KB \models \alpha\)</span>，那么<span
+class="math inline">\(KB \land \beta \models
+\alpha\)</span>；也就是说，蕴含
+(entailment)的语句集合只能随着信息的增加而增加。</p>
+<h3 id="proof-by-resolution-归结证明">Proof by Resolution
+(归结证明)</h3>
+<p>归结是一种推断规则，当与完备的搜索算法一起使用时，可以产生一个完备的推断算法。</p>
+<p>单元归结 (unit resolution)：如果<span
+class="math inline">\(KB\)</span>中有<span
+class="math inline">\(P\)</span>和<span class="math inline">\(\neg P
+\lor Q\)</span>，则可以推出<span
+class="math inline">\(Q\)</span>；单元归结推断适用于一个<code>文字</code><a
+href="#fn4" class="footnote-ref" id="fnref4"
+role="doc-noteref"><sup>4</sup></a>和一个文字的<code>析取式</code>/子句，并生成一个新的<code>子句</code>
+(clause)；单个文字也可以看做一个<code>单元子句</code>。</p>
+<p><span class="math display">\[
+\frac{l_1\lor \dots \lor l_n, m}{l_1\lor \dots \lor l_{i-1} \lor l_{i+1}
+\lor \dots \lor l_n} \text{ if } l_i = \neg m
+\]</span></p>
+<p>全归结 (full resolution)：如果<span
+class="math inline">\(KB\)</span>中有<span class="math inline">\(P \lor
+Q\)</span>和<span class="math inline">\(\neg P \lor
+R\)</span>，则可以推出<span class="math inline">\(Q \lor
+R\)</span>；全归结推断适用于两个<code>析取子句</code>，并生成一个新的<code>子句</code>。If
+<span class="math inline">\(l_i\)</span> and <span
+class="math inline">\(m_j\)</span> are
+<code>complementary literals</code>, then</p>
+<p><span class="math display">\[
+\frac{l_1\lor \dots \lor l_n, m_1\lor \dots \lor m_k}{l_1\lor \dots \lor
+l_{i-1} \lor l_{i+1} \lor \dots \lor l_n \lor m_1\lor \dots \lor m_{j-1}
+\lor m_{j+1} \lor \dots \lor m_k} \text{ if } l_i = \neg m_j
+\]</span></p>
+<h4 id="conjunctive-normal-form-合取范式-cnf">Conjunctive Normal Form
+(合取范式, CNF)</h4>
+<p>形式上为子句的合取式，每个子句都是文字的析取式，例如<span
+class="math inline">\((P \lor Q) \land (\neg P \lor
+R)\)</span>，这样的合取式称为合取范式。将子句转换为合取范式的过程包括:</p>
+<ul>
+<li>将双蕴含转换为蕴含: <span class="math inline">\(P \Leftrightarrow Q
+\equiv (P \Rightarrow Q) \land (Q \Rightarrow P)\)</span></li>
+<li>将蕴含转换为析取: <span class="math inline">\(P \Rightarrow Q \equiv
+\neg P \lor Q\)</span></li>
+<li>将<span class="math inline">\(\neg\)</span>内移到文字上/子句中</li>
+</ul>
+<p><span class="math display">\[
+\begin{aligned}
+\neg (\neg P) &amp;\equiv P \\
+\neg (P \land Q) &amp;\equiv \neg P \lor \neg Q \\
+\neg (P \lor Q) &amp;\equiv \neg P \land \neg Q \\
+\end{aligned}
+\]</span></p>
+<ul>
+<li>使用分配律将析取内的合取转换为合取内的析取: <span
+class="math inline">\(P \lor (Q \land R) \equiv (P \lor Q) \land (P \lor
+R)\)</span></li>
+</ul>
+<h4 id="a-resolution-algorithm-归结算法">A Resolution Algorithm
+(归结算法)</h4>
+<p>归结算法的输入是一个合取范式<span
+class="math inline">\(KB\)</span>和一个语句<span
+class="math inline">\(\alpha\)</span>，为了证明<span
+class="math inline">\(KB\)</span>蕴含<span
+class="math inline">\(\alpha\)</span>，我们要证明<span
+class="math inline">\(KB \land \neg \alpha\)</span>是不可满足的。</p>
+<p>归结算法的过程如下:</p>
+<ol type="1">
+<li>将<span class="math inline">\(KB \land \neg
+\alpha\)</span>转换为合取范式</li>
+<li>应用归结规则生成新的子句，如果新子句没有出现过，那么将它加入到<span
+class="math inline">\(KB\)</span>中</li>
+<li>重复步骤2直到无法生成新的子句或者生成了空子句，此时
+<ol type="1">
+<li>如果生成了空子句，那么<span class="math inline">\(KB \land \neg
+\alpha\)</span>是不可满足的，也就是说<span class="math inline">\(KB
+\models \alpha\)</span></li>
+<li>如果无法生成新的子句，那么<span class="math inline">\(KB \land \neg
+\alpha\)</span>是可满足的，也就是说<span class="math inline">\(KB
+\not\models \alpha\)</span></li>
+</ol></li>
+</ol>
+<h4
+id="completeness-of-the-resolution-algorithm-归结算法的完备性">Completeness
+of the Resolution Algorithm (归结算法的完备性)</h4>
+<p>完备性：若<span
+class="math inline">\(KB\models\alpha\)</span>，那么<span
+class="math inline">\(KB\vdash\alpha\)</span>，也就是说如果<span
+class="math inline">\(KB\)</span>蕴含<span
+class="math inline">\(\alpha\)</span>，那么归结算法可以证明<span
+class="math inline">\(KB\)</span>推出<span
+class="math inline">\(\alpha\)</span>。其中<span
+class="math inline">\(KB\models\alpha\)</span>等价于<span
+class="math inline">\(KB\land\neg\alpha\)</span>不可满足，<span
+class="math inline">\(KB\vdash\alpha\)</span>等价于<span
+class="math inline">\(KB\land\neg\alpha\)</span>的归结闭包包含空子句。</p>
+<p>归结闭包 (resolution closure, RC)：子句集合<span
+class="math inline">\(S\)</span>的归结闭包是子句集合的所有子句及使用归结规则生成的所有子句的集合。因为<span
+class="math inline">\(S\)</span>中的文字是有限的，所以有这些文字生成的子句也是有限的，因此<span
+class="math inline">\(RC(S)\)</span>是有限的。</p>
+<p>归结的完备性可通过证明若<span
+class="math inline">\(KB\land\neg\alpha\)</span>是不可满足的，那么<span
+class="math inline">\(KB\land\neg\alpha\)</span>的归结闭包包含空子句来证明。反证即为：如果<span
+class="math inline">\(KB\land\neg\alpha\)</span>的归结闭包不包含空子句，那么<span
+class="math inline">\(KB\land\neg\alpha\)</span>是可满足的。</p>
+<p>基本归结定理 (ground resolution theorem)：如果<span
+class="math inline">\(S\)</span>是不可满足的，则<span
+class="math inline">\(S\)</span>的归结闭包包含空子句，那么。定理的反证<a
+href="#fn5" class="footnote-ref" id="fnref5"
+role="doc-noteref"><sup>5</sup></a>如下:</p>
+<ol type="1">
+<li>构建一种真值指派，试图使<span
+class="math inline">\(S\)</span>中的所有子句都为真，即<span
+class="math inline">\(S\)</span>是可满足的</li>
+<li>这种真值指派为：对于一个子句<span
+class="math inline">\(p_1\lor\dots\lor \lnot p_i\)</span>，如果前<span
+class="math inline">\(i-1\)</span>个文字都为假，或不包含其他任何文字，那么指派<span
+class="math inline">\(p_i\)</span>为假，使得整个子句为真；否则（前<span
+class="math inline">\(i-1\)</span>个文字中有一个为真），指派<span
+class="math inline">\(p_i\)</span>为假，整个子句仍然为真。</li>
+<li>假设指派<span
+class="math inline">\(p_i\)</span>使得首次出现一个为假的子句<span
+class="math inline">\(False\lor\dots\lor p_i\)</span>或<span
+class="math inline">\(False\lor\dots\lor \lnot p_i\)</span>
+<ol type="1">
+<li>如果只包含上述两个子句中的一个，那么可通过真值指派使其为真，<span
+class="math inline">\(S\)</span>仍是可满足的</li>
+<li>如果包含两个子句，那么通过归结可得一个永假的子句，即空子句，这与假设矛盾</li>
+</ol></li>
+<li>如上说明，只要<span
+class="math inline">\(S\)</span>中不包含空子句，那么通过这种真值指派，<span
+class="math inline">\(S\)</span>是可满足的；反过来，如果<span
+class="math inline">\(S\)</span>是不可满足的，那么<span
+class="math inline">\(S\)</span>的归结闭包包含空子句；即可证明基本归结定理。</li>
+</ol>
+<h3 id="horn-clauses-霍恩子句">Horn Clauses (霍恩子句)</h3>
+<p>确定子句 (definite clause)：只有一个正文字的析取式，例如<span
+class="math inline">\(P\)</span>或<span class="math inline">\(\neg P
+\lor Q \lor \neg R\)</span>。</p>
+<p>霍恩子句 (Horn clause)：至多只有一个正文字的析取式<a href="#fn6"
+class="footnote-ref" id="fnref6"
+role="doc-noteref"><sup>6</sup></a>，例如<span
+class="math inline">\(P\)</span>或<span class="math inline">\(\neg P
+\lor Q\)</span>或<span class="math inline">\(\neg P \lor \neg Q \lor
+\neg
+R\)</span>；所有的确定子句都是霍恩子句；没有正文字的霍恩子句称为<code>目标子句</code>
+(goal clause)。</p>
+<h3 id="forward-chaining-前向链接">Forward Chaining (前向链接)</h3>
+<p>前向链接算法查询单个命题符号<span
+class="math inline">\(q\)</span>是否被确定子句的知识库<span
+class="math inline">\(KB\)</span>蕴含，它从知识库的已知事实开始；如果一个蕴含式的前提都是已知的，那么它的结论也是已知的，就将结论添加到已知事实中；重复这个过程直到<span
+class="math inline">\(q\)</span>被确定或者无法推出新的结论。</p>
+<pre class="mermaid"><code>graph LR;
+  id6[&quot;A&quot;] --&gt; id3;
+  id5[&quot;B&quot;] --&gt; id4;
+  id1[&quot;P&quot;] --&gt; id2[&quot;Q&quot;];
+  id5 --&gt; id3;
+  id1 --&gt; id3;
+  id4[&quot;M&quot;] --&gt; id1;
+  id3[&quot;L&quot;] --&gt; id1;
+  id3 --&gt; id4;
+  </code></pre>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Forward chaining algorithm</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co">&quot;&quot;&quot;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co">假定KB中的子句数量为n，文字数量为m</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co">查询q是否被KB蕴含</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co">&quot;&quot;&quot;</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Clause:</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, premises, conclusion):</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>      <span class="cf">assert</span> <span class="bu">isinstance</span>(premises, (<span class="bu">list</span>, <span class="bu">tuple</span>, <span class="bu">set</span>))</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>      <span class="va">self</span>.premises <span class="op">=</span> premises <span class="co"># 前提</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>      <span class="va">self</span>.conclusion <span class="op">=</span> conclusion <span class="co"># 结论</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>      <span class="va">self</span>.count <span class="op">=</span> <span class="bu">len</span>(premises) <span class="co"># 前提数量</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>      <span class="va">self</span>.set_premises <span class="op">=</span> <span class="bu">set</span>(premises) <span class="co"># 前提集合</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>clauses <span class="op">=</span> [</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  Clause([<span class="st">&#39;P&#39;</span>], <span class="st">&#39;Q&#39;</span>), <span class="co"># P蕴含Q</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  Clause([<span class="st">&#39;L&#39;</span>, <span class="st">&#39;M&#39;</span>], <span class="st">&#39;P&#39;</span>), <span class="co"># L且M蕴含P</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>  Clause([<span class="st">&#39;B&#39;</span>, <span class="st">&#39;L&#39;</span>], <span class="st">&#39;M&#39;</span>), <span class="co"># B且L蕴含M</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>  Clause([<span class="st">&#39;A&#39;</span>, <span class="st">&#39;P&#39;</span>], <span class="st">&#39;L&#39;</span>), <span class="co"># A且P蕴含L</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>  Clause([<span class="st">&#39;A&#39;</span>, <span class="st">&#39;B&#39;</span>], <span class="st">&#39;L&#39;</span>), <span class="co"># A且B蕴含L</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>] <span class="co"># KB</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>queue <span class="op">=</span> [<span class="st">&#39;A&#39;</span>, <span class="st">&#39;B&#39;</span>] <span class="co"># 已知事实</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>count <span class="op">=</span> [c.count <span class="cf">for</span> c <span class="kw">in</span> clauses] <span class="co"># 子句的前提数量</span></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>value <span class="op">=</span> {} <span class="co"># 已知事实的真值，初始化为False</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> c <span class="kw">in</span> clauses:</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>  value[c.conclusion] <span class="op">=</span> <span class="va">False</span> <span class="co"># 初始化文字的真值</span></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> p <span class="kw">in</span> c.set_premises:</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>    value[p] <span class="op">=</span> <span class="va">False</span> <span class="co"># 初始化文字的真值</span></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>entailed <span class="op">=</span> <span class="va">False</span> <span class="co"># 是否蕴含</span></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> <span class="bu">len</span>(queue) <span class="op">&gt;</span> <span class="dv">0</span>:</span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>  p <span class="op">=</span> queue.pop(<span class="dv">0</span>) <span class="co"># 从已知事实中取出一个命题符号</span></span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> p <span class="op">==</span> <span class="st">&#39;Q&#39;</span>: <span class="co"># 如果已知事实中有Q，那么Q被蕴含</span></span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>    entailed <span class="op">=</span> <span class="va">True</span></span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>    <span class="cf">break</span> <span class="co"># 结束</span></span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> value[p]:</span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>    <span class="cf">continue</span></span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>  value[p]<span class="op">=</span><span class="va">True</span> <span class="co"># 将p的真值设为True，表明p是已知的</span></span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> c <span class="kw">in</span> clauses:</span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> p <span class="kw">in</span> c.set_premises:</span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>      c.count <span class="op">-=</span> <span class="dv">1</span> <span class="co"># 将p作为前提的子句的前提数量减1</span></span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> c.count <span class="op">==</span> <span class="dv">0</span>: <span class="co"># 如果子句的前提数量为0，那么子句的结论被蕴含</span></span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>        queue.append(c.conclusion) <span class="co"># 将子句的结论添加到已知事实中</span></span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> entailed:</span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>  <span class="bu">print</span>(<span class="st">&#39;Q is entailed&#39;</span>)</span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>  <span class="bu">print</span>(<span class="st">&#39;Q is not entailed&#39;</span>)</span></code></pre></div>
+<p>前向链接是可靠且完备的：考虑上述算法终止时的value表，每个已知或推得的命题符号的真值都为True，其余为False，可以将其看做一个模型，原始<span
+class="math inline">\(KB\)</span>的子句在这个模型中都为真；假设存在原始子句<span
+class="math inline">\(\alpha_1\land\dots\land\alpha_n\Rightarrow\beta\)</span>为假，那么<span
+class="math inline">\(\alpha_1\land\dots\land\alpha_n\)</span>为真，<span
+class="math inline">\(\beta\)</span>为假，此时可以将<span
+class="math inline">\(\beta\)</span>添加到已知事实中，算法终止时<span
+class="math inline">\(\beta\)</span>的真值为True，矛盾，因此所有蕴含的原始子句必然会被推出，说明前向链接是完备的。</p>
+<p>前向链接是数据驱动 (data-driven)
+的，相比之下，反向链接是一种目标导向推理 (goal-directed
+reasoning)，它从目标开始推理，仅涉及相关事实，因此代价更低。</p>
+<aside id="footnotes" class="footnotes footnotes-end-of-document"
+role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn1"><p><span
+class="math inline">\(\equiv\)</span>用于对语句进行声明，而<span
+class="math inline">\(\Leftrightarrow\)</span>是语句的一部分。<a
+href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p><span class="math inline">\(\alpha \models
+\beta\)</span>当且仅当<span class="math inline">\(\alpha \Rightarrow
+\beta\)</span>是有效的，等价于<span class="math inline">\(\neg \alpha
+\lor \beta\)</span>是有效的，等价于<span class="math inline">\(\neg
+(\neg \alpha \lor \beta)\)</span>是无效的，等价于<span
+class="math inline">\(\alpha \land \neg \beta\)</span>是无效的。<a
+href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li
+id="fn3"><p>肯定前提和合取消去是可靠的，不必进行枚举就可以得到正确的结果，可以看做是<code>逻辑等价</code>的一种推断规则，也可以枚举真值表得到正确的结果。<a
+href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li
+id="fn4"><p>文字是命题符号或者命题符号的否定，是句子的最小组成部分，也叫做单元子句。<a
+href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p>如果<span
+class="math inline">\(S\)</span>的归结闭包不包含空子句，那么<span
+class="math inline">\(S\)</span>的归结闭包是可满足的，也就是说<span
+class="math inline">\(S\)</span>是可满足的；也就是说<span
+class="math inline">\(S\)</span>中可以都是真的。<a href="#fnref5"
+class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li
+id="fn6"><p>霍恩子句在归结时是闭的，也就是说两个霍恩子句的归结结果也是霍恩子句；用霍恩子句进行推断可以通过前向链接和反向链接实现。<a
+href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</aside>
+</body>
+</html>

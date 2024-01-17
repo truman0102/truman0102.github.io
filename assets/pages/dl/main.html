@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Deep Learning</title>
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"
+  type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Deep Learning</h1>
+</header>
+<nav id="TOC" role="doc-toc">
+
+</nav>
+<h2 id="基本结构">基本结构</h2>
+<h3 id="神经元">神经元</h3>
+<p>神经元是神经网络的基本单元，它接收输入信号，经过加权处理后，输出一个信号。</p>
+<p><span class="math display">\[
+f(x) = \sigma(\sum_{i=1}^{n} w_i x_i + b)
+\]</span></p>
+<h3 id="激活函数">激活函数</h3>
+<p>激活函数是神经网络的非线性部分，它的作用是引入非线性因素，使得神经网络可以拟合非线性函数；对应<a
+href="#神经元">神经元</a>中的 <span
+class="math inline">\(\sigma\)</span>。</p>
+<p>常用的激活函数有：</p>
+<ul>
+<li>sigmoid: <span class="math inline">\(\sigma(x) = \frac{1}{1 +
+e^{-x}}= \frac{e^x}{e^x + 1}\)</span></li>
+<li>tanh: <span class="math inline">\(\tanh(x) = \frac{e^x - e^{-x}}{e^x
++ e^{-x}}\)</span></li>
+<li>ReLU: <span class="math inline">\(\text{ReLU}(x) = \max(0,
+x)\)</span></li>
+<li><ul>
+<li>Leaky ReLU</li>
+</ul></li>
+<li><ul>
+<li>SELU</li>
+</ul></li>
+<li><ul>
+<li>GELU</li>
+</ul></li>
+</ul>
+<p>ReLU计算速度快，在CNN中经常使用；sigmoid和tanh在RNN中经常使用。</p>
+<h3 id="损失函数">损失函数</h3>
+<p>损失函数是神经网络的目标函数，它的作用是衡量神经网络的输出与真实值的差距。</p>
+<p>常用的损失函数有：</p>
+<ul>
+<li>MSE: <span class="math inline">\(\text{MSE} = \frac{1}{n}
+\sum_{i=1}^{n} (y_i - \hat{y}_i)^2\)</span></li>
+<li>MAE: <span class="math inline">\(\text{MAE} = \frac{1}{n}
+\sum_{i=1}^{n} |y_i - \hat{y}_i|\)</span></li>
+<li>Cross Entropy: <span class="math inline">\(\text{CE} = -
+\sum_{i=1}^{n} y_i \log \hat{y}_i\)</span></li>
+<li><ul>
+<li>Binary Cross Entropy</li>
+</ul></li>
+<li><ul>
+<li>Categorical Cross Entropy</li>
+</ul></li>
+</ul>
+<h3 id="优化器">优化器</h3>
+<h2 id="全连接神经网络">全连接神经网络</h2>
+<p>全连接神经网络是最简单的神经网络，它的每一层都是全连接层，含多个隐藏层的全连接神经网络也称为深度神经网络
+(Deep Neural Network, DNN)。</p>
+<p>考虑其中的第<span class="math inline">\(L\)</span>层和下一层<span
+class="math inline">\(L+1\)</span>层；第<span
+class="math inline">\(L\)</span>层的输出为 <span
+class="math inline">\(a^L\)</span>是一个向量，其大小与第<span
+class="math inline">\(L\)</span>层的神经元个数相同，设为<span
+class="math inline">\(N_L\)</span>；<span
+class="math inline">\(a^L\)</span>是第<span
+class="math inline">\(L+1\)</span>层的输入，经过加权处理后，输出为 <span
+class="math inline">\(z^{L+1}\)</span>，其大小与第<span
+class="math inline">\(L+1\)</span>层的神经元个数相同，设为<span
+class="math inline">\(N_{L+1}\)</span>；<span
+class="math inline">\(z^{L+1}\)</span>经过激活函数处理后，输出为 <span
+class="math inline">\(a^{L+1}\)</span></p>
+<p><span class="math display">\[
+\begin{aligned}
+z^{L+1}_j &amp;= \left\langle w^{L+1}_j, a^L \right\rangle + b^{L+1}_j
+\\
+a^{L+1}_j &amp;= \sigma(z^{L+1}_j) \\
+\end{aligned}
+\]</span></p>
+<p>其中<span class="math inline">\(w^{L+1}_j\)</span>是第<span
+class="math inline">\(L+1\)</span>层第<span
+class="math inline">\(j\)</span>个神经元的权重向量，其大小与第<span
+class="math inline">\(L\)</span>层的神经元个数<span
+class="math inline">\(N_L\)</span>相同，<span
+class="math inline">\(b^{L+1}_j\)</span>是第<span
+class="math inline">\(L+1\)</span>层第<span
+class="math inline">\(j\)</span>个神经元的偏置，<span
+class="math inline">\(a^{L+1}_j\)</span>是第<span
+class="math inline">\(L+1\)</span>层第<span
+class="math inline">\(j\)</span>个神经元的输出。设权重矩阵<span
+class="math inline">\(W^{L+1}\)</span>的第<span
+class="math inline">\(j\)</span>列为<span
+class="math inline">\(w^{L+1}_j\)</span>，则有</p>
+<p><span class="math display">\[
+\begin{aligned}
+W^{L+1}_{N_{L+1}\times N_L} &amp;= \begin{bmatrix} w^{L+1}_1 &amp;
+w^{L+1}_2 &amp; \cdots &amp; w^{L+1}_{N_{L+1}} \end{bmatrix}^T \\
+&amp;=\begin{bmatrix} w^{L+1}_{1,1} &amp; w^{L+1}_{1,2} &amp; \cdots
+&amp; w^{L+1}_{1,N_L} \\ w^{L+1}_{2,1} &amp; w^{L+1}_{2,2} &amp; \cdots
+&amp; w^{L+1}_{2,N_L} \\ \vdots &amp; \vdots &amp; \ddots &amp; \vdots
+\\ w^{L+1}_{N_{L+1},1} &amp; w^{L+1}_{N_{L+1},2} &amp; \cdots &amp;
+w^{L+1}_{N_{L+1},N_L} \end{bmatrix} \\
+\end{aligned}
+\]</span></p>
+<p>则有</p>
+<p><span class="math display">\[
+\begin{aligned}
+z^{L+1} &amp;= W^{L+1} a^L + b^{L+1} \\
+a^{L+1} &amp;= \sigma(z^{L+1})
+\end{aligned}
+\]</span></p>
+<h3 id="反向传播">反向传播</h3>
+<p>反向传播是神经网络的训练算法，它的作用是根据损失函数的梯度，更新神经网络的参数，包括更新权重和偏置，依赖于链式法则。</p>
+<p>设损失函数为<span class="math inline">\(L\)</span>，记第<span
+class="math inline">\(L\)</span>层第<span
+class="math inline">\(j\)</span>个神经元的梯度误差<span
+class="math inline">\(\delta^{L}_j\)</span>为<span
+class="math inline">\(\frac{\partial L}{\partial
+z^{L}_j}\)</span>，则有</p>
+<p><span class="math display">\[
+\begin{aligned}
+\frac{\partial L}{\partial w^{L+1}_{i} } &amp;= \frac{\partial
+L}{\partial z^{L+1}_{i}} \frac{\partial z^{L+1}_{i}}{\partial
+w^{L+1}_{i}} = \delta^{L+1}_i a^{L} \\
+\frac{\partial L}{\partial b^{L+1}_{i} } &amp;= \frac{\partial
+L}{\partial z^{L+1}_{i}} \frac{\partial z^{L+1}_{i}}{\partial
+b^{L+1}_{i}} = \delta^{L+1}_i \\
+\end{aligned}
+\]</span></p>
+<p>根据链式法则，梯度误差间的关系为</p>
+<p><span class="math display">\[
+\begin{aligned}
+\delta^{L}_j &amp;= \frac{\partial L}{\partial z^{L}_j} \\
+&amp;= \sum_{i=1}^{N_{L+1}} \frac{\partial L}{\partial z^{L+1}_i}
+\frac{\partial z^{L+1}_i}{\partial z^{L}_j} \\
+&amp;= \sum_{i=1}^{N_{L+1}} \frac{\partial L}{\partial z^{L+1}_i}
+\frac{\partial z^{L+1}_i}{\partial a^{L}_j} \frac{\partial
+a^{L}_j}{\partial z^{L}_j} \\
+&amp;= \sum_{i=1}^{N_{L+1}} \delta^{L+1}_i w^{L+1}_{i,j}
+\sigma^{\prime}(z^{L}_j) \\
+&amp;= \sigma^{\prime}(z^{L}_j) \sum_{i=1}^{N_{L+1}} \delta^{L+1}_i
+w^{L+1}_{i,j} \\
+\delta^{L}&amp;=\sigma^{\prime}(z^{L}) \odot (W^{L+1})^T \delta^{L+1}
+\end{aligned}
+\]</span></p>
+<p>这里的<span
+class="math inline">\(\odot\)</span>表示对应元素相乘，非矩阵乘法；<span
+class="math inline">\(\sigma^{\prime}\)</span>表示激活函数的导数；<span
+class="math inline">\((W^{L+1})^T\)</span>表示<span
+class="math inline">\(W^{L+1}\)</span>的转置；<span
+class="math inline">\(\delta^{L+1}\)</span>是第<span
+class="math inline">\(L+1\)</span>层的梯度误差向量，其大小可理解为<span
+class="math inline">\(N_{L+1}\times 1\)</span>。</p>
+<p>优化参数时使用梯度下降法，即</p>
+<p><span class="math display">\[
+\begin{aligned}
+w &amp;\leftarrow w - \alpha \frac{\partial L}{\partial w} \\
+b &amp;\leftarrow b - \alpha \frac{\partial L}{\partial b} \\
+\end{aligned}
+\]</span></p>
+<p>写成矩阵的形式为</p>
+<p><span class="math display">\[
+\begin{aligned}
+W^{L+1} &amp;\leftarrow W^{L+1} - \alpha \frac{\partial L}{\partial
+W^{L+1}} \\
+&amp;= W^{L+1} - \alpha \delta^{L+1} (a^{L})^T \\
+b^{L+1} &amp;\leftarrow b^{L+1} - \alpha \frac{\partial L}{\partial
+b^{L+1}} \\
+&amp;= b^{L+1} - \alpha \delta^{L+1} \\
+\end{aligned}
+\]</span></p>
+<h3 id="梯度问题">梯度问题</h3>
+<p>梯度消失和梯度爆炸是深度神经网络的两个主要问题：根据梯度误差间的传递关系可知，若每层激活函数的导数过大或过小，梯度误差会随着层数的增加而指数级增大或减小，导致梯度爆炸或梯度消失。</p>
+<h2 id="卷积神经网络-cnn">卷积神经网络 (CNN)</h2>
+<p>输入通常是多通道的图像矩阵，再卷积过程，可以通过增加卷积核的个数来增加输出通道的数量。</p>
+<h3 id="卷积层">卷积层</h3>
+<p>卷积层是卷积神经网络的基本单元，它的作用是提取输入的特征。卷积操作通过卷积核
+(Kernel)
+实现参数共享，输入的每个位置都使用相同的卷积核，从而减少参数量。</p>
+<p>归纳偏置 (Inductive Bias)
+是指模型在没有看到数据的情况下，对数据的假设。卷积操作的归纳偏置是局部连接
+(Local Connectivity) 和权值共享 (Weight
+Sharing)。归纳偏置可以理解为归纳性偏好。</p>
+<p>定义卷积操作为</p>
+<p><span class="math display">\[
+f(x,y)\star h = \sum_{i=-a}^{a} \sum_{j=-b}^{b} f(x-i, y-j) h(i,j)
+\]</span></p>
+<p>在CNN中，每个卷积核实际上都是<span
+class="math inline">\(C^{\text{in}}\)</span>个<span
+class="math inline">\(a\times b\)</span>的矩阵，其中<span
+class="math inline">\(C^{\text{in}}\)</span>是输入通道的数量，<span
+class="math inline">\(a\)</span>和<span
+class="math inline">\(b\)</span>是单一核矩阵的大小；对于每个输出通道，其结果是输入通道的卷积结果的和，再加上偏置，即</p>
+<p><span class="math display">\[
+\begin{aligned}
+z_{i\in C^{\text{out}}} &amp;= \sum_{j\in C^{\text{in}}} f \star h_{i,j}
++ b_i \\
+\end{aligned}
+\]</span></p>
+<p>所以如果输入通道是<span
+class="math inline">\(C^{\text{in}}\)</span>，输出通道是<span
+class="math inline">\(C^{\text{out}}\)</span>，则实际上一共需要<span
+class="math inline">\(C^{\text{in}}\times
+C^{\text{out}}\)</span>个二维矩阵，每个矩阵的大小是<span
+class="math inline">\(a\times b\)</span>，再加上<span
+class="math inline">\(C^{\text{out}}\)</span>个偏置。</p>
+<h3 id="池化层">池化层</h3>
+<p>池化操作在卷积操作的基础上，对卷积结果进行降维，通常是在局部矩阵上取最大值或平均值。</p>
+<p>反向传播时，需要还原出池化操作前等大的矩阵，再将梯度误差分配到局部矩阵中：
+- 若采用平均池化操作，则将梯度误差平均分配到局部矩阵中 -
+若采用最大池化操作，则将梯度误差分配到局部矩阵中最大值所在的位置，其他位置为0</p>
+<h2 id="循环神经网络-rnn">循环神经网络 (RNN)</h2>
+<h2 id="生成对抗网络-gan">生成对抗网络 (GAN)</h2>
+<h2 id="自注意力网络-transformer">自注意力网络 (Transformer)</h2>
+<h2 id="训练技巧">训练技巧</h2>
+<h3 id="梯度裁剪">梯度裁剪</h3>
+<h3 id="正则化">正则化</h3>
+<p>在损失函数中加入正则项，可以减少过拟合。常见的正则项有：</p>
+<ul>
+<li>L1正则化</li>
+<li>L2正则化</li>
+</ul>
+<h3 id="权重初始化">权重初始化</h3>
+<h3 id="dropout">Dropout</h3>
+<p>按一定比例随机丢弃神经元，即将神经元的输出设置为0，可以减少过拟合。</p>
+<h3 id="batch-normalization">Batch Normalization</h3>
+<h3 id="layer-normalization">Layer Normalization</h3>
+<h3 id="learning-rate">Learning Rate</h3>
+</body>
+</html>
