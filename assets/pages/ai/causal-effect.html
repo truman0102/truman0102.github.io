@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Causal Effect</title>
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"
+  type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Causal Effect</h1>
+</header>
+<h1 id="因果模型">因果模型</h1>
+<p>因果模型是一种用于描述因果关系的模型，它可以用于预测和干预。因果模型的基本假设是，我们可以通过观察到的变量来推断未观察到的变量。</p>
+<p>因果模型图是因果模型的一种可视化表示，它是一个有向无环图，其中节点表示变量，边表示因果关系，从一个变量指向另一个变量的边表示前者是后者的原因。</p>
+<p>对因果模型图进行分析时：</p>
+<ol type="1">
+<li>对于一个节点而言，它的所有父节点都是它的直接原因，它的所有子节点都是它的直接结果；它的所有祖先节点都是它的间接原因，它的所有后代节点都是它的间接结果。</li>
+<li>对于两个节点而言，如果它们通过一条边直接相连，那么它们互为因果；如果它们之间存在至少一条路径，那么通过引入更多的中间节点，它们可能互为因果。</li>
+<li>对于三个节点而言，其中一个节点位于连接另外两个节点的路径上，那么通过控制该中间节点，可以控制另外两个节点之间的关系。</li>
+</ol>
+<h2 id="乘积分解法则">乘积分解法则</h2>
+<p>对于<a
+href="#链结构">链结构</a>而言，我们可以将联合概率分解为条件概率的乘积，即乘积分解法则。</p>
+<p><span class="math display">\[
+P(x_1, x_2, \cdots, x_n) = \prod_{i=1}^n P(x_i \vert pa(x_i))
+\]</span></p>
+<p>其中<span class="math inline">\(pa(x_i)\)</span>表示<span
+class="math inline">\(x_i\)</span>的父节点。</p>
+<p>考虑一个简单的例子，假设有三个变量<span
+class="math inline">\(X\)</span>、<span
+class="math inline">\(Y\)</span>和<span
+class="math inline">\(Z\)</span>，它们之间的关系为<span
+class="math inline">\(X \rightarrow Y \rightarrow Z\)</span>，那么有</p>
+<p><span class="math display">\[
+P(X, Y, Z) = P(X)P(Y \vert X)P(Z \vert Y)
+\]</span></p>
+<h2 id="结构因果模型">结构因果模型</h2>
+<p>结构因果模型用于描述数据的产生机制，包括：</p>
+<ol type="1">
+<li>外生变量集合<span
+class="math inline">\(U\)</span>，它们是模型中的根节点，它们的值是由外部环境决定的，不依赖于模型中的其他变量。</li>
+<li>内生变量集合<span
+class="math inline">\(V\)</span>，它们是模型中的非根节点，它们的值是由模型中的其他变量决定的，即至少依赖于一个父节点。</li>
+<li>确定内生变量取值的函数集合<span
+class="math inline">\(F\)</span>，它们是模型中的边，它们的值是由父节点的值决定的，即它们是父节点的函数。</li>
+</ol>
+<p><span class="math display">\[
+V = F\{U\}
+\]</span></p>
+<h2 id="因果模型图和独立性">因果模型图和独立性</h2>
+<p>以三个邻接的节点<span class="math inline">\(X\)</span>、<span
+class="math inline">\(Y\)</span>和<span
+class="math inline">\(Z\)</span>为例，将三个节点直接相连，考虑边的方向，有三种情况：</p>
+<ol type="1">
+<li>链结构：<span class="math inline">\(X \rightarrow Y \rightarrow
+Z\)</span>。</li>
+<li>分叉结构：<span class="math inline">\(X \leftarrow Y \rightarrow
+Z\)</span>。</li>
+<li>对撞结构：<span class="math inline">\(X \rightarrow Y \leftarrow
+Z\)</span>；也叫共因结构。</li>
+</ol>
+<p>在独立性分析中，我们关注的是通过控制中间节点，是否可以推断出两个节点的独立性或依赖关系。通过下文的分析，我们可以得到如下结论：链结构和分叉结构中的独立性判断是类似的，而对撞结构中的独立性判断与它们不同。</p>
+<h3 id="链结构">链结构</h3>
+<p>在链结构中</p>
+<ul>
+<li><span class="math inline">\(X=F_X\{U_X\}\)</span></li>
+<li><span class="math inline">\(Y=F_Y\{X, U_Y\}\)</span></li>
+<li><span class="math inline">\(Z=F_Z\{Y, U_Z\}\)</span></li>
+</ul>
+<p>给定<span class="math inline">\(Y\)</span>，<span
+class="math inline">\(X\)</span>和<span
+class="math inline">\(Z\)</span>只受外生变量影响，故<span
+class="math inline">\(X\)</span>和<span
+class="math inline">\(Z\)</span>独立，记作<span class="math inline">\(X
+\perp Z \vert Y\)</span></p>
+<pre class="mermaid"><code>---
+title: Chain
+---
+graph LR
+    id1[&quot;U{X}&quot;] --&gt; X
+    X --&gt; Y
+    id2[&quot;U{Y}&quot;] --&gt; Y
+    Y --&gt; Z
+    id3[&quot;U{Z}&quot;] --&gt; Z</code></pre>
+<h3 id="分叉结构">分叉结构</h3>
+<p>在分叉结构中</p>
+<ul>
+<li><span class="math inline">\(X=F_X\{U_X\}\)</span></li>
+<li><span class="math inline">\(Y=F_Y\{X, U_Y\}\)</span></li>
+<li><span class="math inline">\(Z=F_Z\{X, U_Z\}\)</span></li>
+</ul>
+<p>给定<span class="math inline">\(X\)</span>，<span
+class="math inline">\(Y\)</span>和<span
+class="math inline">\(Z\)</span>只受外生变量影响，故<span
+class="math inline">\(Y\)</span>和<span
+class="math inline">\(Z\)</span>独立，记作<span class="math inline">\(Y
+\perp Z \vert X\)</span></p>
+<pre class="mermaid"><code>---
+title: Fork
+---
+graph LR
+    id1[&quot;U{X}&quot;] --&gt; X
+    id2[&quot;U{Y}&quot;] --&gt; Y
+    X --&gt; Y
+    X --&gt; Z
+    id3[&quot;U{Z}&quot;] --&gt; Z</code></pre>
+<h3 id="对撞结构">对撞结构</h3>
+<p>在对撞结构中</p>
+<ul>
+<li><span class="math inline">\(X=F_X\{U_X\}\)</span></li>
+<li><span class="math inline">\(Y=F_Y\{U_Y\}\)</span></li>
+<li><span class="math inline">\(Z=F_Z\{X, Y, U_Z\}\)</span></li>
+</ul>
+<p>不给定额外信息，<span class="math inline">\(X\)</span>和<span
+class="math inline">\(Y\)</span>独立；给定<span
+class="math inline">\(Z\)</span>，<span
+class="math inline">\(X\)</span>和<span
+class="math inline">\(Y\)</span>的关系内含于<span
+class="math inline">\(Z=F_Z\{X, Y, U_Z\}\)</span>，故<span
+class="math inline">\(X\)</span>和<span
+class="math inline">\(Y\)</span>不独立，记作<span
+class="math inline">\(X \not\perp Y \vert Z\)</span></p>
+<pre class="mermaid"><code>---
+title: Collision
+---
+graph LR
+    id1[&quot;U{X}&quot;] --&gt; X
+    X --&gt; Z
+    id2[&quot;U{Z}&quot;] --&gt; Z
+    id3[&quot;U{Y}&quot;] --&gt; Y
+    Y --&gt; Z</code></pre>
+<h3 id="d-分离">d-分离</h3>
+<p><span
+class="math inline">\(d\)</span>-分离是一种判断两个节点是否独立的方法，它是基于因果模型图的有向路径的概念的。在前文的讨论中，我们通过控制中间结点说明：控制中间节点后的<code>链结构</code>和<code>分叉结构</code>中的两个节点<code>独立</code>，而<code>对撞结构</code>中的两个节点<code>不独立</code>。</p>
+<p>此处我们给出<code>阻断</code>的概念：一条路径会被一组节点<span
+class="math inline">\(Z\)</span>阻断，当且仅当：</p>
+<ol type="1">
+<li>该路径中包含链结构或分叉结构，且该结构中的中间节点在<span
+class="math inline">\(Z\)</span>中。</li>
+<li>该路径中包含对撞结构，且该结构中的中间节点不在<span
+class="math inline">\(Z\)</span>中。</li>
+</ol>
+<p>我们可以将阻断的概念理解为：阻断了因果关系的传递，使得节点互相独立。如果一组节点<span
+class="math inline">\(Z\)</span>阻断了节点<span
+class="math inline">\(X\)</span>和<span
+class="math inline">\(Y\)</span>之间的所有路径，那么<span
+class="math inline">\(X\)</span>和<span
+class="math inline">\(Y\)</span>在给定<span
+class="math inline">\(Z\)</span>的条件下是<span
+class="math inline">\(d\)</span>-分离的，记作<span
+class="math inline">\(X \perp_d Y \vert Z\)</span>或<span
+class="math inline">\(X \perp Y \vert Z\)</span>。</p>
+<h2 id="干预">干预</h2>
+<p>干预是将变量固定为某个值，限制改变量的变化，等价于在因果模型中去除所有指向该变量的边。干预后的因果模型图称为干预模型图。</p>
+<p><code>干预</code>与<code>条件</code>的区别在于干预改变了系统本身，而条件只是改变了系统的观测。一般用条件概率表示因果效应</p>
+<p><span class="math display">\[
+\begin{aligned}
+\text{干预 }&amp; P(Y=y \vert do(X=x)) \\
+\text{条件 }&amp; P(Y=y \vert X=x)
+\end{aligned}
+\]</span></p>
+<p>在只有观测数据时，我们只能从数据中估计干预操作的效果，称之为<code>校正</code>。校正公式描述了从观测数据中估计干预后的目标变量<span
+class="math inline">\(Y\)</span>的概率分布</p>
+<p><span class="math display">\[
+\begin{aligned}
+P(Y=y \vert do(X=x)) &amp;= P(Y=y \vert X=x) \\
+\text{全概公式 }&amp;= \sum P(Y=y\vert X=x,Pa(X)=z)P(Pa(X)=z\vert X=x)\\
+\text{独立性 }&amp;= \sum P(Y=y\vert X=x,Pa(X)=z)P(Pa(X)=z)
+\end{aligned}
+\]</span></p>
+<p>这里的<span class="math inline">\(Pa(X)\)</span>表示<span
+class="math inline">\(X\)</span>的父节点集合。</p>
+<h3 id="后门准则">后门准则</h3>
+<p>后门准则应用于干预中<span
+class="math inline">\(X\)</span>的父节点集合<span
+class="math inline">\(Pa(X)\)</span>不可观测的情况，即试图找出一个可观测的变量集合<span
+class="math inline">\(Z\)</span>，使得<span
+class="math inline">\(Z\)</span>阻断了<span
+class="math inline">\(X\)</span>和<span
+class="math inline">\(Y\)</span>之间的所有伪因果路径。</p>
+<p>给定因果模型图中的一对有序变量<span class="math inline">\((X,
+Y)\)</span>和一组变量<span
+class="math inline">\(Z\)</span>，如果满足以下条件：</p>
+<ol type="1">
+<li><span class="math inline">\(Z\)</span><a
+href="#d-分离">阻断</a>了<span class="math inline">\(X\)</span>和<span
+class="math inline">\(Y\)</span>之间的每条含有指向<span
+class="math inline">\(X\)</span>的路径。（阻断<span
+class="math inline">\(X\)</span>和<span
+class="math inline">\(Y\)</span>之间的所有伪因果/后门路径）</li>
+<li><span class="math inline">\(Z\)</span>中没有<span
+class="math inline">\(X\)</span>的后代节点。（保持<span
+class="math inline">\(X\)</span>到<span
+class="math inline">\(Y\)</span>的因果路径不变）</li>
+</ol>
+<p>则称<span class="math inline">\(Z\)</span>满足关于<span
+class="math inline">\((X, Y)\)</span>的后门准则。此时<span
+class="math inline">\(Z\)</span>可以替代<span
+class="math inline">\(X\)</span>的父节点集合<span
+class="math inline">\(Pa(X)\)</span>，用于校正<span
+class="math inline">\(X\)</span>的干预效果，即后门校正</p>
+<p><span class="math display">\[
+P(Y=y \vert do(X=x)) = \sum_z P(Y=y\vert X=x, Z=z)P(Z=z)
+\]</span></p>
+<h3 id="前门准则">前门准则</h3>
+<p>前门准则通过<span class="math inline">\(X\)</span>到<span
+class="math inline">\(Y\)</span>的中介变量估计因果效应。考虑因果模型图中的一对有序变量<span
+class="math inline">\((X, Y)\)</span>和一组变量<span
+class="math inline">\(Z\)</span>，如果满足以下条件：</p>
+<ol type="1">
+<li><span class="math inline">\(Z\)</span>切断了所有从<span
+class="math inline">\(X\)</span>到<span
+class="math inline">\(Y\)</span>的路径。（阻断<span
+class="math inline">\(X\)</span>和<span
+class="math inline">\(Y\)</span>之间的所有因果路径）</li>
+<li><span class="math inline">\(X\)</span>到<span
+class="math inline">\(Z\)</span>没有后门路径。（保持<span
+class="math inline">\(X\)</span>到<span
+class="math inline">\(Z\)</span>的因果路径不变）</li>
+<li>所有<span class="math inline">\(Z\)</span>到<span
+class="math inline">\(Y\)</span>的后门路径都被<span
+class="math inline">\(X\)</span>阻断。（保持<span
+class="math inline">\(Z\)</span>到<span
+class="math inline">\(Y\)</span>的因果路径不变）</li>
+</ol>
+<p>则称<span class="math inline">\(Z\)</span>满足关于<span
+class="math inline">\((X, Y)\)</span>的前门准则。此时<span
+class="math inline">\(Z\)</span>可以替代<span
+class="math inline">\(X\)</span>的父节点集合<span
+class="math inline">\(Pa(X)\)</span>和后门校正来校正<span
+class="math inline">\(X\)</span>的干预效果，即前门校正</p>
+<p><span class="math display">\[
+\begin{aligned}
+P(Y=y \vert do(X=x)) &amp;= \sum_z P(Z=z\vert
+X=x)\sum_{x^{\prime}}P(Y=y\vert X=x^{\prime}, Z=z)P(X=x^{\prime}\vert
+Z=z) \\
+&amp;= \sum_z \underbrace{P(Z=z\vert X=x)}_{X\rightarrow Z}
+\underbrace{\sum_{x^{\prime}}P(Y=y\vert X=x^{\prime},
+Z=z)P(X=x^{\prime})}_{X\text{后门校正}Z\rightarrow Y}
+\end{aligned}
+\]</span></p>
+<h2 id="反事实">反事实</h2>
+<p>在完全一致的现实条件下，比较不同假设的结果，即反事实。反事实的表示为<span
+class="math inline">\(Y_x\)</span>，表示在<span
+class="math inline">\(X=x\)</span>的条件下，<span
+class="math inline">\(Y\)</span>的取值。</p>
+<p>给定结构因果模型，反事实计算分为三步</p>
+<ol type="1">
+<li>用观测确定当前环境，即外生变量<span
+class="math inline">\(U\)</span>的取值。</li>
+<li>用<span class="math inline">\(X=x\)</span>替换<span
+class="math inline">\(X\)</span>的定义，得到新的因果模型。(移除变量<span
+class="math inline">\(X\)</span>出现在方程左边的情况，并用<span
+class="math inline">\(X=x\)</span>替换）</li>
+<li>用新的因果模型计算<span
+class="math inline">\(Y\)</span>的取值。</li>
+</ol>
+<p><a href="#后门准则">后门</a>的反事实计算</p>
+<p><span class="math display">\[
+P(Y_x=y) = \sum_z P(Y=y\vert X=x, Z=z)P(Z=z)
+\]</span></p>
+</body>
+</html>

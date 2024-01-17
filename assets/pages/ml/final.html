@@ -1,0 +1,1339 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>机器学习期末复习</title>
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"
+  type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">机器学习期末复习</h1>
+<p class="date">2024-01-13 21:00:00-0400</p>
+</header>
+<nav id="TOC" role="doc-toc">
+
+</nav>
+<h1 id="数学基础">数学基础</h1>
+<ul>
+<li>训练集<span
+class="math inline">\(D=\{(x_1,y_1),(x_2,y_2),\cdots,(x_m,y_m)\}\)</span></li>
+<li>训练样本<span
+class="math inline">\(x_i=\begin{bmatrix}x_{i1}\\x_{i2}\\\vdots\\x_{iD}\end{bmatrix}\in\mathbb{R}^D\)</span>，文中为了合并偏置项也有使用增广向量的形式<span
+class="math inline">\(x^*_i=\begin{bmatrix}1\\x_{i1}\\x_{i2}\\\vdots\\x_{iD}\end{bmatrix}\in\mathbb{R}^{D+1}\)</span></li>
+<li>样本矩阵<span class="math inline">\(X_{D\times N}=
+\begin{bmatrix}x_1&amp;x_2&amp;\cdots&amp;x_N\end{bmatrix}\)</span></li>
+<li>训练集标签/预测值<span class="math inline">\(y_i\)</span></li>
+<li><ul>
+<li>二分类<span class="math inline">\(y_i\in\{0,1\}\)</span>或<span
+class="math inline">\(\{-1,1\}\)</span></li>
+</ul></li>
+<li><ul>
+<li>多分类<span
+class="math inline">\(y_i\in\{1,2,\cdots,K\}\)</span></li>
+</ul></li>
+<li><ul>
+<li>回归<span class="math inline">\(y_i\in\mathbb{R}\)</span></li>
+</ul></li>
+<li>模型<span
+class="math inline">\(f(x;\theta)\)</span>，有时也记作<span
+class="math inline">\(f_\theta(x)\)</span>，其中<span
+class="math inline">\(\theta\)</span>为模型参数，下文也用<span
+class="math inline">\(\omega\)</span>替代</li>
+<li>损失函数<span
+class="math inline">\(L(y,f(x;\theta))\)</span>，也记作<span
+class="math inline">\(L(y,f_\theta(x))\)</span></li>
+</ul>
+<h2 id="贝叶斯公式">贝叶斯公式</h2>
+<p><span class="math display">\[
+\begin{aligned}
+p(Y=c|X=x) &amp;= \frac{p(X=x|Y=c)p(Y=c)}{p(X=x)}\\
+&amp;= \frac{p(X=x|Y=c)p(Y=c)}{\sum_{i=1}^K p(X=x|Y=i)p(Y=i)}\\
+\end{aligned}
+\]</span></p>
+<h2 id="常见分布">常见分布</h2>
+<h3 id="伯努利分布">伯努利分布</h3>
+<p><span class="math display">\[
+\begin{aligned}
+p(x) &amp;= p^x(1-p)^{1-x}\\
+\mathbb{E}[x] &amp;= p\\
+\mathbb{D}[x] &amp;= p(1-p)\\
+\end{aligned}
+\]</span></p>
+<h3 id="二项分布">二项分布</h3>
+<p><span class="math display">\[
+\begin{aligned}
+p(x) &amp;= \binom{N}{x}p^x(1-p)^{n-x}\\
+\mathbb{E}[x] &amp;= Np\\
+\mathbb{D}[x] &amp;= Np(1-p)\\
+\end{aligned}
+\]</span></p>
+<h3 id="多项分布">多项分布</h3>
+<p>记<span class="math inline">\(x_i\)</span>表示第<span
+class="math inline">\(i\)</span>类样本的数量，<span
+class="math inline">\(p_i\)</span>表示第<span
+class="math inline">\(i\)</span>类样本的概率，<span
+class="math inline">\(N\)</span>表示样本总数，<span
+class="math inline">\(K\)</span>表示类别总数，有</p>
+<p><span class="math display">\[
+\begin{aligned}
+p(x_1,x_2,\cdots,x_K) &amp;= \frac{N!}{x_1!x_2!\cdots
+x_K!}p_1^{x_1}p_2^{x_2}\cdots p_K^{x_K}\\
+\end{aligned}
+\]</span></p>
+<h2 id="参数估计">参数估计</h2>
+<h3 id="极大似然估计mle">极大似然估计(MLE)</h3>
+<p><span class="math display">\[
+\begin{aligned}
+\mathcal{L}(\theta) &amp;= \prod_{i=1}^m p(x_i;\theta)\\
+\hat{\theta} &amp;= \arg\max_{\theta}\mathcal{L}(\theta)\\
+\log\mathcal{L}(\theta) &amp;= \sum_{i=1}^m \log p(x_i;\theta)\\
+\hat{\theta} &amp;= \arg\max_{\theta}\log\mathcal{L}(\theta)\\
+\frac{\partial\log\mathcal{L}(\theta)}{\partial\theta} &amp;=
+\sum_{i=1}^m \frac{\partial\log p(x_i;\theta)}{\partial\theta}\\
+&amp;= \sum_{i=1}^m \frac{1}{p(x_i;\theta)}\frac{\partial
+p(x_i;\theta)}{\partial\theta}=0\\
+\end{aligned}
+\]</span></p>
+<h3 id="最大后验概率估计map">最大后验概率估计(MAP)</h3>
+<p><span class="math display">\[
+\begin{aligned}
+\hat{\theta} &amp;= \arg\max_{\theta}p(\theta|D)\\
+&amp;= \arg\max_{\theta}\frac{p(D|\theta)p(\theta)}{p(D)}\\
+&amp;= \arg\max_{\theta}p(D|\theta)p(\theta)\\
+&amp;= \arg\max_{\theta}\mathcal{L}(\theta)p(\theta)\\
+&amp;= \arg\max_{\theta}[\log\mathcal{L}(\theta)+\log p(\theta)]\\
+\frac{\partial[\log\mathcal{L}(\theta)+\log p(\theta)]}{\partial\theta}
+&amp;=
+\frac{\partial\log\mathcal{L}(\theta)}{\partial\theta}+\frac{\partial\log
+p(\theta)}{\partial\theta}\\
+&amp;= \sum_{i=1}^m \frac{1}{p(x_i;\theta)}\frac{\partial
+p(x_i;\theta)}{\partial\theta}+\frac{1}{p(\theta)}\frac{\partial
+p(\theta)}{\partial\theta}=0\\
+\end{aligned}
+\]</span></p>
+<h1 id="生成式分类器">生成式分类器</h1>
+<h2 id="分类目标">分类目标</h2>
+<ul>
+<li>最小化误分类率，等价于最大后验概率</li>
+<li>最小化期望风险，实际一般寻找最小条件风险</li>
+</ul>
+<h3 id="最小化误分类率">最小化误分类率</h3>
+<p><span class="math display">\[
+\begin{aligned}
+p(error) &amp;= \int p(x)p(error|x)dx\\
+&amp;= \int [1-p(Y=c|x)]p(x)dx\\
+p(error|x) &amp;= 1-\underbrace{p(Y=c|x)}_{\text{后验概率}}\\
+&amp;= 1-\frac{p(x|Y=c)p(Y=c)}{p(x)}\\
+\hat{y} &amp;= \arg\max_{c}p(Y=c|x)\\
+&amp;= \arg\max_{c}p(x|Y=c)\underbrace{p(Y=c)}_{\text{先验概率}}
+\end{aligned}
+\]</span></p>
+<h3 id="最小化期望风险">最小化期望风险</h3>
+<p>记将<span class="math inline">\(i\)</span>类样本预测为<span
+class="math inline">\(j\)</span>类样本的惩罚为<span
+class="math inline">\(L_{ij}\)</span>，则将样本预测为类别<span
+class="math inline">\(c\)</span>的条件风险为</p>
+<p><span class="math display">\[
+\begin{aligned}
+R(c|x) &amp;= \sum_{i=1}^K L_{ic}p(Y=i|x) \\
+\hat{y} &amp;= \arg\min_{c}R(c|x)\\
+\end{aligned}
+\]</span></p>
+<p>期望风险为</p>
+<p><span class="math display">\[
+\begin{aligned}
+R_{exp} &amp;= \int R(c|x)p(x)dx\\
+&amp;= \int [\sum_{i=1}^K L_{ic}p(Y=i|x)]p(x)dx\\
+\end{aligned}
+\]</span></p>
+<p>当损失函数<span
+class="math inline">\(L_{ij}\)</span>为0-1损失函数时</p>
+<p><span class="math display">\[
+\sum_{i=1}^K L_{ic}p(Y=i|x) = 1-p(Y=c|x) = p(error|x)
+\]</span></p>
+<p>此时期望风险等价于最小化误分类率</p>
+<h2 id="类先验概率">类先验概率</h2>
+<ul>
+<li>二分类，<span class="math inline">\(y\sim
+Bernoulli(\phi)\)</span></li>
+<li>多分类，<span class="math inline">\(y\sim
+Multinomial(\phi_1,\phi_2,\cdots,\phi_K)\)</span></li>
+</ul>
+<p>MLE估计的先验概率等价于样本中各类别的比例</p>
+<h2 id="类条件概率">类条件概率</h2>
+<ul>
+<li>离散型特征，满足特征独立性假设，<span
+class="math inline">\(p(x|Y=c)=\prod_{i=1}^D p(x_i|Y=c)\)</span></li>
+<li>连续型特征，特征服从高斯分布，<span
+class="math inline">\(p(x_{i,j}|Y=c)=\frac{1}{\sqrt{2\pi}\sigma_{c,j}}e^{-\frac{(x_{i,j}-\mu_{c,j})^2}{2\sigma_{c,j}^2}}\)</span></li>
+</ul>
+<h2 id="高斯分布">高斯分布</h2>
+<p>单变量高斯分布</p>
+<p><span class="math display">\[
+\begin{aligned}
+p(x) &amp;=
+\frac{1}{\sqrt{2\pi}\sigma}e^{-\frac{(x-\mu)^2}{2\sigma^2}}\\
+\mathbb{E}[x] &amp;= \mu\\
+\mathbb{D}[x] &amp;= \sigma^2\\
+\end{aligned}
+\]</span></p>
+<p>多变量高斯分布</p>
+<p><span class="math display">\[
+\begin{aligned}
+p(x) &amp;=
+\frac{1}{(2\pi)^{\frac{D}{2}}|\Sigma|^{\frac{1}{2}}}e^{-\frac{1}{2}(x-\mu)^T\Sigma^{-1}(x-\mu)}\\
+\mathbb{E}[x] &amp;= \mu\\
+\mathbb{D}[x] &amp;= \Sigma = \mathbb{E}[(x-\mu)(x-\mu)^T]\\
+\end{aligned}
+\]</span></p>
+<h2 id="高斯判别分析gda">高斯判别分析(GDA)</h2>
+<p><span class="math display">\[
+\begin{aligned}
+p(Y=c|X=x) &amp;= \frac{p(X=x|Y=c)p(Y=c)}{p(X=x)}\propto
+p(X=x|Y=c)p(Y=c)\\
+f_c(x) &amp;= \log p(X=x|Y=c)p(Y=c)\\
+&amp;= \log p(Y=c)+\log p(X=x|Y=c)\\
+&amp;= \log
+p(Y=c)+\log\frac{1}{(2\pi)^{\frac{D}{2}}|\Sigma_c|^{\frac{1}{2}}}e^{-\frac{1}{2}(x-\mu_c)^T\Sigma_c^{-1}(x-\mu_c)}\\
+&amp;= \log
+p(Y=c)-\frac{1}{2}\log|\Sigma_c|-\frac{1}{2}(x-\mu_c)^T\Sigma_c^{-1}(x-\mu_c)-\underbrace{\frac{D}{2}\log
+2\pi}_{\text{常数}}\\
+\end{aligned}
+\]</span></p>
+<h3 id="线性判别分析lda">线性判别分析(LDA)</h3>
+<p>假定两类样本的协方差矩阵相同，即<span
+class="math inline">\(\Sigma_1=\Sigma_2=\Sigma\)</span>，则有</p>
+<p><span class="math display">\[
+\begin{aligned}
+d_1(x) &amp;= \log \frac{N_1}{N} -
+\frac{1}{2}\log|\Sigma|-\frac{1}{2}(x-\mu_1)^T\Sigma^{-1}(x-\mu_1)\\
+d_2(x) &amp;= \log \frac{N_2}{N} -
+\frac{1}{2}\log|\Sigma|-\frac{1}{2}(x-\mu_2)^T\Sigma^{-1}(x-\mu_2)\\
+d_1(x)-d_2(x) &amp;= \log \frac{N_1}{N_2} -
+\frac{1}{2}(x-\mu_1)^T\Sigma^{-1}(x-\mu_1)+\frac{1}{2}(x-\mu_2)^T\Sigma^{-1}(x-\mu_2)\\
+&amp;= \log \frac{N_1}{N_2} +
+\mu_1^T\Sigma^{-1}x-\mu_2^T\Sigma^{-1}x-\frac{1}{2}\mu_1^T\Sigma^{-1}\mu_1+\frac{1}{2}\mu_2^T\Sigma^{-1}\mu_2\\
+&amp;= (\mu_1-\mu_2)^T\Sigma^{-1}x+ \underbrace{\log
+\frac{N_1}{N_2}-\frac{1}{2}\mu_1^T\Sigma^{-1}\mu_1+\frac{1}{2}\mu_2^T\Sigma^{-1}\mu_2}_{\text{常数}}\\
+\end{aligned}
+\]</span></p>
+<p>可得线性判别界面</p>
+<p><span class="math display">\[
+(\mu_1-\mu_2)^T\Sigma^{-1}x =
+\frac{1}{2}\mu_1^T\Sigma^{-1}\mu_1-\frac{1}{2}\mu_2^T\Sigma^{-1}\mu_2-\log
+\frac{N_1}{N_2}
+\]</span></p>
+<h1 id="判别式分类器">判别式分类器</h1>
+<h2 id="线性多分类判别">线性多分类判别</h2>
+<h3 id="one-vs-rest">One vs Rest</h3>
+<p>当且仅当只有一个类别为正时，分类成功</p>
+<p><span class="math display">\[
+f_c(x) \left\{
+\begin{aligned}
+&amp;&gt;0 &amp; y=c\\
+&amp;\leq 0 &amp; y\neq c\\
+\end{aligned}
+\right.
+\]</span></p>
+<h3 id="one-vs-one">One vs One</h3>
+<p>判别函数多每两个类别构造一个判别函数，当且仅当对类别<span
+class="math inline">\(k\)</span>有<span class="math inline">\(\forall
+c\neq k,f_{k,c}(x)&gt;0\)</span>时，分类成功</p>
+<p><span class="math display">\[
+f_{c_1,c_2}(x) = -f_{c_2,c_1}(x) \left\{
+\begin{aligned}
+&amp;&gt;0 &amp; y=c_1\\
+&amp;&lt;0 &amp; y=c_2\\
+\end{aligned}
+\right.
+\]</span></p>
+<p>一对一分类也可参考一对其他分类的思想，将<span
+class="math inline">\(f_{c_1,c_2}(x)\)</span>看作类别<span
+class="math inline">\(f_{c_1}\)</span>与<span
+class="math inline">\(f_{c_2}\)</span>的差，此时上述条件等价于<span
+class="math inline">\(\arg\max\limits_{c}f_c(x)\)</span></p>
+<h2 id="线性分类器">线性分类器</h2>
+<h3 id="fisher线性判别分析">Fisher线性判别分析</h3>
+<p><span class="math display">\[
+\begin{aligned}
+S_B &amp;= (\mu_1-\mu_2)(\mu_1-\mu_2)^T\\
+S_W &amp;= \sum_{c=1}^K \sum_{i=1}^{N_c}
+\mathbb{I}(y_i=c)(x_i-\mu_c)(x_i-\mu_c)^T = \sum_{i=1}^N
+(x_i-\mu_{y_i})(x_i-\mu_{y_i})^T\\
+\end{aligned}
+\]</span></p>
+<p>构造线性变换<span
+class="math inline">\(z=w^Tx\)</span>，使得类间散度尽量大，类内散度尽量小</p>
+<p><span class="math display">\[
+\max_w J(w) = \frac{w^TS_Bw}{w^TS_Ww}
+\]</span></p>
+<p>解Rayleigh商问题，有</p>
+<p><span class="math display">\[
+\begin{aligned}
+S_Bw &amp;= \lambda S_Ww\\
+\lambda w &amp;= S_W^{-1}S_Bw\\
+&amp;= S_W^{-1}(\mu_1-\mu_2)\underbrace{(\mu_1-\mu_2)^T}_{1\times
+D}w_{D\times 1}\\
+w &amp;\propto S_W^{-1}(\mu_1-\mu_2)\\
+\end{aligned}
+\]</span></p>
+<p>判别面为投影后的中点<span
+class="math inline">\(\frac{1}{2}(w^T\mu_1+w^T\mu_2)\)</span></p>
+<p><span class="math display">\[
+w^Tx = \frac{w^T}{2}(\mu_1+\mu_2)
+\]</span></p>
+<h3 id="感知器">感知器</h3>
+<p>以二分类为例，<span
+class="math inline">\(y\in\{-1,1\}\)</span>，判别函数为</p>
+<p><span class="math display">\[
+\hat{y} = \mathbf{sgn}(w^Tx+b) = \left\{
+\begin{aligned}
+&amp;1 &amp; w^Tx+b&gt;0\\
+&amp;-1 &amp; w^Tx+b\leq 0\\
+\end{aligned}
+\right.
+\]</span></p>
+<p>损失函数为</p>
+<p><span class="math display">\[
+\min_{w,b} \sum_{i=1}^N -y_i(w^Tx_i+b)
+\]</span></p>
+<p>梯度下降法更新参数</p>
+<p><span class="math display">\[
+\begin{aligned}
+w_{t+1} &amp;\leftarrow w_t - \eta \frac{\partial L}{\partial w} \\
+b_{t+1} &amp;\leftarrow b_t - \eta \frac{\partial L}{\partial b} \\
+\frac{\partial L}{\partial w} &amp;= \sum_{i=1}^N -y_ix_i\\
+\frac{\partial L}{\partial b} &amp;= \sum_{i=1}^N -y_i\\
+\end{aligned}
+\]</span></p>
+<p>实际操作中只根据误分类样本更新参数，即</p>
+<p><span class="math display">\[
+\begin{aligned}
+\frac{\partial L}{\partial w} &amp;= \sum_{i=1}^N
+-y_ix_i\mathbb{I}(\hat{y_i}\neq y_i)\\
+\frac{\partial L}{\partial b} &amp;= \sum_{i=1}^N
+-y_i\mathbb{I}(\hat{y_i}\neq y_i)\\
+\end{aligned}
+\]</span></p>
+<h3 id="多项式判别">多项式判别</h3>
+<p><span class="math inline">\(n\)</span>阶多项式的总系数为<span
+class="math inline">\(\frac{(n+D)!}{n!D!}\)</span></p>
+<p><span class="math display">\[
+\begin{aligned}
+f_0(x) &amp;= w_0 \\
+f_1(x) &amp;= f_0(x)+\sum_{i=1}^D w_ix_i\\
+f_2(x) &amp;= f_1(x)+\sum_{i=1}^D\sum_{j=i}^D w_{ij}x_ix_j\\
+&amp;\vdots\\
+f_{n+1}(x) &amp;=
+f_n(x)+\underbrace{\sum_{i=1}^D\sum_{j=i}^D\cdots\sum_{k=j}^D}_{n+1}
+w_{ijk\cdots}x_ix_j\cdots x_k\\
+\end{aligned}
+\]</span></p>
+<h2 id="决策树">决策树</h2>
+<h3 id="id3">ID3</h3>
+<p><span class="math display">\[
+\text{信息增益} = H(Y)-H(Y|X)
+\]</span></p>
+<p>分类依据为最大信息增益，等价于最小化条件熵</p>
+<p><span class="math display">\[
+\min_{j\in\{1,2,\cdots,D\}} H(Y|X_j)
+\]</span></p>
+<h3 id="c4.5">C4.5</h3>
+<p><span class="math display">\[
+\text{信息增益率} = \frac{H(Y)-H(Y|X)}{H(X)}
+\]</span></p>
+<p>分裂依据为最大信息增益率</p>
+<h3 id="cart">CART</h3>
+<p><span class="math display">\[
+\text{基尼指数} = \sum_{i=1}^K p_i(1-p_i) = 1-\sum_{i=1}^K p_i^2
+\]</span></p>
+<p>分裂依据为最小化基尼指数</p>
+<h1 id="线性回归">线性回归</h1>
+<p>线性回归通过线性组合预测连续值</p>
+<p><span class="math display">\[
+\hat{y} = f(x;w) = w^Tx
+\]</span></p>
+<p>这里的<span class="math inline">\(w\)</span>和<span
+class="math inline">\(x\)</span>都是增广向量，即</p>
+<p><span class="math display">\[
+x = \begin{bmatrix}1\\x_1\\x_2\\\vdots\\x_D\end{bmatrix},w =
+\begin{bmatrix}w_0\\w_1\\w_2\\\vdots\\w_D\end{bmatrix}\\ f(x;w) = w_0 +
+\sum_{i=1}^D w_ix_i
+\]</span></p>
+<p>规定预测残差<span
+class="math inline">\(\epsilon=y-\hat{y}\)</span>，则有</p>
+<p><span class="math display">\[
+\begin{aligned}
+\epsilon &amp;\sim \mathcal{N}(0,\sigma^2)\\
+y &amp;\sim \mathcal{N}(f(x;w),\sigma^2)\\
+p(y|x;w) &amp;=
+\frac{1}{\sqrt{2\pi}\sigma}e^{-\frac{(y-f(x;w))^2}{2\sigma^2}}\\
+\end{aligned}
+\]</span></p>
+<p>通常可以通过观察残差的分布来判断模型是否合理</p>
+<h2 id="极大似然估计">极大似然估计</h2>
+<p><span class="math display">\[
+\begin{aligned}
+\mathcal{L}(w) &amp;= \prod_{i=1}^N p(y_i|x_i;w)\\
+\log\mathcal{L}(w) &amp;= \sum_{i=1}^N \log p(y_i|x_i;w)\\
+&amp;= \sum_{i=1}^N \log
+\frac{1}{\sqrt{2\pi}\sigma}e^{-\frac{(y_i-f(x_i;w))^2}{2\sigma^2}}\\
+&amp;= \sum_{i=1}^N [\log
+\frac{1}{\sqrt{2\pi}\sigma}-\frac{(y_i-f(x_i;w))^2}{2\sigma^2}]\\
+&amp;= -N\log \sqrt{2\pi}\sigma-\frac{1}{2\sigma^2}\sum_{i=1}^N
+(y_i-f(x_i;w))^2\\
+\end{aligned}
+\]</span></p>
+<ul>
+<li>对数似然函数取最大值时，等价于最小化均方误差(MSE)，即L2损失函数</li>
+<li>线性回归和Logistic回归的的损失函数都是负对数似然函数</li>
+</ul>
+<h2 id="损失函数">损失函数</h2>
+<p>线性回归可以通过最小化均方误差(MSE)来求解参数</p>
+<p><span class="math display">\[
+\begin{aligned}
+L(w) &amp;= \sum_{i=1}^N (y_i-f(x_i;w))^2\\
+&amp;= \sum_{i=1}^N (y_i-w^Tx_i)^2\\
+&amp;= (Y-X^Tw)^T(Y-X^Tw)\\
+\end{aligned}
+\]</span></p>
+<p>注意这里写成<span class="math inline">\(X^Tw\)</span>比<span
+class="math inline">\(w^TX\)</span>更容易求导。引入正则项，有</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mathcal{J}(w) &amp;= L(w)+\lambda\mathcal{R}(w)\\
+\text{L2正则} &amp;\Rightarrow \mathcal{R}(w) = \lVert w\rVert_2^2 =
+\sum_{i=1}^D w_i^2\\
+\text{L1正则} &amp;\Rightarrow \mathcal{R}(w) = \lVert w\rVert_1 =
+\sum_{i=1}^D |w_i|\\
+\frac{\partial\mathcal{J}(w)}{\partial w} &amp;= \frac{\partial
+L(w)}{\partial w}+\lambda\frac{\partial\mathcal{R}(w)}{\partial w}\\
+&amp;= -2XY+2XX^Tw+2\lambda w\\
+&amp;= \underbrace{-2X(Y-X^Tw)}_{\frac{\partial L(w)}{\partial
+w}}+\underbrace{2\lambda w}_{\frac{\partial\mathcal{R}(w)}{\partial
+w}}\\
+\end{aligned}
+\]</span></p>
+<ul>
+<li>线性回归的正则项可以不加</li>
+<li>正则项不对偏置项<span
+class="math inline">\(w_0\)</span>进行正则化，因为偏置项不影响模型的复杂度</li>
+<li>引入L2正则项称为岭回归(Ridge
+Regression)，引入L1正则项称为Lasso回归</li>
+</ul>
+<p>其他损失函数</p>
+<ul>
+<li>L1损失函数，<span class="math inline">\(L(w) = \sum_{i=1}^N
+|y_i-f(x_i;w)|\)</span></li>
+<li>Huber损失函数</li>
+</ul>
+<p><span class="math display">\[
+L(w) = \sum_{i=1}^N \left\{
+\begin{aligned}
+&amp;\frac{1}{2}(y_i-f(x_i;w))^2 &amp; |y_i-f(x_i;w)|\leq \delta\\
+&amp;\delta|y_i-f(x_i;w)|-\frac{1}{2}\delta^2 &amp; |y_i-f(x_i;w)|&gt;
+\delta\\
+\end{aligned}
+\right.
+\]</span></p>
+<h2 id="最大后验估计">最大后验估计</h2>
+<p>引入先验概率<span class="math inline">\(p(w)\)</span>，有</p>
+<p><span class="math display">\[
+\begin{aligned}
+\hat{w} &amp;= \arg\max_{w}p(w|D)\\
+&amp;= \arg\max_{w}\frac{p(D|w)p(w)}{p(D)}\\
+&amp;= \arg\max_{w}p(D|w)p(w)\\
+&amp;= \arg\max_{w}\log p(D|w)+\log p(w)\\
+p(D|w) &amp;= \prod_{i=1}^N p(y_i|x_i;w)\sim
+\mathcal{N}(f(x_i;w),\sigma^2)\\
+p(w) &amp;= \prod_{i=1}^D p(w_i)\sim \mathcal{N}(0,\sigma_w^2)\\
+\hat{w} &amp;= \arg\max_{w}[\sum_{i=1}^N \log p(y_i|x_i;w)+\sum_{i=1}^D
+\log p(w_i)]\\
+&amp;= \arg\max_{w}[\sum_{i=1}^N \log
+\frac{1}{\sqrt{2\pi}\sigma}e^{-\frac{(y_i-f(x_i;w))^2}{2\sigma^2}}+\sum_{i=1}^D
+\log \frac{1}{\sqrt{2\pi}\sigma_w}e^{-\frac{w_i^2}{2\sigma_w^2}}]\\
+&amp;= \arg\max_{w}[-N\log
+\sqrt{2\pi}\sigma-\frac{1}{2\sigma^2}\sum_{i=1}^N (y_i-f(x_i;w))^2-D\log
+\sqrt{2\pi}\sigma_w-\frac{1}{2\sigma_w^2}\sum_{i=1}^D w_i^2]\\
+&amp;= \arg\min_{w}[\frac{1}{2\sigma^2}\sum_{i=1}^N
+(y_i-f(x_i;w))^2+\frac{1}{2\sigma_w^2}\sum_{i=1}^D w_i^2]\\
+\end{aligned}
+\]</span></p>
+<p>最后后验估计等价于参数满足高斯分布的带L2正则项的L2损失函数</p>
+<h2 id="梯度下降法">梯度下降法</h2>
+<p>梯度下降法更新参数</p>
+<p><span class="math display">\[
+w_{t+1} \leftarrow w_t - \eta \frac{\partial \mathcal{J}}{\partial w}
+\]</span></p>
+<h2 id="解析解">解析解</h2>
+<p>令<span class="math inline">\(\frac{\partial L(w)}{\partial
+w}=0\)</span>，有</p>
+<p><span class="math display">\[
+\begin{aligned}
+\frac{\partial L(w)}{\partial w} &amp;= -2X(Y-X^Tw) = 0\\
+XX^Tw &amp;= XY\\
+w &amp;= (XX^T)^{-1}XY\\
+\end{aligned}
+\]</span></p>
+<p>这里涉及到对矩阵<span
+class="math inline">\(XX^T\)</span>求逆，可以通过SVD分解来求解</p>
+<p><span class="math display">\[
+\begin{aligned}
+X &amp;= U\Sigma V^T\\
+XX^T &amp;= U\Sigma V^TV\Sigma U^T = U\Sigma^2U^T\\
+(XX^T)^{-1} &amp;= U\Sigma^{-2}U^T\\
+w &amp;= U\Sigma^{-2}U^TU\Sigma V^TY \\
+&amp;= U\Sigma^{-1}V^TY\\
+\end{aligned}
+\]</span></p>
+<h1 id="logistic回归">Logistic回归</h1>
+<p>Logistic回归是一种分类算法</p>
+<p><span class="math display">\[
+x = \begin{bmatrix}1\\x_1\\x_2\\\vdots\\x_D\end{bmatrix}
+\]</span></p>
+<p><span class="math display">\[
+w^Tx = \sum_{i=0}^D w_ix_i = w_0 + \sum_{i=1}^D w_ix_i
+\]</span></p>
+<p>以二分类为例，<span
+class="math inline">\(y\in\{0,1\}\)</span>，判断样本为正的概率为</p>
+<p><span class="math display">\[
+p(y=1|x) = \sigma(w^Tx) = \frac{1}{1+e^{-w^Tx}} =
+\frac{e^{w^Tx}}{1+e^{w^Tx}} \in (0,1)
+\]</span></p>
+<p>判断样本为负的概率为</p>
+<p><span class="math display">\[
+p(y=0|x) = 1-p(y=1|x) = \frac{1}{1+e^{w^Tx}} \in (0,1)
+\]</span></p>
+<p>判别函数为</p>
+<p><span class="math display">\[
+\begin{aligned}
+\log\frac{p(y=1|x)}{p(y=0|x)} &amp;=
+\log\frac{\frac{e^{w^Tx}}{1+e^{w^Tx}}}{\frac{1}{1+e^{w^Tx}}}\\
+&amp;= w^Tx\\
+p(y=1|x)&gt;p(y=0|x) &amp;\Leftrightarrow w^Tx&gt;0\\
+\end{aligned}
+\]</span></p>
+<p>记判断样本为正的函数为<span
+class="math inline">\(\mu(x)\)</span>，则有</p>
+<p><span class="math display">\[
+p(y|x) = \mu(x)^y(1-\mu(x))^{1-y}
+\]</span></p>
+<h2 id="似然函数">似然函数</h2>
+<p>对应的对数似然函数为</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mathcal{L}(w) &amp;= \prod_{i=1}^N p(y_i|x_i)\\
+\log\mathcal{L}(w) &amp;= \sum_{i=1}^N \log p(y_i|x_i)\\
+&amp;= \sum_{i=1}^N [y_i\log\mu(x_i)+(1-y_i)\log(1-\mu(x_i))]\\
+&amp;= \sum_{i=1}^N
+[y_i\log\frac{\mu(x_i)}{1-\mu(x_i)}+\log(1-\mu(x_i))]\\
+&amp;= \sum_{i=1}^N [y_i(w^Tx_i)-\log(1+e^{w^Tx_i})]\\
+\end{aligned}
+\]</span></p>
+<p>Logistic回归的损失函数与负对数似然函数等价，即交叉熵损失函数</p>
+<p><span class="math display">\[
+\begin{aligned}
+L(w) &amp;= -\log\mathcal{L}(w)\\
+&amp;= \sum_{i=1}^N [\log(1+e^{w^Tx_i})-y_iw^Tx_i]\\
+\end{aligned}
+\]</span></p>
+<h2 id="梯度下降法-1">梯度下降法</h2>
+<p>梯度下降法更新参数</p>
+<p><span class="math display">\[
+\begin{aligned}
+w_{t+1} &amp;\leftarrow w_t - \eta \frac{\partial L}{\partial w} \\
+\frac{\partial L}{\partial w} &amp;= \sum_{i=1}^N x_i(\mu(x_i)-y_i)=
+X(\mu-Y)\\
+\end{aligned}
+\]</span></p>
+<p>这里的<span class="math inline">\(\mu\)</span>和<span
+class="math inline">\(Y\)</span>都是<span class="math inline">\(N\times
+1\)</span>的向量，<span
+class="math inline">\(\mu_i=\mu(x_i)\)</span>，<span
+class="math inline">\(Y_i=y_i\)</span></p>
+<h2 id="正则化">正则化</h2>
+<p>在损失函数中加入正则项，有</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mathcal{J}(w) &amp;= L(w)+\lambda\mathcal{R}(w)\\
+\text{L2正则} &amp;\Rightarrow \mathcal{R}(w) = \lVert w\rVert_2^2 =
+w^Tw\\
+\text{L1正则} &amp;\Rightarrow \mathcal{R}(w) = \lVert w\rVert_1 =
+\sum_{i=0}^D |w_i|\\
+\frac{\partial\mathcal{J}(w)}{\partial w} &amp;= \frac{\partial
+L(w)}{\partial w}+\lambda\frac{\partial\mathcal{R}(w)}{\partial w}\\
+&amp;= X(\mu-Y)+2\lambda w\\
+\end{aligned}
+\]</span></p>
+<p>线性回归可以不加正则项，Logistic回归一般都要加正则项，否则会过拟合，即<span
+class="math inline">\(\vert
+w\vert\rightarrow\infty\)</span>；在sklearn中，Logistic回归的正则参数为<span
+class="math inline">\(C=\frac{1}{\lambda}\)</span>，<span
+class="math inline">\(C\)</span>越大，正则化越弱</p>
+<p><span class="math display">\[
+\mathcal{J}(w) = CL(w)+\lVert w\rVert_2^2
+\]</span></p>
+<h1 id="svm">SVM</h1>
+<p>SVM属于线性分类器，通过最大化分类间隔来求解参数</p>
+<p><span class="math display">\[
+f(x;w,b) = w^Tx+b \\
+\hat{y} = \mathbf{sgn}(f(x;w,b)) = \left\{
+\begin{aligned}
+&amp;1 &amp; w^Tx+b&gt;0\\
+&amp;-1 &amp; w^Tx+b&lt; 0\\
+\end{aligned}
+\right.
+\]</span></p>
+<h2 id="间隔">间隔</h2>
+<p>判别面方程为</p>
+<p><span class="math display">\[
+w^Tx+b = 0
+\]</span></p>
+<p>对于任意样本<span
+class="math inline">\(x\)</span>，到判别面的距离为</p>
+<p><span class="math display">\[
+\frac{|w^Tx+b|}{\lVert w\rVert_2}
+\]</span></p>
+<p>假定最小距离<span class="math inline">\(\min\limits_{x\in D}
+\frac{|w^Tx+b|}{\lVert
+w\rVert_2}=1\)</span>，那么正负样本的距离之和/判别器的间隔为<span
+class="math inline">\(\frac{2}{\lVert
+w\rVert_2}\)</span>，SVM的目标是最大化间隔</p>
+<p><span class="math display">\[
+\begin{aligned}
+&amp;\arg\max_{w,b} \frac{2}{\lVert w\rVert_2}\\
+&amp;\text{s.t. } y_i(w^Tx_i+b)\geq 1\\
+\text{等价于 }&amp;\arg\min_{w,b} \frac{1}{2}\lVert w\rVert_2^2\\
+\end{aligned}
+\]</span></p>
+<p>最大化间隔等价于最小化模型复杂度；SVM是从几何角度来解决分类问题的，而不是从概率角度来解决分类问题的，与Logistic回归不同</p>
+<h2 id="对偶问题">对偶问题</h2>
+<p>引入拉格朗日乘子<span class="math inline">\(\alpha_i\geq
+0\)</span>，有</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mathcal{L}(w,b,\alpha) &amp;= \frac{1}{2}\lVert
+w\rVert_2^2-\sum_{i=1}^N \alpha_i[y_i(w^Tx_i+b)-1]\\
+\frac{\partial\mathcal{L}(w,b,\alpha)}{\partial w} &amp;= w-\sum_{i=1}^N
+\alpha_iy_ix_i = 0\\
+w &amp;= \sum_{i=1}^N \alpha_iy_ix_i\\
+\frac{\partial\mathcal{L}(w,b,\alpha)}{\partial b} &amp;= -\sum_{i=1}^N
+\alpha_iy_i = 0\\
+0 &amp;= \sum_{i=1}^N \alpha_iy_i\\
+\mathcal{L}(w,b,\alpha) &amp;= \frac{1}{2}w^Tw-\sum_{i=1}^N
+\alpha_i[y_i(w^Tx_i+b)-1]\\
+&amp;= \frac{1}{2}w^Tw-\sum_{i=1}^N \alpha_iy_iw^Tx_i-\sum_{i=1}^N
+\alpha_iy_ib+\sum_{i=1}^N \alpha_i\\
+\text{代入 }&amp;= \frac{1}{2}\sum_{i=1}^N \alpha_iy_ix_i^T\sum_{j=1}^N
+\alpha_jy_jx_j-\sum_{i=1}^N \alpha_iy_i\sum_{j=1}^N
+\alpha_jy_jx_j^Tx_i-\sum_{i=1}^N \alpha_iy_ib+\sum_{i=1}^N \alpha_i\\
+&amp;= \frac{1}{2}\sum_{i=1}^N \sum_{j=1}^N
+\alpha_i\alpha_jy_iy_jx_i^Tx_j-\sum_{i=1}^N \sum_{j=1}^N
+\alpha_i\alpha_jy_iy_jx_i^Tx_j-b\sum_{i=1}^N \alpha_iy_i + \sum_{i=1}^N
+\alpha_i\\
+&amp;= \sum_{i=1}^N \alpha_i-\frac{1}{2}\sum_{i=1}^N \sum_{j=1}^N
+\alpha_i\alpha_jy_iy_jx_i^Tx_j\\
+\end{aligned}
+\]</span></p>
+<p>因此原问题等价于</p>
+<p><span class="math display">\[
+\begin{aligned}
+&amp;\arg\max_{w,b} \sum_{i=1}^N \alpha_i-\frac{1}{2}\sum_{i=1}^N
+\sum_{j=1}^N \alpha_i\alpha_jy_iy_jx_i^Tx_j\\
+&amp;\text{s.t. } \sum_{i=1}^N \alpha_iy_i = 0 \text{ and } \forall
+i,\alpha_i\geq 0\\
+\end{aligned}
+\]</span></p>
+<p>这里的<span
+class="math inline">\(\alpha_i\)</span>称为拉格朗日乘子，原问题称为原始问题，上式称为对偶问题，对偶问题的解为<span
+class="math inline">\(\alpha_i\)</span>，原始问题的解为<span
+class="math inline">\(w=\sum\limits_{i=1}^N
+\alpha_iy_ix_i\)</span>，<span
+class="math inline">\(b\)</span>的解可以通过KKT条件求解；对应的KKT条件为</p>
+<p><span class="math display">\[
+\begin{aligned}
+\alpha_i[y_i(w^Tx_i+b)-1] &amp;= 0\\
+y_i(w^Tx_i+b)-1 &amp;\geq 0\\
+\alpha_i &amp;\geq 0\\
+\end{aligned}
+\]</span></p>
+<ul>
+<li><span
+class="math inline">\(\alpha_i=0\)</span>，对应的样本不参与计算，即不是支持向量</li>
+<li><span
+class="math inline">\(\alpha_i&gt;0\)</span>，对应的样本参与计算，即是支持向量，此时<span
+class="math inline">\(y_i(w^Tx_i+b)=1\)</span>，即距离判别面最近的样本</li>
+</ul>
+<h2 id="带松弛变量的svm">带松弛变量的SVM</h2>
+<p>引入松弛变量<span class="math inline">\(\xi_i\geq 0\)</span>，有</p>
+<p><span class="math display">\[
+\begin{aligned}
+&amp;\arg\min_{w,b,\xi} \frac{1}{2}\lVert w\rVert_2^2+C\sum_{i=1}^N
+\xi_i\\
+&amp;\text{s.t. } y_i(w^Tx_i+b)\geq 1-\xi_i \text{ and } \forall
+i,\xi_i\geq 0\\
+\end{aligned}
+\]</span></p>
+<p>这里的<span class="math inline">\(C\)</span>称为惩罚参数，<span
+class="math inline">\(C\)</span>越大，惩罚越大，模型对异常值越敏感，越趋向于Hard
+Margin
+SVM，同时训练误差也越小，模型的间隔越小，模型越复杂，越趋向于Overfitting；引入合页损失，有</p>
+<p><span class="math display">\[
+\begin{aligned}
+&amp;\arg\min_{w,b} \frac{1}{2}\lVert w\rVert_2^2+C\sum_{i=1}^N
+\max(0,1-y_i(w^Tx_i+b))\\
+&amp;\text{s.t. } \forall i,\xi_i\geq 0\\
+\end{aligned}
+\]</span></p>
+<h2 id="核函数">核函数</h2>
+<p>引入基函数<span class="math inline">\(\phi(x)\)</span>，有</p>
+<p><span class="math display">\[
+\begin{aligned}
+f(x) &amp;= w^T\phi(x)+b\\
+&amp;= \sum_{i=1}^N \alpha_iy_i\phi(x_i)^T\phi(x)+b\\
+&amp;= \sum_{i=1}^N \alpha_iy_iK(x_i,x)+b\\
+\end{aligned}
+\]</span></p>
+<p>上式说明实现核技巧有两种方法：一种是显式地定义基函数<span
+class="math inline">\(\phi(x)\)</span>，即将原始特征映射到高维空间，然后在高维空间中求解；另一种是隐式地定义基函数，即定义核函数<span
+class="math inline">\(K(x_i,x)\)</span>，然后在原始空间中求解；常用的核函数有</p>
+<ul>
+<li>线性核函数，<span
+class="math inline">\(K(x_i,x)=x_i^Tx\)</span></li>
+<li>多项式核函数，<span
+class="math inline">\(K(x_i,x)=(x_i^Tx)^d\)</span></li>
+<li>高斯核函数，<span class="math inline">\(K(x_i,x)=e^{-\frac{\lVert
+x_i-x\rVert_2^2}{2\sigma^2}}\)</span></li>
+<li>拉普拉斯核函数，<span
+class="math inline">\(K(x_i,x)=e^{-\frac{\lVert
+x_i-x\rVert_1}{\sigma}}\)</span></li>
+<li>Sigmod核函数，<span class="math inline">\(K(x_i,x)=\tanh(\beta
+x_i^Tx+\theta)\)</span></li>
+</ul>
+<p>高斯核的参数<span
+class="math inline">\(\sigma\)</span>称为带宽，用<span
+class="math inline">\(\gamma=\frac{1}{2\sigma^2}\)</span>表示其倒数，<span
+class="math inline">\(\gamma\)</span>越大，高斯核越窄，模型越复杂，每个支持向量影响的范围越小，相应的支持向量的数量也更多，模型越趋向于Overfitting</p>
+<h1 id="特征工程">特征工程</h1>
+<h2 id="数据预处理">数据预处理</h2>
+<h3 id="数值型连续型特征">数值型/连续型特征</h3>
+<ul>
+<li>归一化/标准化</li>
+<li>对数变换</li>
+<li>区间划分</li>
+<li>二值化</li>
+<li>多项式扩展</li>
+</ul>
+<h3 id="类别型离散型特征">类别型/离散型特征</h3>
+<ul>
+<li>标签编码/Lable Encoding：将类别映射为对应序号<span
+class="math inline">\(y\in\{1,2,\cdots,K\}\)</span></li>
+<li>独热编码/One-hot Encoding：将类别映射为稀疏向量<span
+class="math inline">\(y_i=\begin{bmatrix}0 &amp; 0 &amp; \cdots &amp; 1
+&amp; \cdots &amp; 0\end{bmatrix}^T\)</span></li>
+<li>计数编码：用条件概率对特征进行编码<span
+class="math inline">\(p(Y=c|X=x)=\frac{p(X=x,Y=c)}{p(X=x)}\)</span></li>
+<li><ul>
+<li>可能发生信息泄露，导致模型过拟合；可以通过增加噪声来解决</li>
+</ul></li>
+<li><ul>
+<li>一般用于数据量较大的场景</li>
+</ul></li>
+<li>哈希编码：将类别映射为哈希值，可以减少存储空间</li>
+<li>嵌入式编码：Word2Vec、GloVe、FastText等学习得来的向量</li>
+</ul>
+<p>低基数类别型特征适用于独热编码，高基数类别型特征适用于哈希编码或计数编码；类别型特征的编码方式可以作为模型的超参数进行调优</p>
+<h1 id="降维">降维</h1>
+<h2 id="pca">PCA</h2>
+<p>PCA是一种无监督的降维算法，通过线性变换将原始特征映射到低维空间，对于原始数据集<span
+class="math inline">\(X_{D\times N}\)</span>，构造线性变换<span
+class="math inline">\(W_{D\times d}\)</span>，且<span
+class="math inline">\(W\)</span>是正交矩阵，则有</p>
+<p><span class="math display">\[
+\begin{aligned}
+W^TW &amp;= I\\
+\lVert W_i\rVert_2 &amp;= 1\\
+Z &amp;= W^TX\\
+X &amp;= WZ\\
+\end{aligned}
+\]</span></p>
+<p>PCA的目标是最小化重构误差</p>
+<p><span class="math display">\[
+\begin{aligned}
+&amp;\arg\min_{W} \sum_{i=1}^N \lVert x_i-Wz_i\rVert_2^2\\
+=&amp;\arg\min_{W} \sum_{i=1}^N (x_i-Wz_i)^T(x_i-Wz_i)\\
+=&amp;\arg\min_{W} \sum_{i=1}^N
+(x_i^Tx_i-z_i^TW^Tx_i-x_i^TWz_i+z_i^TW^TWz_i)\\
+=&amp;\arg\min_{W} \sum_{i=1}^N (x_i^Tx_i-2z_i^TW^Tx_i+z_i^Tz_i)\\
+=&amp;\arg\min_{W} \sum_{i=1}^N (x_i^Tx_i-2z_i^Tz_i + z_i^Tz_i)\\
+=&amp;\arg\min_{W} \sum_{i=1}^N (x_i^Tx_i-z_i^Tz_i)\\
+=&amp;\arg\min_{W} -\sum_{i=1}^N z_i^Tz_i\\
+=&amp;\arg\max_{W} \sum_{i=1}^N z_i^Tz_i\\
+\end{aligned}
+\]</span></p>
+<p>假定样本已经中心化，可得<strong>最小化重构误差等价于最大化投影后样本的方差</strong></p>
+<p><span class="math display">\[
+\arg\max_{W} \sum_{i=1}^N z_i^Tz_i = \arg\max_{W} tr(ZZ^T) =
+\arg\max_{W} tr(W^TXX^TW) = \arg\max_{W} tr(W^TSW)
+\]</span></p>
+<p>其中<span class="math inline">\(S=XX^T\)</span>为协方差矩阵，<span
+class="math inline">\(W\)</span>为协方差矩阵的特征向量，PCA的解为协方差矩阵的<span
+class="math inline">\(d\)</span>个最大特征值对应的特征向量，对应的步骤如下</p>
+<ol type="1">
+<li>对原始数据集进行中心化处理，即<span
+class="math inline">\(X\leftarrow X-\frac{1}{N}\sum_{i=1}^N
+x_i\)</span></li>
+<li>计算协方差矩阵<span class="math inline">\(S=XX^T\)</span></li>
+<li>对S做特征值分解</li>
+<li>取<span
+class="math inline">\(d\)</span>个最大特征值对应的特征向量<span
+class="math inline">\(w_1,w_2,\cdots,w_d\)</span></li>
+<li>构造变换矩阵<span
+class="math inline">\(W=[w_1,w_2,\cdots,w_d]\)</span></li>
+</ol>
+<h3 id="svd">SVD</h3>
+<p>当对协方差矩阵做特征值分解时，可以用SVD分解来求解</p>
+<p><span class="math display">\[
+\begin{aligned}
+X &amp;= U\Sigma V^T\\
+XX^T &amp;= U\Sigma V^TV\Sigma U^T = U\Sigma^2U^T\\
+\end{aligned}
+\]</span></p>
+<p>值得一提的是：奇异值分解的对角矩阵的对角线上的元素是奇异值，奇异值的平方是协方差矩阵的特征值</p>
+<h2 id="核化pca-kpca">核化PCA (KPCA)</h2>
+<p>KPCA是一种非线性的降维算法，通过核技巧将原始特征映射到高维空间，然后在高维空间中求解PCA，对于原始数据集<span
+class="math inline">\(X_{D\times N}\)</span>，对应的映射函数为<span
+class="math inline">\(\phi(x)\)</span>，则有<span
+class="math inline">\(Z=W^T\phi(X)\)</span>，<span
+class="math inline">\(\phi(X)=WZ\)</span></p>
+<p>引入核函数<span
+class="math inline">\(K(x_i,x_j)=\phi(x_i)^T\phi(x_j)\)</span>，KPCA的步骤如下</p>
+<ol type="1">
+<li>计算核矩阵<span class="math inline">\(K\)</span>，<span
+class="math inline">\(K_{ij}=K(x_i,x_j)\)</span></li>
+<li>对核矩阵中心化得到<span class="math inline">\(\bar{K}\)</span></li>
+<li>对<span class="math inline">\(\bar{K}\)</span>做特征值分解</li>
+<li>取<span
+class="math inline">\(d\)</span>个最大特征值对应的特征向量<span
+class="math inline">\(\alpha_1,\alpha_2,\cdots,\alpha_d\)</span></li>
+<li>降维后的样本为<span
+class="math inline">\(z=A^T\begin{bmatrix}K(x,x_1)\\K(x,x_2)\\\vdots\\K(x,x_N)\end{bmatrix}=\begin{bmatrix}\alpha_1^T\\
+\alpha_2^T\\ \vdots\\
+\alpha_d^T\end{bmatrix}\begin{bmatrix}K(x,x_1)\\K(x,x_2)\\\vdots\\K(x,x_N)\end{bmatrix}=\begin{bmatrix}\sum\limits_{i=1}^N
+\alpha_{1i}K(x,x_1)\\ \sum\limits_{i=1}^N \alpha_{2i}K(x,x_2)\\ \vdots\\
+\sum\limits_{i=1}^N \alpha_{di}K(x,x_N)\end{bmatrix}\)</span></li>
+</ol>
+<h2 id="自编码器-autoencoder">自编码器 (AutoEncoder)</h2>
+<p>用一个编码器网络<span
+class="math inline">\(f\)</span>代替降维函数<span
+class="math inline">\(Z=W^TX\)</span>，用一个解码器网络<span
+class="math inline">\(g\)</span>代替重构函数<span
+class="math inline">\(X=WZ\)</span>，则有</p>
+<p><span class="math display">\[
+\mathcal{J}(W) = \sum_{i=1}^N \lVert x_i-\hat{x}_i\rVert_2^2 +
+\lambda\mathcal{R}(W) = \sum_{i=1}^N \lVert x_i-g(f(x_i))\rVert_2^2 +
+\lambda\mathcal{R}(f)
+\]</span></p>
+<h2 id="mds">MDS</h2>
+<p>MDS是一种无监督的降维算法，通过保持样本间的距离关系来求解参数</p>
+<ol type="1">
+<li>计算样本间的距离矩阵<span class="math inline">\(D\)</span>，<span
+class="math inline">\(d_{ij}=\lVert x_i-x_j\rVert_2\)</span></li>
+<li>计算阵<span class="math inline">\(B\)</span>，<span
+class="math inline">\(b_{ij}=-\frac{1}{2}(d_{ij}^2-\frac{1}{N}\sum\limits_{k=1}^N
+d_{ik}^2-\frac{1}{N}\sum\limits_{k=1}^N
+d_{kj}^2+\frac{1}{N^2}\sum\limits_{k=1}^N\sum\limits_{l=1}^N
+d_{kl}^2)\)</span></li>
+<li>对<span class="math inline">\(B\)</span>做特征值分解</li>
+<li>取<span
+class="math inline">\(d\)</span>个最大特征值对应的特征向量<span
+class="math inline">\(w_1,w_2,\cdots,w_d\)</span>及其对应的特征值<span
+class="math inline">\(\lambda_1,\lambda_2,\cdots,\lambda_d\)</span></li>
+<li>令<span
+class="math inline">\(\Lambda=diag(\lambda_1,\lambda_2,\cdots,\lambda_d)\)</span>，降维后的样本为<span
+class="math inline">\(z=\Lambda^{\frac{1}{2}}W^T\)</span></li>
+</ol>
+<p>MDS和Isomap都是通过保持样本间的距离关系来求解参数，但是MDS是通过保持样本间的欧式距离来求解参数，而Isomap是通过保持样本间的测地距离来求解参数；两者都属于全局结构保持的降维算法</p>
+<h2 id="局部结构保持的降维算法">局部结构保持的降维算法</h2>
+<h3 id="lle">LLE</h3>
+<p>拉普拉斯特征映射(Laplacian
+Eigenmaps)是一种无监督的降维算法，通过保持样本间的局部结构来求解参数</p>
+<h3 id="t-sne">T-SNE</h3>
+<p>将欧氏距离转换为用概率表示的相似度，然后通过KL散度来求解参数</p>
+<h3 id="umap">UMAP</h3>
+<p>学习高维空间中的流形结构，然后在低维空间中保持流形结构</p>
+<h1 id="统计学习基础">统计学习基础</h1>
+<h2 id="过拟合与欠拟合">过拟合与欠拟合</h2>
+<p>过拟合：模型在训练集上表现良好，在测试集上表现较差，偏差低方差高</p>
+<ul>
+<li>降低模型复杂度</li>
+<li>减少特征数量（特征选择或特征提取，即降维）</li>
+<li>提高正则化水平</li>
+<li>Dropout</li>
+<li>Early Stopping</li>
+<li><del>增加训练数据</del>，只能降低方差，不能降低偏差</li>
+</ul>
+<p>欠拟合：模型在训练集上表现较差，在测试集上表现也较差，偏差高方差低</p>
+<ul>
+<li>增加模型复杂度，如增加多项式的阶数</li>
+<li>增加特征数量</li>
+<li>降低正则化水平</li>
+<li>充分训练模型</li>
+</ul>
+<h2 id="偏差与方差">偏差与方差</h2>
+<p>偏差是模型预测值与真实值之间的差异，描述了拟合结果的准确性，偏差高表示欠拟合；偏差可视作模型的训练误差</p>
+<p>方差描述的是拟合结果的不稳定性，来源于模型对训练数据的敏感性，高方差说明模型对随机噪声也进行了拟合，对应过拟合；方差可视作训练误差与测试误差之间的差异</p>
+<p>记<span class="math inline">\(\hat{y}\)</span>为模型预测值，<span
+class="math inline">\(y\)</span>为训练集上的标签，<span
+class="math inline">\(y^*\)</span>为真实值，一般认为标签与真实值之间存在噪声，即<span
+class="math inline">\(y=y^*+\epsilon\)</span>，其中<span
+class="math inline">\(\epsilon\)</span>为噪声，假定<span
+class="math inline">\(\epsilon\sim\mathcal{N}(0,\sigma^2)\)</span>，则误差可分解为</p>
+<p><span class="math display">\[
+\begin{aligned}
+\bar{y} &amp;= \mathbb{E}(\hat{y}) \\
+\mathbb{E}[(y - y^*)^2] &amp;= \mathbb{E}(\epsilon^2)=
+\text{Var}(\epsilon) + \mathbb{E}^2(\epsilon) = \sigma^2 \\
+\mathbb{E}[(\hat{y} - y)^2] &amp;= \mathbb{E}[(\hat{y} - \bar{y}+\bar{y}
+- y)^2] \\
+&amp;= \mathbb{E}[(\hat{y} - \bar{y})^2] + \mathbb{E}[(\bar{y} - y)^2] +
+2\mathbb{E}[(\hat{y} - \bar{y})(\bar{y} - y)] \\
+&amp;= \underbrace{\mathbb{E}[(\hat{y} - \bar{y})^2]}_{\text{方差}} +
+\mathbb{E}[(\bar{y} - y)^2]\\
+&amp;= \underbrace{\mathbb{E}[(\hat{y} - \bar{y})^2]}_{\text{方差}} +
+\mathbb{E}[(\bar{y} - y^* + y^* - y)^2]\\
+&amp;= \underbrace{\mathbb{E}[(\hat{y} - \bar{y})^2]}_{\text{方差}} +
+\mathbb{E}[(\bar{y} - y^*)^2] + \mathbb{E}[(y^* - y)^2] +
+2\mathbb{E}[(\bar{y} - y^*)\underbrace{(y^* - y)}_{\epsilon}]\\
+&amp;= \underbrace{\mathbb{E}[(\hat{y} - \bar{y})^2]}_{\text{方差}} +
+(\bar{y} - y^*)^2 + \mathbb{E}[\epsilon^2] + 2(\bar{y} -
+y^*)\underbrace{\mathbb{E}[\epsilon]}_{0}\\
+&amp;= \underbrace{\mathbb{E}[(\hat{y} - \bar{y})^2]}_{\text{方差}} +
+\underbrace{(\bar{y} - y^*)^2}_{\text{偏差}} +
+\underbrace{\text{Var}(\epsilon)}_{噪声方差}
+\end{aligned}
+\]</span></p>
+<h2 id="模型复杂度">模型复杂度</h2>
+<p>训练误差随模型复杂度增加而减小，测试误差随模型复杂度增加而先减小后增大（过拟合）</p>
+<p>复杂度高的模型一般具有低偏差高方差的特点，复杂度低的模型一般具有高偏差低方差的特点</p>
+<h1 id="聚类">聚类</h1>
+<h2 id="k-means">K-Means</h2>
+<ol type="1">
+<li>随机初始化K个聚类中心<span
+class="math inline">\(\mu_1,\mu_2,\cdots,\mu_K\)</span></li>
+<li>对每个样本<span
+class="math inline">\(x_i\)</span>，计算其与每个聚类中心的距离<span
+class="math inline">\(d(x_i,\mu_k)\)</span>，将其归为距离最近的聚类中心所在的类别</li>
+<li>对每个类别，计算其所有样本的均值，将其作为新的聚类中心</li>
+<li>重复2-3，直到聚类中心不再变化</li>
+</ol>
+<p>用平方误差来衡量聚类效果</p>
+<p><span class="math display">\[
+\begin{aligned}
+L &amp;= \sum_{i=1}^N \sum_{k=1}^K r_{ik}d(x_i,\mu_k)\\
+&amp;= \sum_{i=1}^N \sum_{k=1}^K r_{ik}\lVert x_i-\mu_k\rVert_2^2\\
+\end{aligned}
+\]</span></p>
+<p>其中<span class="math inline">\(r_{ik}\)</span>为样本<span
+class="math inline">\(x_i\)</span>属于第<span
+class="math inline">\(k\)</span>个聚类的指示变量，即</p>
+<p><span class="math display">\[
+r_{ik} = \left\{
+\begin{aligned}
+&amp;1 &amp; x_i\in C_k\\
+&amp;0 &amp; x_i\notin C_k\\
+\end{aligned}
+\right.
+\]</span></p>
+<p>当簇具有不同的尺寸/密度/非球形时，K-Means的效果不好</p>
+<h3 id="肘部法">肘部法</h3>
+<p>肘部法用于确定聚类的数量，即K值，对于不同的K值，计算平方误差，然后绘制成折线图，找到拐点，即为最佳的K值</p>
+<p><span class="math display">\[
+K_{\alpha} = \min\{K\vert\frac{L_{K} - L_{K+1}}{\sigma^2}\leq \alpha\}
+\]</span></p>
+<h3 id="假设检验法">假设检验法</h3>
+<p>假设检验法用于确定聚类的数量，即K值；假设理想簇分布服从多元正态分布，逐步增加K值，直至每个簇都服从多元正态分布</p>
+<h3 id="k-means-1">K-Means++</h3>
+<p>K-Means++用于初始化聚类中心，即第一步，K-Means++的思想是尽可能地让聚类中心之间的距离相互远离，具体步骤如下</p>
+<ol type="1">
+<li>随机选择一个样本作为第一个聚类中心</li>
+<li>对于每个样本<span
+class="math inline">\(x_i\)</span>，计算其与已有聚类中心的距离<span
+class="math inline">\(d(x_i,C)\)</span>，其中<span
+class="math inline">\(C\)</span>为已有聚类中心的集合</li>
+<li>选择一个样本作为新的聚类中心，其概率为<span
+class="math inline">\(\frac{d(x_i,C)^2}{\sum_{x_j\in
+X}d(x_j,C)^2}\)</span></li>
+</ol>
+<h2 id="高斯混合模型">高斯混合模型</h2>
+<p>假定有<span
+class="math inline">\(K\)</span>个潜在的服从高斯分布的簇，每个簇的概率为<span
+class="math inline">\(\pi_k\)</span>，每个簇的均值为<span
+class="math inline">\(\mu_k\)</span>，每个簇的协方差矩阵为<span
+class="math inline">\(\Sigma_k\)</span>，则有</p>
+<p><span class="math display">\[
+p(x) = \sum_{k=1}^K \pi_k\mathcal{N}(x;\mu_k,\Sigma_k) = \sum_{k=1}^K
+\pi_k\frac{1}{(2\pi)^{\frac{D}{2}}\lvert\Sigma_k\rvert^{\frac{1}{2}}}e^{-\frac{1}{2}(x-\mu_k)^T\Sigma_k^{-1}(x-\mu_k)}
+\]</span></p>
+<p>损失函数为负对数似然函数，可以用EM算法求解；GMM属于软分配，即概率分配，可以被用于椭球形簇的聚类，簇的概率可以不同</p>
+<h2 id="层次聚类">层次聚类</h2>
+<p>凝聚式/自底向上聚类：每个样本作为一个簇，然后逐步合并簇，直到满足停止条件，一般每次合并距离最近的两个簇</p>
+<h2 id="dbscan">DBSCAN</h2>
+<p>基于密度的聚类算法，将高密度区域划分为簇，将低密度区域划分为噪声，具有噪声抗性，可以发现任意形状的簇，对参数敏感；基本概念如下</p>
+<ul>
+<li><span class="math inline">\(\epsilon\)</span>-邻域：对于样本<span
+class="math inline">\(x_i\)</span>，其<span
+class="math inline">\(\epsilon\)</span>-邻域为<span
+class="math inline">\(N_{\epsilon}(x_i)=\{x_j\vert
+d(x_i,x_j)\leq\epsilon\}\)</span></li>
+<li>核心点：对于样本<span
+class="math inline">\(x_i\)</span>，如果其<span
+class="math inline">\(\epsilon\)</span>-邻域中的样本数量大于等于<span
+class="math inline">\(MinPts\)</span>，则称其为核心点</li>
+<li>边界点：对于样本<span
+class="math inline">\(x_i\)</span>，如果其<span
+class="math inline">\(\epsilon\)</span>-邻域中的样本数量小于<span
+class="math inline">\(MinPts\)</span>，但其<span
+class="math inline">\(\epsilon\)</span>-邻域中存在核心点，则称其为边界点</li>
+<li>噪声点：对于样本<span
+class="math inline">\(x_i\)</span>，如果其<span
+class="math inline">\(\epsilon\)</span>-邻域中的样本数量小于<span
+class="math inline">\(MinPts\)</span>，且其<span
+class="math inline">\(\epsilon\)</span>-邻域中不存在核心点，则称其为噪声点</li>
+<li>密度可达：两个样本间存在由核心点构成的路径，使得路径上的每个样本都是对方的<span
+class="math inline">\(\epsilon\)</span>-邻域中的样本，则称两个样本密度可达</li>
+<li>密度相连：对于样本<span class="math inline">\(x_i\)</span>和<span
+class="math inline">\(x_j\)</span>，如果存在样本<span
+class="math inline">\(x_k\)</span>，使得<span
+class="math inline">\(x_i\)</span>和<span
+class="math inline">\(x_j\)</span>都是<span
+class="math inline">\(x_k\)</span>的<span
+class="math inline">\(\epsilon\)</span>-邻域中的样本，则称<span
+class="math inline">\(x_i\)</span>和<span
+class="math inline">\(x_j\)</span>密度相连</li>
+</ul>
+<p>DBSCAN的基本思想是：从任意一个核心点开始，找到其密度可达的所有样本，将其划分为一个簇，然后继续寻找下一个未被访问的核心点，直到所有样本都被访问过；DBSCAN的优点在于不需要指定簇的数量，可处理任意形状的簇，且对离群点较为鲁邦；缺点在于对参数敏感，对高维数据不适用，且计算复杂度较高</p>
+<h2 id="评价指标">评价指标</h2>
+<h3 id="jaccard系数">Jaccard系数</h3>
+<h3 id="rand指数">Rand指数</h3>
+<h3 id="轮廓系数">轮廓系数</h3>
+<ul>
+<li><span class="math inline">\(a_i\)</span>：样本<span
+class="math inline">\(x_i\)</span>与同簇其他样本的平均距离</li>
+<li><span class="math inline">\(d_{i,k}\)</span>：样本<span
+class="math inline">\(x_i\)</span>与其他簇<span
+class="math inline">\(C_k\)</span>所有样本的平均距离</li>
+<li><span class="math inline">\(b_i=\min\limits_{k\neq i}
+d_{i,k}\)</span>：样本<span
+class="math inline">\(x_i\)</span>与其他簇的平均距离的最小值</li>
+<li><span
+class="math inline">\(s_i=\frac{b_i-a_i}{\max\{a_i,b_i\}}\)</span>：样本<span
+class="math inline">\(x_i\)</span>的轮廓系数</li>
+<li>簇<span class="math inline">\(C\)</span>的轮廓系数：<span
+class="math inline">\(s=\frac{1}{\vert C\vert}\sum_{x_i\in C}
+s_i\)</span></li>
+</ul>
+<h1 id="集成学习">集成学习</h1>
+<h2 id="bagging">Bagging</h2>
+<p>Bagging (Bootstrap
+Aggregating)是一种基于自助采样法的集成学习算法，通过自助采样法从原始数据集中采样出<span
+class="math inline">\(N\)</span>个样本，然后用这<span
+class="math inline">\(N\)</span>个样本训练出<span
+class="math inline">\(N\)</span>个模型，最后将这<span
+class="math inline">\(N\)</span>个模型进行投票，得到最终的预测结果</p>
+<p><span class="math display">\[
+f(x) = \frac{1}{N}\sum_{i=1}^N f_i(x)
+\]</span></p>
+<p>Bagging适合对偏差低、方差高的模型进行集成，如决策树、神经网络等；Bagging可以并行训练；通常基学习器数量越多，集成效果越好，但是当基学习器数量达到一定程度时，集成效果不再提升，甚至会下降，这是因为基学习器之间的相关性增加</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mathbb{E}(f(x)) &amp;= \mathbb{E}\left(\frac{1}{N}\sum_{i=1}^N
+f_i(x)\right)= \frac{1}{N}\sum_{i=1}^N \mathbb{E}(f_i(x))=
+\mathbb{E}(f_m(x))\\
+\text{Var}(f(x)) &amp;= \text{Var}\left(\frac{1}{N}\sum_{i=1}^N
+f_i(x)\right)= \frac{1}{N^2}\sum_{i=1}^N \text{Var}(f_i(x))=
+\frac{1}{N}\text{Var}(f_m(x))\\
+\end{aligned}
+\]</span></p>
+<h3 id="随机森林">随机森林</h3>
+<ul>
+<li>随机选择一部分样本</li>
+<li>随机选择一部分特征</li>
+</ul>
+<p>降低了树的相关性，也牺牲了可解释性</p>
+<h3 id="极度随机树">极度随机树</h3>
+<p>随机选取候选特征阈值，随机性更强；相较于随机森林，偏差更大，方差更小</p>
+<h3 id="bootstrap">Bootstrap</h3>
+<p>对于原始数据集<span
+class="math inline">\(D\)</span>，从中有放回地采样<span
+class="math inline">\(N\)</span>个样本，得到采样集<span
+class="math inline">\(D_i\)</span>，则有</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mathbb{P}(x\in D_i) &amp;= 1-\mathbb{P}(x\notin D_i)\\
+&amp;= 1-\left(1-\frac{1}{N}\right)^N\\
+&amp;\approx 1-e^{-1}\\
+&amp;\approx 0.632\\
+\end{aligned}
+\]</span></p>
+<p>当<span class="math inline">\(N\)</span>足够大时，样本<span
+class="math inline">\(x\)</span>被采样到的概率为0.632，未被采样到的概率为0.368；未被采样到的数据称为包外(out-of-bag)数据，可以用于模型的验证，不需要额外的验证集</p>
+<h2 id="boosting">Boosting</h2>
+<p>顺序地训练多个弱学习器，每个弱学习器都在上一个弱学习器的基础上进行训练，最终将所有弱学习器进行加权求和，得到最终的预测结果</p>
+<p><span class="math display">\[
+f(x) = \sum_{i=1}^N \alpha_i f_i(x)
+\]</span></p>
+<p>Boosting算法适用于高偏差、低方差的模型（性能弱，深度浅），可以降低偏差，不能并行训练</p>
+<h3 id="adaboost">AdaBoost</h3>
+<p>对训练集中的每个样本赋予一个权重<span
+class="math inline">\(w_i\)</span>，初始时；每次训练出一个弱学习器后，更新样本的权重，使得误分类样本的权重增大，正确分类样本的权重减小，并且下一轮的误分类样本权重之和总等于<span
+class="math inline">\(0.5\)</span>，即满足随机猜想的条件。</p>
+<p>每轮训练时的加权误识率为</p>
+<p><span class="math display">\[
+\epsilon_{i} = \sum_{x_j\in D_i} w_j^{(i)}\mathbb{I}(y_j\neq f_i(x_j))\\
+\]</span></p>
+<p>新一轮的样本权重中，放大了误分类样本的权重，缩小了正确分类样本的权重</p>
+<p><span class="math display">\[
+w_j^{(i+1)} = \left\{
+\begin{aligned}
+&amp;\frac{w_j^{(i)}d_i^{-1}}{z_i} &amp; y_j=f_i(x_j)\\
+&amp;\frac{w_j^{(i)}d_i}{z_i} &amp; y_j\neq f_i(x_j)\\
+\end{aligned}
+\right.
+\]</span></p>
+<p>其中<span
+class="math inline">\(z_i\)</span>为归一化因子，是为了保证下一轮的权重之和为<span
+class="math inline">\(1\)</span>，仍然是一个分布</p>
+<p><span class="math display">\[
+\begin{aligned}
+z_i &amp;= \sum_{x_j\in D_i} d_iw_j^{(i)}\mathbb{I}(y_j\neq f_i(x_j)) +
+\sum_{x_j\in D_i} d_i^{-1}w_j^{(i)}\mathbb{I}(y_j=f_i(x_j))\\
+&amp;= d_i\sum_{x_j\in D_i} w_j^{(i)}\mathbb{I}(y_j\neq f_i(x_j)) +
+d_i^{-1}\sum_{x_j\in D_i} w_j^{(i)}\mathbb{I}(y_j=f_i(x_j))\\
+&amp;= d_i\epsilon_i + d_i^{-1}(1-\epsilon_i)\\
+\end{aligned}
+\]</span></p>
+<p>每轮训练后，更新样本权重，且满足下一轮的误分类样本权重之和总等于<span
+class="math inline">\(0.5\)</span></p>
+<p><span class="math display">\[
+\begin{aligned}
+d_i\epsilon_i &amp;= d_i^{-1}(1-\epsilon_i)\\
+d_i &amp;= \sqrt{\frac{1-\epsilon_i}{\epsilon_i}}\\
+z_i &amp;= d_i\epsilon_i +
+d_i^{-1}(1-\epsilon_i)=2\sqrt{\epsilon_i(1-\epsilon_i)}\\
+\end{aligned}
+\]</span></p>
+<p>对应学习器的权重为</p>
+<p><span class="math display">\[
+\alpha_i = \ln d_i = \frac{1}{2}\ln\frac{1-\epsilon_i}{\epsilon_i}\\
+\]</span></p>
+<p><span class="math inline">\(d_i\)</span>可以重写为<span
+class="math inline">\(\exp(\alpha_i)\)</span>，假定二分类标签<span
+class="math inline">\(y_i\in\{-1,1\}\)</span>，则有指示变量<span
+class="math inline">\(y_if_i(x_i)\)</span>，当<span
+class="math inline">\(y_i=f_i(x_i)\)</span>时，指示变量为<span
+class="math inline">\(1\)</span>，当<span class="math inline">\(y_i\neq
+f_i(x_i)\)</span>时，指示变量为<span
+class="math inline">\(-1\)</span>，</p>
+<p><span class="math display">\[
+w_j^{(i+1)} = \frac{w_j^{(i)}\exp(-\alpha_iy_if_i(x_i))}{z_i}
+\]</span></p>
+<h3 id="gradient-boosting">Gradient Boosting</h3>
+<p>梯度提升算法采用了梯度更新的思想，每次迭代时都在上一轮的梯度方向上进行优化，即</p>
+<p><span class="math display">\[
+f_{m+1}(x) = f_m(x) - \eta\frac{\partial L}{\partial f}(y,f_m(x))
+\]</span></p>
+<p>对于回归问题，可以采用L2损失函数，称为L2Boosting</p>
+<p><span class="math display">\[
+\begin{aligned}
+L(y,f(x)) &amp;= \frac{1}{2}(y-f(x))^2\\
+\frac{\partial L}{\partial f}(y,f(x)) &amp;= f(x)-y\\
+f_{m+1}(x) &amp;= f_m(x) - \eta(f_m(x)-y)\\
+&amp;= (1-\eta)f_m(x) + \eta y\\
+\end{aligned}
+\]</span></p>
+<p>对于分类问题，可以采用交叉熵损失函数，称为LogitBoosting</p>
+<p><span class="math display">\[
+\begin{aligned}
+p_k &amp;= \frac{e^{f_k(x)}}{\sum_{i=1}^K e^{f_i(x)}}\\
+L(y,f(x)) &amp;= -\sum_{k=1}^K y_k\ln p_k\\
+&amp;= -\sum_{k=1}^K y_k\ln\frac{e^{f_k(x)}}{\sum_{i=1}^K e^{f_i(x)}}\\
+&amp;= -\sum_{k=1}^K y_kf_k(x) + \sum_{k=1}^K y_k\ln\sum_{i=1}^K
+e^{f_i(x)}\\
+\frac{\partial L}{\partial f_m}(y,f(x)) &amp;= -y_m + \sum_{k=1}^K
+y_k\frac{e^{f_k(x)}}{\sum_{i=1}^K e^{f_i(x)}}\\
+&amp;= -y_m + \sum_{k=1}^K y_kp_k\\
+&amp;= p_m - y_m\\
+\end{aligned}
+\]</span></p>
+</body>
+</html>
