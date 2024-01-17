@@ -15,13 +15,13 @@ This is the note for the course Advanced AI in University of Chinese Academy of 
 
 ***
 
-| Category                     | Topic              | Content                                                                    |
-| :--------------------------- | :----------------- | :------------------------------------------------------------------------- |
-| Symbolic AI                  | Logic agents       | [page](/assets/html/ai/logic-agents.html),[blog](/blog/2023/logic-agents/) |
-| Symbolic AI                  | First-order logic  | [page](/assets/html/ai/first-order-logic.html)                             |
-| Problem-solving              | Search             | [page](/assets/html/ai/search.html)                                        |
-| Problem-solving              | Adversarial search | [page](/assets/html/ai/adversarial-search.html)                            |
-| Statistical causal inference | Causal effect      | [page](/assets/html/ai/causal-effect.html)                                 |
+| Category                     | Topic              | Content                                                                     |
+| :--------------------------- | :----------------- | :-------------------------------------------------------------------------- |
+| Symbolic AI                  | Logic agents       | [page](/assets/pages/ai/logic-agents.html),[blog](/blog/2023/logic-agents/) |
+| Symbolic AI                  | First-order logic  | [page](/assets/pages/ai/first-order-logic.html)                             |
+| Problem-solving              | Search             | [page](/assets/pages/ai/search.html)                                        |
+| Problem-solving              | Adversarial search | [page](/assets/pages/ai/adversarial-search.html)                            |
+| Statistical causal inference | Causal effect      | [page](/assets/pages/ai/causal-effect.html)                                 |
 
 ***
 
