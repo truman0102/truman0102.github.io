@@ -59,7 +59,7 @@ $$
 
 The greater the information gain, the more information about the labels is gained by knowing the value of the feature, and the better the feature is at predicting the labels.
 
-It is worth noting that the information gain is [symmetric](#proof-of-information-gain), i.e. $$IG(Y|X) = IG(X|Y)$$.
+It is worth noting that the information gain is [symmetric](#proof-of-information-gain), i.e. $$IG(Y\vert X) = IG(X\vert Y)$$.
 
 ### Information Gain Ratio
 
