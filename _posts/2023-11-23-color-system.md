@@ -107,7 +107,7 @@ In RGB color system, each color is represented by a combination of red, green, a
 
 Below is cubical representation of the RGB color system, where each axis represents a color (red, green, and blue). The color white is at the center of the cube, while the color black is at the origin of the cube, and the color white is at the opposite corner of the cube. The other three corners of the cube represent the secondary colors: cyan, magenta, and yellow.
 
-<div>{% include figure.html path="assets/img/image-processing/RGB.png" class="img-fluid rounded z-depth-1" %}</div>
+<div>{% include figure.liquid path="assets/img/image-processing/RGB.png" class="img-fluid rounded z-depth-1" %}</div>
 
 ### Subtractive Color Systems
 
@@ -229,7 +229,7 @@ R &= 3I - (G + B)
 \end{aligned}
 $$
 
-<div>{% include figure.html path="assets/img/image-processing/HSI.png" class="img-fluid rounded z-depth-1" %}</div>
+<div>{% include figure.liquid path="assets/img/image-processing/HSI.png" class="img-fluid rounded z-depth-1" %}</div>
 
 #### HSV
 

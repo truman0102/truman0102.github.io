@@ -43,7 +43,7 @@ $$
 s = T(r) = c \log(1 + r)
 $$
 
-<div>{% include figure.html path="assets/img/image-processing/log_transformation.png" class="img-fluid rounded z-depth-1" %}</div>
+<div>{% include figure.liquid path="assets/img/image-processing/log_transformation.png" class="img-fluid rounded z-depth-1" %}</div>
 
 ### Power-Law (Gamma) Transformation
 
@@ -51,7 +51,7 @@ $$
 s = T(r) = cr^{\gamma}
 $$
 
-<div>{% include figure.html path="assets/img/image-processing/power_law_transformation.png" class="img-fluid rounded z-depth-1" %}</div>
+<div>{% include figure.liquid path="assets/img/image-processing/power_law_transformation.png" class="img-fluid rounded z-depth-1" %}</div>
 
 ### Grayscale Threshold Transformation
 

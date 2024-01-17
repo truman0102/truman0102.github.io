@@ -73,7 +73,7 @@ $$
 \frac{d\sigma(z)}{dz}=\sigma(z)(1-\sigma(z))
 $$
 
-<div>{% include figure.html path="assets/img/data_science/sigmoid.png" class="img-fluid rounded z-depth-1" %}</div>
+<div>{% include figure.liquid path="assets/img/data_science/sigmoid.png" class="img-fluid rounded z-depth-1" %}</div>
 
 ## Logistic Regression
 
