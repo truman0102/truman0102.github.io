@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="description" content="An introduction to wavelet analysis and other image transforms." />
+  <title>Wavelet Analysis</title>
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"
+  type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Wavelet Analysis</h1>
+<p class="date">2023-12-06 10:40:00-0400</p>
+</header>
+<nav id="TOC" role="doc-toc">
+
+</nav>
+<h2 id="image-pyramid-图像金字塔">Image Pyramid (图像金字塔)</h2>
+<p>尺度 (scale)
+是图像金字塔的一个重要概念。尺度是指图像的尺寸和分辨率，对图像进行缩放就是改变图像的尺度。图像金字塔是一种多尺度的图像表示，可以用来检测图像中的不同尺度的特征。图像金字塔一般从最底层的开始，每向上移动一层，尺寸和分辨率就会降低。图像金字塔第<span
+class="math inline">\(n\)</span>级<a href="#fn1" class="footnote-ref"
+id="fnref1" role="doc-noteref"><sup>1</sup></a>的图像大小为<span
+class="math inline">\(2^{n}\times
+2^{n}\)</span>，顶点一般为第0级，大小为<span
+class="math inline">\(1\times 1\)</span>，依次向下为<span
+class="math inline">\(2\times 2\text{，}\dots\text{，}2^{n}\times
+2^{n}\)</span>。一般我们记初始/最底层图像的大小为<span
+class="math inline">\(2^J\times 2^J\)</span>，其中<span
+class="math inline">\(J\)</span>为最大级数，一个图像金字塔有<span
+class="math inline">\(J+1\)</span>级。令<span
+class="math inline">\(N=2^J\)</span>，最底层图像的元素个数为<span
+class="math inline">\(N^2\)</span>，图像金字塔的最大总元素个数为</p>
+<p><span
+class="math display">\[N^2(1+\frac{1}{4^1}+\frac{1}{4^2}+\dots+\frac{1}{4^J})=N^2\frac{1-\frac{1}{4^{J+1}}}{1-\frac{1}{4}}\leq
+\frac{N^2}{1-\frac{1}{4}}=\frac{4}{3}N^2\]</span></p>
+<p>采样 (sampling) 是图像金字塔的另一个重要概念。采样分为上采样
+(upsampling) 和下采样<a href="#fn2" class="footnote-ref" id="fnref2"
+role="doc-noteref"><sup>2</sup></a>
+(downsampling)。上采样是指将图像的尺度变大，比如插入零值像素并使用插值算法对其重构，上采样可以得到图像金字塔中尺度更大的图像；下采样是指将图像的尺度变小，比如将图像的每个像素替换为其邻域像素的平均值，下采样可以得到图像金字塔中尺度更小的图像。</p>
+<ol type="1">
+<li>高斯金字塔: 对于大小为<span class="math inline">\(2^P\times
+2^P\)</span>的图像，对图像使用高斯低通滤波器(或其他低通滤波器)进行滤波，然后以步长2进行抽样，即下采样，输出大小为<span
+class="math inline">\(2^{P-1}\times
+2^{P-1}\)</span>的图像，该图像即为图像金字塔的近邻层的图像</li>
+<li>对该低分辨率图像进行内插，得到一个大小为<span
+class="math inline">\(2^P\times
+2^P\)</span>的图像，可以选择使用滤波器进行过滤，也可以不过滤，这样就得到了一个大小为<span
+class="math inline">\(2^P\times 2^P\)</span>的图像</li>
+<li>计算原图像与第2步得到的图像的差值，得到一个大小为<span
+class="math inline">\(2^P\times
+2^P\)</span>的图像，这个图像称为预测残差，对应拉普拉斯金字塔</li>
+<li>下采样先滤波，上采样后滤波</li>
+</ol>
+<h2 id="z-transform-z变换">Z Transform (Z变换)</h2>
+<p>Z变换用于分析离散信号，以复数平面的单位圆为基础，将离散信号的时域/空域转换为复数平面的频域<span
+class="math inline">\(x(n)\Leftrightarrow
+X(z)\)</span>。Z变换的定义如下：</p>
+<p><span class="math display">\[
+X(z)=\sum_{n=-\infty}^{\infty}x(n)z^{-n}\quad z\in\mathbb{C}
+\]</span></p>
+<p>Z变换的性质如下：</p>
+<p><span class="math display">\[
+\begin{aligned}
+X(z^{-1}) &amp;= \sum_{n=-\infty}^{\infty}x(n)z^{n}\\
+&amp;= \sum_{m=\infty}^{-\infty}x(-m)z^{-m}\\
+&amp;= \sum_{m=-\infty}^{\infty}x(-m)z^{-m}\\
+&amp;\Leftrightarrow x(-n) \\
+\end{aligned}
+\]</span></p>
+<p><span class="math display">\[
+\begin{aligned}
+z^{-k}X(z) &amp;= \sum_{n=-\infty}^{\infty}x(n)z^{-(n+k)}\\
+&amp;= \sum_{m=-\infty}^{\infty}x(m-k)z^{-m}\\
+&amp;\Leftrightarrow x(n-k)\\
+\end{aligned}
+\]</span></p>
+<p><span class="math display">\[
+\begin{aligned}
+X(-z)&amp;= \sum_{n=-\infty}^{\infty}x(n)(-z)^{-n}\\
+&amp;= \sum_{n=-\infty}^{\infty}(-1)^nx(n)z^{-n}\\
+&amp;\Leftrightarrow (-1)^nx(n)\\
+a^nx(n) &amp;\Leftrightarrow X(\frac{z}{a})\\
+\end{aligned}
+\]</span></p>
+<p><span class="math display">\[
+x_1(n)\star x_2(n) \Leftrightarrow X_1(z)X_2(z)
+\]</span></p>
+<p><span class="math display">\[
+\begin{aligned}
+X(z)+X(-z)&amp;=
+\sum_{n=-\infty}^{\infty}x(n)z^{-n}+\sum_{n=-\infty}^{\infty}x(n)(-z)^{-n}\\
+&amp;= \sum_{n=-\infty}^{\infty}x(n)(z^{-n}+(-z)^{-n})\\
+&amp;= \sum_{n=-\infty}^{\infty}(1+(-1)^n)x(n)z^{-n}\\
+&amp;= 2\sum_{n=-\infty}^{\infty}x(2n)z^{-2n}\\
+&amp;\Leftrightarrow x(2n)\\
+\end{aligned}
+\]</span></p>
+<p>对于下采样:</p>
+<p><span class="math display">\[
+\begin{aligned}
+x_{down}(n) &amp;= x(2n)\\
+&amp;\Leftrightarrow
+\frac{1}{2}[X(z^{\frac{1}{2}})+X(-z^{\frac{1}{2}})]\\
+\end{aligned}
+\]</span></p>
+<p>对于上采样:</p>
+<p><span class="math display">\[
+x_{up}(n) =
+\left\{
+    \begin{aligned}
+&amp;x(\frac{n}{2})&amp;n\text{为偶数}\\
+&amp;0&amp;n\text{为奇数}\\
+\end{aligned}\right.
+\]</span></p>
+<p><span class="math display">\[
+\begin{aligned}
+X(z^2)&amp;= \sum_{n=-\infty}^{\infty}x(n)z^{-2n}\\
+&amp;= \sum_{m=-\infty}^{\infty}x(\frac{m}{2})z^{-m}\quad
+m\text{为偶数}\\
+&amp;\Leftrightarrow x_{up}(n)\\
+\end{aligned}
+\]</span></p>
+<p>一个信号经过上采样和下采样后，其对应的Z变换为：</p>
+<p><span class="math display">\[
+\hat{X}(z) = \frac{1}{2}[X(z)+X(-z)]
+\]</span></p>
+<p><span class="math display">\[
+\begin{aligned}
+\hat{x}(n) &amp;= Z^{-1}[\hat{X}(z)]\\
+Z^{-1}[\hat{X}(-z)] &amp;= (-1)^n\hat{x}(n)\\
+\end{aligned}
+\]</span></p>
+<h3 id="subband-coding-子带编码">Subband Coding (子带编码)</h3>
+<p>输入<span class="math inline">\(x(n)\)</span>输出<span
+class="math inline">\(\hat{x}(n)\)</span>；<span
+class="math inline">\(x(n)\)</span>经过分析滤波器<span
+class="math inline">\(h_0\)</span>和<span
+class="math inline">\(h_1\)</span>后，分别得到低频信号<span
+class="math inline">\(y_0(n)\)</span>和高频信号<span
+class="math inline">\(y_1(n)\)</span>；下采样后再经过综合滤波器<span
+class="math inline">\(g_0\)</span>和<span
+class="math inline">\(g_1\)</span>，得到<span
+class="math inline">\(\hat{x}(n)\)</span>。分析滤波器是半波滤波器，即对应频率域的低通滤波器和高通滤波器；综合滤波器是全波滤波器，即对应频率域的带通滤波器。</p>
+<p><span class="math display">\[
+\begin{aligned}
+\hat{X}(z)&amp;=
+\frac{1}{2}G_0(z)[H_0(z)X(z)+H_0(-z)X(-z)]+\frac{1}{2}G_1(z)[H_1(z)X(z)+H_1(-z)X(-z)]\\
+&amp;=\frac{1}{2}[G_0(z)H_0(z)+G_1(z)H_1(z)]X(z)+\frac{1}{2}[G_0(z)H_0(-z)+G_1(z)H_1(-z)]X(-z)\\
+\end{aligned}
+\]</span></p>
+<h3 id="error-free-reconstruction-无误差重构">Error-Free Reconstruction
+(无误差重构)</h3>
+<p><span class="math display">\[
+\begin{aligned}
+G_0(z)H_0(z)+G_1(z)H_1(z) &amp;= 2\\
+G_0(z)H_0(-z)+G_1(z)H_1(-z) &amp;= 0\\
+\end{aligned}
+\]</span></p>
+<p><span class="math display">\[
+\begin{aligned}
+\begin{bmatrix}
+G_0(z) &amp; G_1(z)\\
+\end{bmatrix}
+H_m
+&amp;=
+\begin{bmatrix}
+2 &amp; 0\\
+\end{bmatrix}\\
+H_m&amp;=\begin{bmatrix}
+H_0(z) &amp; H_0(-z)\\
+H_1(z) &amp; H_1(-z)\\
+\end{bmatrix}
+\end{aligned}
+\]</span></p>
+<p><span class="math display">\[
+|H_m(z)|=H_0(z)H_1(-z)-H_1(z)H_0(-z)=-|H_m(-z)|
+\]</span></p>
+<p>如果<span class="math inline">\(H_m\)</span>是可逆的，那么存在</p>
+<p><span class="math display">\[
+H_m^* = \begin{bmatrix}
+H_1(-z) &amp; -H_0(-z)\\
+-H_1(z) &amp; H_0(z)\\
+\end{bmatrix}=|H_m|H_m^{-1}
+\]</span></p>
+<p><span class="math display">\[
+\begin{aligned}
+\begin{bmatrix}
+G_0(z) &amp; G_1(z)\\
+\end{bmatrix}
+H_mH_m^*&amp;=
+\begin{bmatrix}
+2 &amp; 0\\
+\end{bmatrix}H_m^*\\
+\begin{bmatrix}
+G_0(z) &amp; G_1(z)\\
+\end{bmatrix}
+&amp;=
+\begin{bmatrix}
+2 &amp; 0\\
+\end{bmatrix}H_m^*|H_m|^{-1}\\
+&amp;=\frac{2}{|H_m|}\begin{bmatrix}
+H_1(-z) &amp; -H_0(-z)\\
+\end{bmatrix}\\
+\end{aligned}
+\]</span></p>
+<p>伴随矩阵是代数余子式矩阵的转置，是逆矩阵<span
+class="math inline">\(A^{-1}\)</span>的<span
+class="math inline">\(|A|\)</span>倍，</p>
+<p>因此，<span class="math inline">\(G_0(z)\)</span>和<span
+class="math inline">\(G_1(z)\)</span>是<span
+class="math inline">\(H_1(-z)\)</span>和<span
+class="math inline">\(-H_0(-z)\)</span>的线性变换，倍数为<span
+class="math inline">\(\frac{2}{|H_m|}=\frac{2}{|H_0(z)H_1(-z)-H_1(z)H_0(-z)|}\)</span>。</p>
+<h3 id="finite-impulse-response-有限脉冲响应">Finite Impulse Response
+(有限脉冲响应)</h3>
+<p><span class="math display">\[
+|H_m(z)|=\alpha z^{-(2k+1)}
+\]</span></p>
+<p>那么有</p>
+<p><span class="math display">\[
+\begin{aligned}
+G_0(z)&amp;=\frac{2}{\alpha}z^{(2k+1)}H_1(-z)\\
+G_1(z)&amp;=-\frac{2}{\alpha}z^{(2k+1)}H_0(-z)\\
+\end{aligned}
+\]</span></p>
+<p><span
+class="math inline">\(z^{(2k+1)}\)</span>是一个群时延，忽略<span
+class="math inline">\(z^{(2k+1)}\)</span>，根据Z变换的性质有</p>
+<ul>
+<li><span class="math inline">\(\alpha=2\)</span></li>
+</ul>
+<p><span class="math display">\[
+\begin{aligned}
+g_0(n)&amp;=(-1)^n h_1(n)\\
+g_1(n)&amp;=(-1)^{n+1} h_0(n)\\
+\end{aligned}
+\]</span></p>
+<ul>
+<li><span class="math inline">\(\alpha=-2\)</span></li>
+</ul>
+<p><span class="math display">\[
+\begin{aligned}
+g_0(n)&amp;=(-1)^{n+1} h_1(n)\\
+g_1(n)&amp;=(-1)^n h_0(n)\\
+\end{aligned}
+\]</span></p>
+<h3 id="biorthogonality-双正交性">Biorthogonality (双正交性)</h3>
+<p>对于完美重构的情况，<span
+class="math inline">\(G_0(z)=\frac{2}{|H_m(z)|}H_1(-z)\)</span>，<span
+class="math inline">\(G_1(z)=-\frac{2}{|H_m(z)|}H_0(-z)\)</span>，那么有</p>
+<p><span class="math display">\[
+\begin{aligned}
+\text{令
+}P(z)&amp;=G_0(z)H_0(z)\\&amp;=\frac{2}{|H_m(z)|}H_1(-z)H_0(z)\\
+G_1(z)H_1(z)&amp;=\frac{-2}{|H_m(z)|}H_0(-z)H_1(z)\\
+&amp;=\frac{2}{|H_m(-z)|}H_1(z)H_0(-z)\\
+&amp;=P(-z)\\
+&amp;=G_0(-z)H_0(-z)\\
+\end{aligned}
+\]</span></p>
+<p>符号反转可得<span
+class="math inline">\(G_0(z)H_0(z)=G_1(-z)H_1(-z)\)</span></p>
+<p>代入无误差重构的条件：</p>
+<p><span class="math display">\[
+G_0(z)H_0(z)+G_0(-z)H_0(-z)=2
+\]</span></p>
+<p>频域的相乘等价于空域/时域的卷积，因此有</p>
+<p><span class="math display">\[
+\sum_k g_0(k)h_0(n-k)+(-1)^n\sum_k g_0(k)h_0(n-k)=2\delta(n)
+\]</span></p>
+<p>当<span
+class="math inline">\(n\)</span>为奇数时由冲激函数性质可知等式恒成立；当<span
+class="math inline">\(n\)</span>为偶数时，有</p>
+<p><span class="math display">\[
+\sum_k g_0(k)h_0(2n-k)=\delta(n)=\left \{ \begin{aligned}
+1&amp;\quad n=0\\
+0&amp;\quad n\neq 0\\
+\end{aligned}\right.
+\]</span></p>
+<p>即</p>
+<p><span class="math display">\[
+\left \langle g_0(k),h_0(2n-k) \right \rangle = \delta(n)
+\]</span></p>
+<p>类似的结论有</p>
+<p><span class="math display">\[
+\begin{aligned}
+\left \langle g_1(k),h_1(2n-k) \right \rangle &amp;= \delta(n)\\
+\left \langle g_0(k),h_1(2n-k) \right \rangle &amp;= 0\\
+\left \langle g_1(k),h_0(2n-k) \right \rangle &amp;= 0\\
+\end{aligned}
+\]</span></p>
+<p>此处给出<span class="math inline">\(\left \langle g_0(k),h_1(2n-k)
+\right \rangle = 0\)</span>的证明：</p>
+<p><span class="math display">\[
+\text{已知 }\left\{
+    \begin{aligned}
+    G_0(z)H_0(z)+G_1(z)H_1(z) &amp;= 2\\
+    G_0(z)H_0(-z)+G_1(z)H_1(-z) &amp;= 0\\
+    G_1(z)H_1(z) &amp;=G_0(-z)H_0(-z)\\
+    G_0(z)H_0(z) &amp;=G_1(-z)H_1(-z)\\
+\end{aligned}\right.\\
+\]</span></p>
+<p><span class="math display">\[
+\begin{aligned}
+&amp;\text{根据已知得
+}&amp;H_0(-z)=-\frac{G_1(z)H_1(-z)}{G_0(z)}=\frac{G_1(z)H_1(z)}{G_0(-z)}\\
+&amp;\text{交叉变换得 }&amp;G_0(z)H_1(z)+G_0(-z)H_1(-z)=0\\
+&amp;\text{Z反变换得 }&amp;\sum_k g_0(k)h_1(n-k)+(-1)^n\sum_k
+g_0(k)h_1(n-k)=0\\
+&amp;\text{奇次项抵消得 }&amp; \sum_k g_0(k)h_1(2n-k)=0\\
+\end{aligned}
+\]</span></p>
+<p>可以看出证明的关键在于消去<span
+class="math inline">\(H_0(-z)\)</span>或<span
+class="math inline">\(H_1(-z)\)</span>。</p>
+<h2 id="哈尔变换-haar-transform">哈尔变换 (Haar Transform)</h2>
+<p>给定大小为<span class="math inline">\(N=2^n\)</span>，<span
+class="math inline">\(k=0,1,\dots,N-1\)</span>，可分解为<span
+class="math inline">\(k=2^p+q-1\)</span>，其中<span
+class="math inline">\(p\in [0,n-1]\)</span>，<span
+class="math inline">\(q\in [1,2^p]\)</span>，<span
+class="math inline">\(p\in \mathbb{Z}\)</span>，<span
+class="math inline">\(q\in \mathbb{Z}\)</span>。当<span
+class="math inline">\(k=0\)</span>时，直接令<span
+class="math inline">\(p=q=0\)</span>。</p>
+<p><span class="math display">\[
+h_k(z)=h_{pq}(z) = \frac{1}{\sqrt{N}}\left\{
+    \begin{aligned}
+    1&amp;\quad k=0\\
+    2^{p/2}&amp;\quad (q-1)/2^p\leq z&lt;(q-0.5)/2^p\\
+    -2^{p/2}&amp;\quad (q-0.5)/2^p\leq z&lt;q/2^p\\
+    0&amp;\quad otherwise\\
+\end{aligned}\right.
+\]</span></p>
+<p>对于<span class="math inline">\(i\in [0,N-1]\)</span>，<span
+class="math inline">\(j\in [0,N-1]\)</span>，<span
+class="math inline">\(h_{i,j}=h_i(\frac{j}{N})\)</span></p>
+<p><span class="math display">\[
+H_N=\begin{bmatrix}
+h_0(\frac{0}{N}) &amp; h_0(\frac{1}{N}) &amp; \dots &amp;
+h_0(\frac{N-1}{N})\\
+h_1(\frac{0}{N}) &amp; h_1(\frac{1}{N}) &amp; \dots &amp;
+h_1(\frac{N-1}{N})\\
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots\\
+h_{N-1}(\frac{0}{N}) &amp; h_{N-1}(\frac{1}{N}) &amp; \dots &amp;
+h_{N-1}(\frac{N-1}{N})\\
+\end{bmatrix}
+\]</span></p>
+<p>哈尔变换矩阵任取不相同两行的内积都为0，即每个向量都是正交的，因此哈尔变换矩阵是正交矩阵，即<span
+class="math inline">\(H_N^TH_N=I\)</span>，其中<span
+class="math inline">\(I\)</span>是单位矩阵。一般我们默认行向量代表基向量，也可以叫做尺度函数或小波函数，即</p>
+<p><span class="math display">\[
+H_N=\begin{bmatrix}
+\varphi_{0,0}\\
+\psi_{0,0}\\
+\psi_{1,0}\\
+\psi_{1,1}\\
+\vdots \\
+\psi_{J-1, 0}\\
+\vdots \\
+\psi_{J-1, 2^{J-1}-1}\\
+\end{bmatrix}
+\]</span></p>
+<p>这里<span class="math inline">\(N\)</span>是矩阵的行数，<span
+class="math inline">\(N=2^J\)</span>，<span
+class="math inline">\(J\)</span>是尺度的上限，尺度<span
+class="math inline">\(j=0, 1, 2, \dots, J-1\)</span>，平移<span
+class="math inline">\(k=0, 1, 2, \dots,
+2^j-1\)</span>。对尺度和平移求和恰好可得到<span
+class="math inline">\(N\)</span>，即</p>
+<p><span class="math display">\[
+\begin{aligned}
+&amp;1 + 1 + 2 + \cdots + 2^{J-1}\\
+=&amp; 1 + \frac{1-2^J}{1-2}\\
+=&amp; 2^J\\
+\end{aligned}
+\]</span></p>
+<h2 id="尺度函数-scale-function">尺度函数 (Scale Function)</h2>
+<p>一个函数可以看成是一组正交函数的线性组合，即</p>
+<p><span class="math display">\[
+f(x)=\sum_{k=-\infty}^{\infty}\alpha_k\phi_k(x)
+\]</span></p>
+<p><span class="math inline">\(\{\phi_k(x)\}\)</span>是正交函数集，<span
+class="math inline">\(\alpha_k\)</span>是系数。</p>
+<p>考虑一个简单的单位函数 (哈尔框函数) <span
+class="math inline">\(\varphi(x)\)</span>，它定义为<span
+class="math inline">\([0,1)\)</span>上的单位函数，即</p>
+<p><span class="math display">\[
+\varphi(x)=\left\{
+    \begin{aligned}
+    1&amp;\quad 0\leq x&lt;1 \\
+    0&amp;\quad otherwise\\
+\end{aligned}\right.
+\]</span></p>
+<p>通过平移和缩放，我们可以定义一组函数<span
+class="math inline">\(\{\varphi_{j,k}(x)\}\)</span>，其中<span
+class="math inline">\(j\in \mathbb{Z}\)</span>，<span
+class="math inline">\(k\in \mathbb{Z}\)</span>，<span
+class="math inline">\(j\)</span>表示尺度，<span
+class="math inline">\(k\)</span>表示平移，<span
+class="math inline">\(\varphi_{j,k}(x)=2^{j/2}\varphi(2^jx-k)\)</span>；<span
+class="math inline">\(k\)</span>为正数时，单位函数向正方向平移，<span
+class="math inline">\(k\)</span>为负数时，单位函数向负方向平移；<span
+class="math inline">\(j\)</span>越大，单位函数越窄且越高，<span
+class="math inline">\(j\)</span>越小，单位函数越宽且越矮。给定<span
+class="math inline">\(j_0\)</span>，<span
+class="math inline">\(\{\varphi_{j_0,k}(x)\}\)</span>构成了一组正交函数集，张成了一个子空间<span
+class="math inline">\(V_{j_0}\)</span>，<span
+class="math inline">\(V_{j_0}\)</span>中的函数可以看成是<span
+class="math inline">\(\{\varphi_{j_0,k}(x)\}\)</span>的线性组合，即</p>
+<p><span class="math display">\[
+V_{j_0}=\left\{f(x)=\sum_{k=-\infty}^{\infty}\alpha_k\varphi_{j_0,k}(x)\right\}
+\]</span></p>
+<p>令<span class="math inline">\(0\leq 2^{j_0}x - k &lt;
+1\)</span>，则有</p>
+<p><span class="math display">\[
+\varphi_{j_0,k}(x)=\left\{
+    \begin{aligned}
+    1&amp;\quad \frac{k}{2^{j_0}}\leq x&lt; \frac{k+1}{2^{j_0}}\\
+    0&amp;\quad otherwise\\
+\end{aligned}\right.
+\]</span></p>
+<p>尺度<span class="math inline">\(j_0\)</span>的单位函数<span
+class="math inline">\(\varphi_{j_0,k}(x)\)</span>的支撑集 (support)
+是<span
+class="math inline">\([\frac{k}{2^{j_0}},\frac{k+1}{2^{j_0}})\)</span>，支撑集的长度为<span
+class="math inline">\(\frac{1}{2^{j_0}}\)</span>。</p>
+<h3 id="多分辨率分析-multiresolution-analysis">多分辨率分析
+(Multiresolution Analysis)</h3>
+<ol type="1">
+<li>尺度函数对其整数平移是正交的</li>
+<li>低尺度的尺度函数跨越/张成的子空间是高尺度的尺度函数跨越/张成的子空间的子空间
+<ul>
+<li>低尺度的尺度函数是高尺度的尺度函数的线性组合</li>
+<li><span class="math inline">\(\varphi_{j,k} =
+\sum_{n=-\infty}^{\infty}\alpha_{n}\varphi_{j+1,n}\)</span></li>
+</ul></li>
+<li>唯一包含在所有尺度函数跨越/张成的子空间中的函数是零函数</li>
+<li>任何函数都可以用尺度函数的线性组合来逼近 (任意精度)，<span
+class="math inline">\(j\rightarrow \infty\)</span></li>
+</ol>
+<p>重写低尺度函数的线性表达式，将系数看成关于平移<span
+class="math inline">\(n\)</span>的函数，即</p>
+<p><span class="math display">\[
+\varphi_{j,k} =
+\sum_{n=-\infty}^{\infty}h_{\varphi}(n)\varphi_{j+1,n}=\sum_{n=-\infty}^{\infty}h_{\varphi}(n)2^{(j+1)/2}\varphi(2^{j+1}x-n)
+\]</span></p>
+<p>当<span class="math inline">\(j=k=0\)</span>时，有</p>
+<p><span class="math display">\[
+\begin{aligned}
+\varphi(x) &amp;=
+\sum_{n=-\infty}^{\infty}h_{\varphi}(n)\sqrt{2}\varphi(2x-n)\\
+h_{\varphi}(k) &amp;= \left \langle \varphi(x),\sqrt{2}\varphi(2x-k)
+\right \rangle\\
+\end{aligned}
+\]</span></p>
+<p><span
+class="math inline">\(h_{\varphi}(n)\)</span>称为尺度函数系数，<span
+class="math inline">\(h_{\varphi}\)</span>称为尺度向量，可以将尺度函数系数看成是尺度向量的一个元素。</p>
+<h2 id="小波函数-wavelet-function">小波函数 (Wavelet Function)</h2>
+<p>小波函数的形式与尺度函数类似，定义一个母小波<span
+class="math inline">\(\psi(x)\)</span>，则有</p>
+<p><span class="math display">\[
+\psi_{j,k}(x)=2^{j/2}\psi(2^jx-k)
+\]</span></p>
+<p>记尺度函数集<span
+class="math inline">\(\{\varphi_{j,k}(x)\}\)</span>张成的子空间为<span
+class="math inline">\(V_j\)</span>，小波函数集<span
+class="math inline">\(\{\psi_{j,k}(x)\}\)</span>张成的子空间为<span
+class="math inline">\(W_j\)</span>，则有</p>
+<p><span class="math display">\[
+V_j\oplus W_j=V_{j+1}
+\]</span></p>
+<p>其中<span class="math inline">\(\oplus\)</span>表示直和，即<span
+class="math inline">\(V_j\)</span>和<span
+class="math inline">\(W_j\)</span>的并集是<span
+class="math inline">\(V_{j+1}\)</span>，且<span
+class="math inline">\(V_j\)</span>和<span
+class="math inline">\(W_j\)</span>互为正交补空间 (<span
+class="math inline">\(V_j\perp W_j\)</span>)；换句话说，<span
+class="math inline">\(V_{j}\)</span>和<span
+class="math inline">\(W_{j}\)</span>中任意的两个函数<span
+class="math inline">\(f(x)\)</span>和<span
+class="math inline">\(g(x)\)</span>都是正交的，即<span
+class="math inline">\(\left \langle \varphi_{j,k}(x),\psi_{j,k}(x)
+\right \rangle = 0\)</span>。</p>
+<p><span class="math display">\[
+\begin{aligned}
+L^2(R)=V_{\infty}&amp;=V_0\oplus W_0\oplus W_1\oplus W_2\oplus \dots\\
+&amp;=V_1 \oplus W_1 \oplus W_2 \oplus \dots\\
+&amp;= \dots \oplus W_{-1} \oplus W_0 \oplus W_1 \oplus \dots\\
+\end{aligned}
+\]</span></p>
+<p>小波函数可用于对函数的真实值和近似值之间的差异进行分析</p>
+<p>低尺度的小波函数也可以看成是高尺度的小波函数的线性组合</p>
+<p><span class="math display">\[
+\psi_{j,k} =
+\sum_{n=-\infty}^{\infty}h_{\psi}(n)\varphi_{j+1,n}=\sum_{n=-\infty}^{\infty}h_{\psi}(n)2^{(j+1)/2}\varphi(2^{j+1}x-n)
+\]</span></p>
+<p>当<span class="math inline">\(j=k=0\)</span>时，有</p>
+<p><span class="math display">\[
+\begin{aligned}
+\psi(x) &amp;=
+\sum_{n=-\infty}^{\infty}h_{\psi}(n)\sqrt{2}\varphi(2x-n)\\
+h_{\psi}(k) &amp;= \left \langle \psi(x),\sqrt{2}\varphi(2x-k) \right
+\rangle\\
+\end{aligned}
+\]</span></p>
+<p><span
+class="math inline">\(h_{\psi}(n)\)</span>称为小波函数系数，<span
+class="math inline">\(h_{\psi}\)</span>称为小波向量，可以将小波函数系数看成是小波向量的一个元素。小波函数系数和对应的尺度函数系数的关系是</p>
+<p><span class="math display">\[
+h_{\psi}(n)=(-1)^nh_{\varphi}(1-n)
+\]</span></p>
+<p>哈尔尺度函数对应的小波函数为</p>
+<p><span class="math display">\[
+\psi(x)=\left \{
+    \begin{aligned}
+    1&amp;\quad 0\leq x&lt;\frac{1}{2}\\
+    -1&amp;\quad \frac{1}{2}\leq x&lt;1\\
+    0&amp;\quad otherwise\\
+\end{aligned}
+\right .
+\]</span></p>
+<h2 id="一维小波变换-1d-wavelet-transform">一维小波变换 (1D Wavelet
+Transform)</h2>
+<h3 id="小波序列展开">小波序列展开</h3>
+<p>重写尺度函数和小波函数的系数，定义尺度向量为<span
+class="math inline">\(c_{j}\)</span>，小波向量为<span
+class="math inline">\(d_{j}\)</span>，则有</p>
+<p><span class="math display">\[
+\begin{aligned}
+\varphi_{j,k}&amp;=\sum_{n}^{}c_{j+1}(n)\varphi_{j+1,n}\\
+\psi_{j,k}&amp;=\sum_{n}^{}d_{j+1}(n)\varphi_{j+1,n}\\
+\end{aligned}
+\]</span></p>
+<p>给定某一初始尺度<span class="math inline">\(j_0\)</span>，可以说<span
+class="math inline">\(\{f(x)=\sum_{n=-\infty}^{\infty}c_{j_0}(n)\varphi_{j_0,n}\}\)</span>张成了一个子空间<span
+class="math inline">\(V_{j_0}\)</span>，<span
+class="math inline">\(V_{j_0}\)</span>中的函数可以看成是<span
+class="math inline">\(\{\varphi_{j_0,n}\}\)</span>的线性组合；同时<span
+class="math inline">\(\{\psi_{j_0,n}\}\)</span>张成了一个子空间<span
+class="math inline">\(W_{j_0}\)</span>，<span
+class="math inline">\(W_{j_0}\)</span>中的函数可以看成是<span
+class="math inline">\(\{\psi_{j_0,n}\}\)</span>的线性组合；<span
+class="math inline">\(V_{j_0}\)</span>和<span
+class="math inline">\(W_{j_0}\)</span>互为正交补空间，即<span
+class="math inline">\(V_{j_0}\perp W_{j_0}\)</span>，<span
+class="math inline">\(V_{j_0}\oplus
+W_{j_0}=V_{j_0+1}\)</span>；也就是说，<span
+class="math inline">\(\{\varphi_{j_0,n}\}\)</span>和<span
+class="math inline">\(\{\psi_{j_0,n}\}\)</span>可以张成整个空间<span
+class="math inline">\(V_{j_0+1}\)</span>。在<span
+class="math inline">\(V_{j_0+1}\)</span>的基础上给定<span
+class="math inline">\(W_{j_0+1}\)</span>即<span
+class="math inline">\(\{\psi_{j_0+1,n}\}\)</span>，可得到<span
+class="math inline">\(V_{j_0+2}\)</span>；以此类推，给定<span
+class="math inline">\(\{\varphi_{j_0,n}\}\)</span>、<span
+class="math inline">\(\{\psi_{j_0,n}\}\)</span>、<span
+class="math inline">\(\{\psi_{j_0+1,n}\}\)</span>、<span
+class="math inline">\(\{\psi_{j_0+2,n}\}\)</span>、<span
+class="math inline">\(\dots\)</span>，即可以张成整个函数空间，即</p>
+<p><span class="math display">\[
+f(x)=\sum_{n}^{}c_{j_0}(n)\varphi_{j_0,n}(x) +
+\sum_{j=j_0}^{\infty}\sum_{n}^{}d_{j}(n)\psi_{j,n}(x)
+\]</span></p>
+<p>尺度系数和小波系数可由对应的尺度函数和小波函数与展开函数的内积得到，前提是尺度函数和小波函数是正交的，否则由对偶函数的内积替代得到</p>
+<p><span class="math display">\[
+\begin{aligned}
+c_{j_0}(n)&amp;=\left \langle f(x),\varphi_{j_0,n}(x) \right
+\rangle&amp;=\int_{-\infty}^{\infty}f(x)\varphi_{j_0,n}(x)dx\\
+d_{j}(n)&amp;=\left \langle f(x),\psi_{j,n}(x) \right
+\rangle&amp;=\int_{-\infty}^{\infty}f(x)\psi_{j,n}(x)dx\\
+\end{aligned}
+\]</span></p>
+<h3 id="离散小波变换-discrete-wavelet-transform">离散小波变换 (Discrete
+Wavelet Transform)</h3>
+<p>对于离散变量<span
+class="math inline">\(x=0,1,\dots,N-1\)</span>，其中<span
+class="math inline">\(N=2^J\)</span>，<span
+class="math inline">\(J\)</span>通常是尺度<span
+class="math inline">\(j\)</span>的上限，即<span
+class="math inline">\(j=0,1,\dots,J-1\)</span>；而平移<span
+class="math inline">\(k\)</span>的上限是<span
+class="math inline">\(2^j-1\)</span>，即<span
+class="math inline">\(k=0,1,\dots,2^j-1\)</span>。离散变量的小波变换可以写成</p>
+<p><span class="math display">\[
+f(x)=\frac{1}{\sqrt{N}}\sum_{k=0}^{2^{j_0}-1}
+W_{\varphi}(j_0,k)\varphi_{j_0,k}(x) +
+\frac{1}{\sqrt{N}}\sum_{j=j_0}^{\infty}\sum_{k=0}^{2^j-1}
+W_{\psi}(j,k)\psi_{j,k}(x)
+\]</span></p>
+<p>假设<span
+class="math inline">\(j_0\)</span>是尺度的下限，那么需要的系数的个数为</p>
+<p><span class="math display">\[
+\begin{aligned}
+&amp;2^{j_0} + 2^{j_0} + 2^{j_0+1} + 2^{j_0+2} + \dots + 2^{J-1}\\
+=&amp; 2^{j_0} + 2^{j_0}\frac{1-2^{J-j_0}}{1-2}\\
+=&amp; 2^{j_0} + 2^{j_0}(2^{J-j_0}-1)\\
+=&amp;2^J\\
+\end{aligned}
+\]</span></p>
+<p>说明离散小波变换需要的尺度函数的系数和小波函数的系数的个数的和总是等于<span
+class="math inline">\(N\)</span>。此外，准确地说，这里的<span
+class="math inline">\(\varphi(n)=\varphi(x_0+n\Delta x)\)</span>，<span
+class="math inline">\(\psi(n)=\psi(x_0+n\Delta x)\)</span>，其中<span
+class="math inline">\(x_0\)</span>是起始点，<span
+class="math inline">\(\Delta x\)</span>是步长，<span
+class="math inline">\(n\)</span>是整数。步长一般与支撑集的长度相等，即<span
+class="math inline">\(\Delta x=\frac{1}{2^j}\)</span>，<span
+class="math inline">\(x_0=0\)</span>。因此可以看作是在<span
+class="math inline">\([0,1)\)</span>上的均匀采样。尺度系数和小波系数的计算公式为</p>
+<p><span class="math display">\[
+\begin{aligned}
+W_{\varphi}(j_0,k)&amp;=\left \langle f(x),\varphi_{j_0,k}(x) \right
+\rangle=\frac{1}{\sqrt{N}}\sum_{n=0}^{N-1}f(n)\varphi_{j_0,k}(n)\\
+W_{\psi}(j,k)&amp;=\left \langle f(x),\psi_{j,k}(x) \right
+\rangle=\frac{1}{\sqrt{N}}\sum_{n=0}^{N-1}f(n)\psi_{j,k}(n)\\
+\end{aligned}
+\]</span></p>
+<p>值得注意的是尺度函数<span
+class="math inline">\(\varphi_{j,k}\)</span>的定义域为<span
+class="math inline">\([\frac{k}{2^j},\frac{k+1}{2^j})\)</span>，而离散变换中的自变量<span
+class="math inline">\(x\)</span>为整数，所以这里的<span
+class="math inline">\(\varphi_{j,k}(n)\)</span>对应于<span
+class="math inline">\(\varphi_{j,k}(\frac{nk}{2^j})\)</span>，即支撑集的左端点（支撑集一般是一个左闭右开的区间，左端点具有代表性）。再看一个<span
+class="math inline">\(4\times 4\)</span>的哈尔矩阵:</p>
+<p><span class="math display">\[
+H_4 = \frac{1}{2}\begin{bmatrix}
+1 &amp; 1 &amp; 1 &amp; 1\\
+1 &amp; 1 &amp; -1 &amp; -1\\
+\sqrt{2} &amp; -\sqrt{2} &amp; 0 &amp; 0\\
+0 &amp; 0 &amp; \sqrt{2} &amp; -\sqrt{2}\\
+\end{bmatrix}
+\]</span></p>
+<p>哈尔矩阵是实矩阵且是正交矩阵，因此有</p>
+<p><span class="math display">\[
+\begin{aligned}
+H &amp;= H^*\\
+H^{-1} &amp;= H^T\\
+H^TH &amp;= I\\
+\end{aligned}
+\]</span></p>
+<p>给定一个离散函数<span
+class="math inline">\(f\)</span>，假定采样点位于对应的支撑集上，对其进行离散小波变换及逆变换，有</p>
+<p><span class="math display">\[
+f = \begin{bmatrix}
+f(0)\\
+f(1)\\
+f(2)\\
+f(3)
+\end{bmatrix}
+\]</span></p>
+<p><span class="math display">\[
+\begin{aligned}
+W_{\varphi}(0,0)&amp;=\frac{1}{2}[f(0) * 1 + f(1) * 1 + f(2) * 1 + f(3)
+* 1]\\
+W_{\psi}(0,0)&amp;=\frac{1}{2}[f(0) * 1 + f(1) * 1 + f(2) * (-1) + f(3)
+* (-1)]\\
+W_{\psi}(1,0)&amp;=\frac{1}{2}[f(0) * \sqrt{2} + f(1) * (-\sqrt{2}) +
+f(2) * 0 + f(3) * 0]\\
+W_{\psi}(1,1)&amp;=\frac{1}{2}[f(0) * 0 + f(1) * 0 + f(2) * \sqrt{2} +
+f(3) * (-\sqrt{2})]
+\end{aligned}
+\]</span></p>
+<p>使用矩阵的形式表示</p>
+<p><span class="math display">\[
+\begin{aligned}
+W &amp;= H_4f \\
+H_4^TW &amp;= H_4^TH_4f\\
+f &amp;= H_4^TW\\
+\end{aligned}
+\]</span></p>
+<p>在计算离散变换的系数时，使用的是哈尔矩阵的<code>每一行</code>与离散函数的取样<span
+class="math inline">\(f(n)\)</span>相乘；在计算逆变换时，使用的是哈尔矩阵的<code>每一列</code>与离散变换的系数<span
+class="math inline">\(W\)</span>相乘。</p>
+<h2 id="快速小波变换-fast-wavelet-transform">快速小波变换 (Fast Wavelet
+Transform)</h2>
+<p>重看多分辨率展开公式</p>
+<p><span class="math display">\[
+\varphi (x) =
+\sum_{n=-\infty}^{\infty}h_{\varphi}(n)\sqrt{2}\varphi(2x-n)
+\]</span></p>
+<p>对<span class="math inline">\(x\)</span>进行尺度和平移变换</p>
+<p><span class="math display">\[
+\begin{aligned}
+\varphi (2^jx - k) &amp;=
+\sum_{n=-\infty}^{\infty}h_{\varphi}(n)\sqrt{2}\varphi(2(2^jx-k)-n)\\
+&amp;=
+\sum_{n=-\infty}^{\infty}h_{\varphi}(n)\sqrt{2}\varphi(2^{j+1}x-(2k+n))\\
+\text{令}2k+n=m&amp;\\
+&amp;=
+\sum_{m=-\infty}^{\infty}h_{\varphi}(m-2k)\sqrt{2}\varphi(2^{j+1}x-m)\\
+2^{j/2}\varphi(2^jx-k)&amp;=
+2^{j/2}\sum_{m=-\infty}^{\infty}h_{\varphi}(m-2k)\sqrt{2}\varphi(2^{j+1}x-m)\\
+\varphi_{j,k}(x)&amp;=
+\sum_{m=-\infty}^{\infty}h_{\varphi}(m-2k)2^{(j+1)/2}\varphi(2^{j+1}x-m)\\
+&amp;= \sum_{m=-\infty}^{\infty}h_{\varphi}(m-2k)\varphi_{j+1,m}(x)\\
+\end{aligned}
+\]</span></p>
+<p>小波函数的情况类似</p>
+<p><span class="math display">\[
+\psi (2^jx - k) =
+\sum_{m=-\infty}^{\infty}h_{\psi}(m-2k)\sqrt{2}\varphi(2^{j+1}x-m)\\
+\]</span></p>
+<p>说明尺度函数和小波函数的多分辨率展开的系数为<span
+class="math inline">\(h_{\varphi}(m-2k)\)</span>和<span
+class="math inline">\(h_{\psi}(m-2k)\)</span>，<span
+class="math inline">\(k\)</span>是低尺度的平移，是一个常数，<span
+class="math inline">\(m\)</span>是高尺度的平移，是一个变量。在离散小波变换中</p>
+<p><span class="math display">\[
+\begin{aligned}
+W_{\varphi}(j,k)&amp;=\frac{1}{\sqrt{N}}\sum_{n=0}^{N-1}f(n)\varphi_{j,k}(n)\\
+&amp;=\frac{1}{\sqrt{N}}\sum_{n=0}^{N-1}f(n)2^{\frac{j}{2}}\varphi(2^jx-k)\\
+&amp;=\frac{1}{\sqrt{N}}\sum_{n=0}^{N-1}f(n)2^{\frac{j}{2}}\sum_{m=-\infty}^{\infty}h_{\varphi}(m-2k)\sqrt{2}\varphi(2^{j+1}x-m)\\
+&amp;=\frac{1}{\sqrt{N}}\sum_{m=-\infty}^{\infty}\sum_{n=0}^{N-1}f(n)h_{\varphi}(m-2k)2^{(j+1)/2}\varphi(2^{j+1}x-m)\\
+&amp;=\sum_{m}h_{\varphi}(m-2k)[\frac{1}{\sqrt{N}}\sum_{n=0}^{N-1}f(n)2^{(j+1)/2}\varphi(2^{j+1}x-m)]\\
+&amp;=\sum_{m}h_{\varphi}(m-2k)[\frac{1}{\sqrt{N}}\sum_{n=0}^{N-1}f(n)\varphi_{j+1,m}(n)]\\
+&amp;=\sum_{m}h_{\varphi}(m-2k)W_{\varphi}(j+1,m)\\
+\end{aligned}
+\]</span></p>
+<p>说明尺度函数的多分辨率展开与其系数的展开的形式是类似的，都是与 <span
+class="math inline">\(h_{\varphi}(m-2k)\)</span>的线性组合；同样，小波系数的展开也是与<span
+class="math inline">\(h_{\psi}(m-2k)\)</span>的线性组合。</p>
+<p><span class="math display">\[
+W_{\psi}(j,k)=\sum_{m}h_{\psi}(m-2k)W_{\varphi}(j+1,m)\\
+\]</span></p>
+<p>可以看作是一个步长为2的卷积 (与<span
+class="math inline">\(h(-m)\)</span>) /相关 (与<span
+class="math inline">\(h(m)\)</span>) 运算，卷积核是<span
+class="math inline">\(h_{\varphi}(m)\)</span>或<span
+class="math inline">\(h_{\psi}(m)\)</span></p>
+<p><span class="math display">\[
+\begin{aligned}
+W_{\varphi}(j,k)&amp;=h_{\varphi}(-n) \star W_{\varphi}(j+1,n)\\
+W_{\psi}(j,k)&amp;=h_{\psi}(-n) \star W_{\varphi}(j+1,n)\\
+\end{aligned}
+\]</span></p>
+<p>Below is an example of DWT/FWT with Haar wavelet.</p>
+<p><img src="../../img/image-processing/FWT_1.png" alt="FWT" /> <img
+src="../../img/image-processing/FWT_2.png" alt="IFWT" /></p>
+<h2 id="小波包">小波包</h2>
+<p>小波包可以表示成二叉树的形式，每个节点都是一个小波函数或尺度函数，每个节点都有两个子节点，左子节点是尺度函数，右子节点是小波函数。根节点是尺度函数；对尺度函数<span
+class="math inline">\(V_J\)</span>的分解是<span
+class="math inline">\(V_{J-1}\)</span>和<span
+class="math inline">\(W_{J-1}\)</span>；对小波函数<span
+class="math inline">\(W_{J}\)</span>的分解是近似滤波<span
+class="math inline">\(W_{J,A}\)</span>和细节滤波<span
+class="math inline">\(W_{J,D}\)</span>；对尺度函数<span
+class="math inline">\(V_{J-1}\)</span>的分解是<span
+class="math inline">\(V_{J-2}\)</span>和<span
+class="math inline">\(W_{J-2}\)</span>；对小波函数<span
+class="math inline">\(W_{J-1}\)</span>的分解是近似滤波<span
+class="math inline">\(W_{J-1,A}\)</span>和细节滤波<span
+class="math inline">\(W_{J-1,D}\)</span>；对<span
+class="math inline">\(W_{J-1,A}\)</span>的分解是<span
+class="math inline">\(W_{J-1,AA}\)</span>和<span
+class="math inline">\(W_{J-1,AD}\)</span>；对<span
+class="math inline">\(W_{J-1,D}\)</span>的分解是<span
+class="math inline">\(W_{J-1,DA}\)</span>和<span
+class="math inline">\(W_{J-1,DD}\)</span>；以此类推。</p>
+<aside id="footnotes" class="footnotes footnotes-end-of-document"
+role="doc-endnotes">
+<hr />
+<ol>
+<li
+id="fn1"><p>一般从上往下称为级，第0级为顶点，第1级为第0级的下一级，以此类推；从下往上称为层，第0层为底层，第1层为第0层的上一层，以此类推。<a
+href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>对一张图像进行2倍下采样就可以得到下一层/上一级的图像。<a
+href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</aside>
+</body>
+</html>

@@ -46,9 +46,9 @@ There are two primary categories of image enhancement techniques:
 
 [Spatial filtering](/blog/2023/spatial-filtering/) is a more complex operation, which is a way to apply a filter to the neighborhood of each pixel in an image. This is a very powerful operation that can be used to perform a wide variety of tasks, such as edge detection, noise removal, and image sharpening. [Convolution](/blog/2023/convolution/) is a mathematical operation that is used to perform spatial filtering.
 
-And [Fourier transform](/assets/html/imgp/fourier-transform.html) is a mathematical operation that is used to transform an image from the spatial domain to the frequency domain, and vice versa. By performing operations in the frequency domain, we can replace convolution in the spatial domain with multiplication in the frequency domain, which is much faster.
+And [Fourier transform](/assets/pages/imgp/fourier-transform.html) is a mathematical operation that is used to transform an image from the spatial domain to the frequency domain, and vice versa. By performing operations in the frequency domain, we can replace convolution in the spatial domain with multiplication in the frequency domain, which is much faster.
 
-The key to enchance an image is to construct a filter function, which is a function that can be applied to an image to produce an enhanced image. Filters are as important as the operations that are performed on images, which can also be classified into [filtering in spatial domain](/blog/2023/spatial-filtering/) and [filtering in frequency domain](/assets/html/imgp/frequency-filter.html), see also some special filters used in [image restoration](/blog/2023/image-restoration/#restoration-in-the-frequency-domain).
+The key to enchance an image is to construct a filter function, which is a function that can be applied to an image to produce an enhanced image. Filters are as important as the operations that are performed on images, which can also be classified into [filtering in spatial domain](/blog/2023/spatial-filtering/) and [filtering in frequency domain](/assets/pages/imgp/frequency-filter.html), see also some special filters used in [image restoration](/blog/2023/image-restoration/#restoration-in-the-frequency-domain).
 
 There are four basic types of filters:
 
@@ -98,4 +98,4 @@ Basic steps of image restoration in frequency domain are:
 
 ## Other Topics
 
-[Wavelets analysis](/assets/pdf/imgp/wavelet-analysis.pdf) are introduced in the Chinese version. And so is the [image compression](/assets/html/imgp/image-compression.html), including entropy, Hamming code, Huffman code, and arithmetic code.
+[Wavelets analysis](/assets/pdf/imgp/wavelet-analysis.pdf) are introduced in the Chinese version. And so is the [image compression](/assets/pages/imgp/image-compression.html), including entropy, Hamming code, Huffman code, and arithmetic code.

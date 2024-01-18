@@ -5,12 +5,12 @@ nav: true
 nav_order: 8
 dropdown: true
 children:
-  - title: publications
-    permalink: /publications/
+  - title: artifical intelligence
+    permalink: /blog/category/artificial-intelligence/
   - title: divider
-  - title: projects
-    permalink: /projects/
+  - title: data science
+    permalink: /blog/category/data-science/
   - title: divider
-  - title: blog
-    permalink: /blog/
+  - title: image processing
+    permalink: /blog/category/image-processing/
 ---

@@ -7,7 +7,7 @@ tags: fourier-transform
 categories: image-processing
 related_posts: false
 giscus_comments: true
-thumbnail: 
+redirect: /assets/pages/imgp/fourier-transform.html
 toc:
   sidebar: left
 ---
