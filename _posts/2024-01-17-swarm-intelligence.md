@@ -35,9 +35,9 @@ $$
 \tau_{ij} &= \rho\tau_{ij} + \Delta \tau_{ij} &\rho\text{反映信息素的挥发速度} \\
 \Delta \tau_{ij} &= \sum_{k=1}^m \Delta \tau_{ij}^k &m \text{为蚂蚁数量} \\
 \Delta \tau_{ij}^k &= \begin{cases}
-Q/L_k & \text{蚂蚁$k$经过路径$(i,j)$} \\
-0 & \text{蚂蚁$k$未经过路径$(i,j)$}
-\end{cases}&Q\text{为常数，}L_k\text{为蚂蚁$$k$$经过的路径长度}
+Q/L_k & \text{蚂蚁}k\text{经过路径}(i,j) \\
+0 & \text{蚂蚁}k\text{未经过路径}(i,j)
+\end{cases}&Q\text{为常数，}L_k\text{为蚂蚁}k\text{经过的路径长度}
 \end{aligned}
 $$
 
