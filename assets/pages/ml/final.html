@@ -294,7 +294,8 @@ p(error) &amp;= \int p(x)p(error|x)dx\\
 p(error|x) &amp;= 1-\underbrace{p(Y=c|x)}_{\text{后验概率}}\\
 &amp;= 1-\frac{p(x|Y=c)p(Y=c)}{p(x)}\\
 \hat{y} &amp;= \arg\max_{c}p(Y=c|x)\\
-&amp;= \arg\max_{c}p(x|Y=c)\underbrace{p(Y=c)}_{\text{先验概率}}
+&amp;=
+\arg\max_{c}\underbrace{p(x|Y=c)}_{\text{条件概率}}\underbrace{p(Y=c)}_{\text{先验概率}}
 \end{aligned}
 \]</span></p>
 <h3 id="最小化期望风险">最小化期望风险</h3>
