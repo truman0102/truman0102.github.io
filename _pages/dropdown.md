@@ -13,4 +13,7 @@ children:
   - title: divider
   - title: image processing
     permalink: /blog/category/image-processing/
+  - title: divider
+  - title: reinforcement learning
+    permalink: /blog/category/reinforcement-learning/
 ---
