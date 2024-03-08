@@ -85,3 +85,5 @@ Q-learning is an off-policy temporal difference learning method that learns the 
 $$
 Q(S_t,A_t) \leftarrow Q(S_t,A_t) + \alpha(R_{t+1} + \gamma \max_{a} Q(S_{t+1},a) - Q(S_t,A_t))
 $$
+
+Know more about Q-learning and Deep Q-Networks (DQN) in the next [post](/blog/2024/QLearning).

@@ -29,6 +29,6 @@ In this post, we will discuss some advanced concepts in Q-Learning, including:
 - Dueling DQN
 - Prioritized Experience Replay
 - Noisy Nets
-- $$\dots$$
+- ...
 
 ## Double Q-Learning
