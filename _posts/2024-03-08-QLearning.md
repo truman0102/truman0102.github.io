@@ -59,10 +59,10 @@ Selecting action from frequently updated Q-network and computing target Q-value 
 Dueling DQN regards the Q-function as the sum of the value function and the advantage function, where the value function is the expected cumulative reward for being in a state, and the advantage function is the value of taking an action in that state compared to the average value of all actions in that state. The neural network takes the state as input and returns the value function and the advantage function separately, and the Q-values are computed by adding the value function and the advantage function.
 
 $$
-Q(s, a) = V(s) + \underbrace{A(s, a) - \frac{1}{|A|} \sum_{a^{\prime}} A(s, a^{\prime})}_{\text{advantage function with sum-to-zero constraint}}
+Q(s, a) = V(s) + \underbrace{A(s, a) - \frac{1}{\vert A\vert} \sum_{a^{\prime}} A(s, a^{\prime})}_{\text{advantage function with sum-to-zero constraint}}
 $$
 
-where $$V(s)$$ is the value function, $$A(s, a)$$ is the advantage function, and $$|A|$$ is the number of actions.
+where $$V(s)$$ is the value function, $$A(s, a)$$ is the advantage function, and $$\vert A\vert$$ is the number of actions.
 
 ## Noisy Nets
 
