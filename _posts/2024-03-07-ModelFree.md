@@ -15,6 +15,16 @@ toc:
 
 Model-free reinforcement learning is a type of reinforcement learning where the agent learns from interacting with the environment without knowing the dynamics of the environment, in other words, without knowing the transition probabilities and the reward function. The agent learns from the experiences it collects by interacting with the environment, usually by learning the value function or the policy. Model-free reinforcement learning is further divided into two categories: policy-based methods and value-based methods.
 
+## Dynamic Programming
+
+Dynamic programming is a type of model-based reinforcement learning methods that learn from the dynamics of the environment. In dynamic programming, the agent learns from the transition probabilities and the reward function by solving the Bellman equations. The Bellman equations are a set of equations that describe the relationship between the value function and the transition probabilities and the reward function.
+
+$$
+\begin{aligned}
+V(S_t) &= R_{t+1} + \gamma \sum_{S_{t+1}} P(S_{t+1}|S_t) V(S_{t+1}) \\
+\end{aligned}
+$$
+
 ## Monte Carlo Methods
 
 Monte Carlo methods are a type of model-free reinforcement learning methods that learn from complete episodes. In Monte Carlo methods, the agent learns from the complete episode by updating the value function at the end of the episode, estimating the value of the state-action pair by averaging the returns from the state-action pair. The value function is updated using the following formula:
@@ -35,9 +45,9 @@ $$
 
 Where $$V(S_t)$$ is the value of the state $$S_t$$, $$R_{t+1}$$ is the reward from the state $$S_t$$ to the state $$S_{t+1}$$, $$\gamma$$ is the discount factor, and $$\alpha$$ is the learning rate.
 
-The advantage of temporal difference learning over Monte Carlo methods is that temporal difference learning can learn from incomplete episodes, and it can learn online, meaning that it can learn while interacting with the environment. Besides, temporal difference learning has lower variance than Monte Carlo methods, and it can learn from an infinite number of states and actions.
+The advantage of temporal difference learning over Monte Carlo methods is that temporal difference learning can learn from incomplete episodes, and it can learn online, meaning that it can learn while interacting with the environment. Besides, temporal difference learning has lower variance than Monte Carlo methods, and it can learn from an infinite number of states and actions. However, temporal difference learning has higher bias than Monte Carlo methods, and MC methods are guaranteed to converge to the optimal policy with no bias.
 
-Advanced temporal difference learning methods learn from several states and actions, and they are called n-step methods, where n is the number of states and actions the agent learns from. If n is close to infinity, the method becomes a Monte Carlo method, and if n is close to 1, the method becomes a one-step method.
+Advanced temporal difference learning methods learn from several states and actions, and they are called n-step methods, where n is the number of states and actions the agent learns from. If n is close to infinity, the method becomes a Monte Carlo method, and if n is close to 1, the method becomes a one-step method. It is worth mentioning that only TD(0) methods are guaranteed to converge to the optimal policy.
 
 $$
 \begin{aligned}
@@ -47,6 +57,8 @@ n=2: & V(S_t) \leftarrow V(S_t) + \alpha(R_{t+1} + \gamma R_{t+2} + \gamma^2 V(S
 n=\infty: & V(S_t) \leftarrow V(S_t) + \alpha(G_t - V(S_t))
 \end{aligned}
 $$
+
+In summary, Monte Carlo methods learn from complete episodes, temporal difference learning learns from incomplete episodes. Both TD and DP learn from bootstrapping, and MC learns from averaging. While MC and TD learn from sampling, DP learns from the dynamics of the environment.
 
 ## Generalized Policy Iteration
 
