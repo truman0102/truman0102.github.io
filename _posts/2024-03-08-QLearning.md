@@ -21,6 +21,19 @@ $$
 
 It is worth noting that Q-Learning is an off-policy algorithm, meaning that it learns the optimal policy independently of the policy being followed. This is in contrast to on-policy algorithms like SARSA, which learn the value of the policy being followed.
 
+The Q-learning algorithm is as follows:
+
+1. Initialize $$Q(s,a)$$ arbitrarily
+2. Repeat (for each episode):
+    1. Initialize $$s$$
+    2. Repeat (for each step of episode):
+        1. Choose $$a$$ from $$s$$ using policy derived from $$Q$$ (e.g., $$\epsilon$$-greedy)
+        2. Take action $$a$$, observe $$r$$, $$s^{\prime}$$
+        3. $$Q(s,a) \leftarrow Q(s,a) + \alpha [r + \gamma \max_{a'} Q(s',a') - Q(s,a)]$$
+        4. $$s \leftarrow s'$$
+    3. until $$s$$ is terminal or truncated
+3. until number of episodes reached or $$Q$$ has converged
+
 In this post, we will discuss some advanced concepts in Q-Learning, including:
 
 - Double Q-Learning
@@ -29,6 +42,31 @@ In this post, we will discuss some advanced concepts in Q-Learning, including:
 - Dueling DQN
 - Noisy Nets
 - ...
+
+### Target Network
+
+The problem with DQN is that the neural network is constantly changing, so the target $Q$ is also constantly changing. This makes the training unstable if we use the model to interact with the environment and train at each step.
+
+Let the target network be $\hat{Q}$, and the training network be $Q$. The target network is a copy of the training network, but it is only updated every $C$ steps. The target network is used to calculate the target $Q$ for training, and the training network is used to calculate the current $Q$ for training. Given a state-action pair $(s,a)$, the reward $r$ and the next state $s^{\prime}$, the target network gives the target $\hat{Q}(s,a)$ as follows:
+
+$$
+\begin{aligned}
+\hat{Q}(s,a) &= r + \gamma \hat{Q}(s^{\prime}, \pi(s^{\prime})) \\
+&= r + \gamma \hat{Q}(s^{\prime}, \arg\max_{a^{\prime}} Q(s^{\prime}, a^{\prime})) \\
+&= r + \gamma \max_{a^{\prime}} \hat{Q}(s^{\prime}, a^{\prime})
+\end{aligned}
+$$
+
+And the training network gives the current evaluation $Q(s,a)$ to regress to the target $\hat{Q}(s,a)$. The loss function is the mean squared error between the target and the current evaluation:
+
+$$
+\begin{aligned}
+L(\theta) &= \mathbb{E}_{(s,a,r,s^{\prime}) \sim U(D)} \left[ \left( \hat{Q}(s,a) - Q(s,a;\theta) \right)^2 \right] \\
+&= \mathbb{E}_{(s,a,r,s^{\prime}) \sim U(D)} \left[ \left( r + \gamma \max_{a^{\prime}} \hat{Q}(s^{\prime}, a^{\prime}) - Q(s,a;\theta) \right)^2 \right]
+\end{aligned}
+$$
+
+where $U(D)$ is the uniform distribution over the experience replay buffer $D$. The experience replay buffer is a finite-sized cache of the most recent experiences, used to store the experiences $(s,a,r,s^{\prime})$ and sample a batch of experiences from it to train the model.
 
 ## Double Q-Learning
 
