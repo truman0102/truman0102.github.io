@@ -3,7 +3,7 @@ layout: post
 title: Model Free Reinforcement Learning
 date: 2024-03-07 00:00:00-0400
 description: An introduction to model free reinforcement learning
-tags: rl
+tags: RL
 categories: reinforcement-learning
 related_posts: false
 giscus_comments: false

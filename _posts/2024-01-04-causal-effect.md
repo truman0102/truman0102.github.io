@@ -3,7 +3,7 @@ layout: post
 title: Causal Effect
 date: 2024-01-04 21:00:00-0400
 description: An introduction to causal effect in artificial intelligence.
-tags: ai causal-effect
+tags: AI causal-effect
 categories: artificial-intelligence
 redirect:
 related_posts: false

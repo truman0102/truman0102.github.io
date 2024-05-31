@@ -3,7 +3,7 @@ layout: post
 title: Generative Classifier
 date: 2023-12-16 12:00:00-0400
 description: An introduction to generative classifiers and their use in machine learning.
-tags: generative-classifier ml bayes naive-bayes nb
+tags: generative-classifier ML bayes naive-bayes NB
 categories: data-science
 related_posts: false
 giscus_comments: true

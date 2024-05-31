@@ -3,7 +3,7 @@ layout: post
 title: Adversarial Search
 date: 2023-12-05 22:00:00-0400
 description: An introduction to adversarial search in artificial intelligence.
-tags: adversarial-search
+tags: adversarial-search AI
 categories: artificial-intelligence
 redirect:
 related_posts: false

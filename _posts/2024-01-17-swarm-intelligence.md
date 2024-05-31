@@ -2,7 +2,7 @@
 layout: post
 title: Swarm Intelligence
 date: 2024-01-17 00:00:00-0400
-tags: ai
+tags: AI
 categories: artificial-intelligence
 toc:
     beginning: true

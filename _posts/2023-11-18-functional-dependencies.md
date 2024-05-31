@@ -3,7 +3,7 @@ layout: post
 title: Functional Dependencies
 date: 2023-10-18 00:00:00-0400
 description: An introduction to functional dependencies in database systems.
-tags: functional-dependencies db
+tags: functional-dependencies DB
 categories: database
 related_posts: false
 giscus_comments: true

@@ -3,7 +3,7 @@ layout: post
 title: Advanced Q-Learning
 date: 2024-03-08 00:00:00-0400
 description: An introduction to Q-Learning and its advanced concepts.
-tags: rl
+tags: RL
 categories: reinforcement-learning
 related_posts: false
 giscus_comments: false

@@ -3,7 +3,7 @@ layout: post
 title: Color System
 date: 2023-11-23 00:00:00-0400
 description: An introduction to color systems in image processing.
-tags: IMGP
+tags: RGB HSV
 categories: image-processing
 related_posts: false
 thumbnail: assets/img/image-processing/cs.png

@@ -3,7 +3,7 @@ layout: post
 title: Linear Discriminant Classifier
 date: 2023-12-16 00:00:00-0400
 description: An introduction to the Linear Discriminant Classifier in Machine Learning.
-tags: ml linear-discriminant-classifier linear-discriminant-classification
+tags: ML linear-discriminant-classifier linear-discriminant-classification
 categories: data-science
 related_posts: false
 giscus_comments: true
