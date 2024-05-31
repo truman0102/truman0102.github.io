@@ -265,7 +265,7 @@ jekyll-archives:
     category: "/blog/category/:name/"
 
 display_tags: ["AI", "ML", "DL", "RL"] # these tags will be displayed on the front page of your blog
-display_categories: ["artificial-intelligence", "data-science", "linux" ,"math"] # these categories will be displayed on the front page of your blog
+display_categories: ["artificial-intelligence", "data-science", "linux"] # these categories will be displayed on the front page of your blog
 
 # -----------------------------------------------------------------------------
 # Jekyll Scholar
