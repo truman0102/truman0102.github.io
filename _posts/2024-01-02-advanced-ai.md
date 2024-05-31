@@ -21,7 +21,7 @@ This is the note for the course Advanced AI in University of Chinese Academy of 
 | Symbolic AI                  | First-order logic  | [page](/assets/pages/ai/first-order-logic.html), [blog](/blog/2023/first-order-logic/)                             |
 | Problem-solving              | Search             | [page](/assets/pages/ai/search.html),[blog](/blog/2023/search/)                                        |
 | Problem-solving              | Adversarial search | [page](/assets/pages/ai/adversarial-search.html),[blog](/blog/2023/adversarial-search/)                            |
-| Statistical causal inference | Causal effect      | [page](/assets/pages/ai/causal-effect.html),[blog](/blog/2023/causal-effect/)                                 |
+| Statistical causal inference | Causal effect      | [page](/assets/pages/ai/causal-effect.html),[blog](/blog/2024/causal-effect/)                                 |
 
 ***
 
