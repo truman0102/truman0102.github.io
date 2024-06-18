@@ -64,16 +64,6 @@ $$
 \text{Cov}(X) = \frac{1}{N} \sum_{i=1}^{N} (X_i - \mu)(X_i - \mu)^T
 $$
 
-### Projection
-
-Given a projection vector $$w$$ that is a unit vector, projecting $$X$$ onto $$w$$ gives a scalar $$w^T X$$, which is the projection of $$X$$ onto $$w$$. The covariance of the projected vector is given by:
-
-$$
-\begin{aligned}
-E(W^T X) &= W^T E(X) \\
-\text{Cov}(W^T X) &= 
-\end{aligned}
-$$
 
 ## Properties of Covariance
 
@@ -95,3 +85,32 @@ $$
 &= a \text{Cov}(X,Y)
 \end{aligned}
 $$
+
+### semi-definite positive
+
+The covariance matrix $$\Sigma$$ is semi-definite positive. This means that for any vector $$v$$, the following inequality holds:
+
+$$
+v^T \Sigma v \geq 0
+$$
+
+This can be shown as follows:
+
+$$
+\begin{aligned}
+v^T \Sigma v &= v^T \mathbb{E}[(X-\mu)(X-\mu)^T] v \\
+&= \mathbb{E}[v^T(X-\mu)(X-\mu)^T v] \\
+&= \mathbb{E}[((X-\mu)^T v)^T ((X-\mu)^T v)] \\
+&= \mathbb{E}[\vert\vert (X-\mu)^T v \vert\vert^2] \geq 0
+\end{aligned}
+$$
+
+### diagonality
+
+Since the covariance matrix is symmetric, it can be diagonalized. This means that there exists a matrix $$P$$ such that:
+
+$$
+P^T \Sigma P = D
+$$
+
+where $$D$$ is a diagonal matrix. The diagonal elements of $$D$$ are the eigenvalues of $$\Sigma$$, and the columns of $$P$$ are the corresponding eigenvectors.
