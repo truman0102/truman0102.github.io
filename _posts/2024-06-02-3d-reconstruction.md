@@ -54,6 +54,25 @@ $\exp(-\sigma_i \delta_i)$: This expression represents the attenuation of light 
 
 ## 3D Gaussian
 
+By capturing both geometry and appearance in a unified model, NeRF achieves high-quality scene representation. However, NeRF’s drawback lies in its computational intensity, making it computationally expensive for real-time applications or large-scale scenes. 3D Gaussian Splatting addresses these drawbacks by using 3D Gaussians, utilizing their parameters like anisotropic covariances, positions, and opacities to efficiently model complex scenes. The parameters are learned through machine learning approach. However, rendering does not require any heavy processing — fast rendering through a tile-based rasterizer. A 3D Gaussian Splatting model is defined as follows:
+
+- Position/Mean: $\mu \in \mathbb{R}^3$
+- Covariance: $\Sigma \in \mathbb{R}^{3 \times 3}$
+- Opacity: $\alpha \in \mathbb{R}$
+- Color: $c \in \mathbb{R}^3$
+- Spherical Harmonics (SH) Coefficients (optional)
+
+Given a point $p \in \mathbb{R}^3$, the Gaussian function is defined as:
+
+$$
+\begin{aligned}
+G(p) &= \alpha \cdot \exp\left(-\frac{1}{2} (p - \mu)^T \Sigma^{-1} (p - \mu)\right) \\
+\end{aligned}
+$$
+
+with the opacity $\alpha$ as the scaling factor while ignoring the standard denominator term.
+
+
 ## References
 
 - [NeRF: Representing Scenes as Neural Radiance Fields for View Synthesis](http://arxiv.org/abs/2003.08934)
