@@ -91,6 +91,14 @@ Usually, we can afford a larger update step when the sample gets noisier, so $$\
 
 Since learning a variance leads to unstable training, the variance is usually set to a fixed value $$\frac{1-\bar{\alpha}_{t-1}}{1-\bar{\alpha}_t}\beta_t$$.
 
+### Denoising Diffusion Implicit Model
+
+DDIM makes it possible to train the diffusion model up to any arbitrary number of forward steps but only sample from a subset of steps in the generative process.
+
+$$
+q_{\sigma, s<t}(x_s\vert x_t, x_0) = \mathcal{N}(x_s\vert \sqrt{\bar{\alpha}_s}(\frac{x_t-\sqrt{1-\bar{\alpha}_t}\epsilon_\theta^t(x_t)}{\sqrt{\bar{\alpha}_t}})+\sqrt{1-\bar{\alpha}_s-\sigma_t^2}\epsilon_\theta^t(x_t), \sigma_t^2I)
+$$
+
 ### Latent Variable Space
 
 Latent diffusion model runs the process in a latent space $$z_t$$ instead of the data space $$x_t$$, which is more efficient and can be used to process multi-modal data.
