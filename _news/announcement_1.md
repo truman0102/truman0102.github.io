@@ -1,8 +1,8 @@
 ---
 layout: post
-date: 2015-10-22 15:59:00-0400
+date: 2024-12-02 14:19:00-0400
 inline: true
 related_posts: false
 ---
 
-A simple inline announcement.
+Getting back to recording and organizing my study notes, including but not limited to AI algorithms, computer composition and operating systems, data structures, and more!
