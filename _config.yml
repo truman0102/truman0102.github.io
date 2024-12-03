@@ -299,7 +299,7 @@ jekyll-archives:
     tag: "/blog/tag/:name/"
     category: "/blog/category/:name/"
 
-display_tags: ["common"] # these tags will be displayed on the front page of your blog
+display_tags: ["math"] # these tags will be displayed on the front page of your blog
 display_categories: ["sample-posts"] # these categories will be displayed on the front page of your blog
 
 # -----------------------------------------------------------------------------
