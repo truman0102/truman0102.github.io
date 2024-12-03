@@ -1,8 +1,8 @@
 ---
 layout: page
-title: blank project
+title: project 1
 description: a blank project
-img: assets/img/blank.jpg
+img: 
 ---
 
 Hello world!
