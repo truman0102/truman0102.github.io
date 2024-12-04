@@ -5,14 +5,18 @@ layout: default
   <header class="post-header">
     <h1 class="post-title">
       {% if site.title == 'blank' %}
-        <span class="font-weight-bold">{{ site.first_name }}</span> {{ site.middle_name }}
+        <span class="font-weight-bold">{{ site.first_name }}</span>
+        {{ site.middle_name }}
         {{ site.last_name }}
       {% else %}
         {{ site.title }}
       {% endif %}
     </h1>
     <p class="desc">{{ page.subtitle }}</p>
-    <link rel="stylesheet" type='text/css' href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />
+    <link
+      rel="stylesheet"
+      type='text/css'
+      href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />
   </header>
 
   <article>
@@ -24,13 +28,12 @@ layout: default
             {% assign profile_image_class = 'img-fluid z-depth-1 rounded-circle' %}
           {% else %}
             {% assign profile_image_class = 'img-fluid z-depth-1
-      rounded' %}
+                                                                                                                                                                                                                                                                                              rounded' %}
           {% endif %}
           {% capture sizes %}(min-width: {{ site.max_width }}) {{ site.max_width | minus: 30 | times: 0.3}}px, (min-width: 576px)
       30vw, 95vw"{% endcapture %}
-          {%
-            include figure.liquid loading="eager" path=profile_image_path class=profile_image_class sizes=sizes alt=page.profile.image
-            cache_bust=true
+          {% include figure.liquid loading="eager" path=profile_image_path class=profile_image_class sizes=sizes alt=page.profile.image
+ cache_bust=true
           %}
         {% endif %}
         {% if page.profile.more_info %}
@@ -66,38 +69,60 @@ layout: default
     {% endif %}
     <!-- icons -->
     <div class="social">
-      <div class="contact-icons">
+      <p>
+        languages and tools
+      </p>
+      <div class="contact-icons" id="ds">
+        <i class="devicon-anaconda-original colored"></i>
+        <i class="devicon-json-plain colored"></i>
+        <i class="devicon-kaggle-original colored"></i>
+        <i class="devicon-matplotlib-plain colored"></i>
+        <i class="devicon-networkx-plain colored"></i>
+        <i class="devicon-numpy-plain colored"></i>
+        <i class="devicon-opencv-plain colored"></i>
+        <i class="devicon-pandas-plain colored"></i>
+        <i class="devicon-python-plain colored"></i>
+        <i class="devicon-pytorch-original colored"></i>
+        <i class="devicon-scikitlearn-plain colored"></i>
+      </div>
+      <div class="contact-icons" id="backend">
+        <i class="devicon-bash-plain colored"></i>
         <i class="devicon-c-plain colored"></i>
+        <i class="devicon-centos-plain colored"></i>
         <i class="devicon-cplusplus-plain colored"></i>
-        <i class="devicon-python-plain-wordmark colored"></i>
+        <i class="devicon-gcc-plain colored"></i>
+        <i class="devicon-linux-plain colored"></i>
+        <i class="devicon-mysql-original colored"></i>
+        <i class="devicon-ssh-original colored"></i>
+        <i class="devicon-redis-plain colored"></i>
+        <i class="devicon-sqlite-plain colored"></i>
+        <i class="devicon-ubuntu-plain colored"></i>
+      </div>
+      <div class="contact-icons" id="tools">
+        <i class="devicon-cmake-plain colored"></i>
         <i class="devicon-docker-plain colored"></i>
         <i class="devicon-git-plain colored"></i>
+        <i class="devicon-gitbook-original colored"></i>
+        <i class="devicon-gitlab-plain colored"></i>
         <i class="devicon-latex-original colored"></i>
         <i class="devicon-markdown-original colored"></i>
-        <i class="devicon-visualstudio-plain colored"></i>
+        <i class="devicon-powershell-plain colored"></i>
+        <i class="devicon-vim-plain colored"></i>
         <i class="devicon-vscode-plain colored"></i>
+        <i class="devicon-yaml-plain colored"></i>
       </div>
-      <div class="contact-icons">
-        <i class="devicon-anaconda-original colored"></i>
-        <i class="devicon-jupyter-plain colored"></i>
-        <i class="devicon-kaggle-original colored"></i>
-        <i class="devicon-numpy-plain colored"></i>
-        <i class="devicon-pandas-plain colored"></i>
-        <i class="devicon-pytorch-original colored"></i>
-        <i class="devicon-tensorflow-original colored"></i>
-        <i class="devicon-spss-plain colored"></i>
-        <i class="devicon-matlab-plain colored"></i>
-      </div>
-      <div class="contact-icons">
-        <i class="devicon-linux-plain colored"></i>
-        <i class="devicon-ubuntu-plain colored"></i>
-        <i class="devicon-centos-plain colored"></i>
-        <i class="devicon-mysql-plain colored"></i>
-        <i class="devicon-redis-plain colored"></i>
-        <i class="devicon-html5-plain colored"></i>
+      <div class="contact-icons" id="others">
+        <i class="devicon-chrome-plain colored"></i>
         <i class="devicon-css3-plain colored"></i>
-        <i class="devicon-javascript-plain colored"></i>
         <i class="devicon-d3js-plain colored"></i>
+        <i class="devicon-html5-plain colored"></i>
+        <i class="devicon-hugo-plain colored"></i>
+        <i class="devicon-javascript-plain colored"></i>
+        <i class="devicon-notion-plain colored"></i>
+        <i class="devicon-powershell-plain colored"></i>
+        <i class="devicon-spss-plain colored"></i>
+        <i class="devicon-stackoverflow-plain colored"></i>
+        <i class="devicon-stata-original-wordmark colored"></i>
       </div>
     </div>
     <!-- Social -->
