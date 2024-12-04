@@ -5,7 +5,6 @@ date: 2023-12-04 12:00:00-0400
 description: An introduction to first-order logic in artificial intelligence.
 tags: AI
 categories: artificial-intelligence
-redirect:
 related_posts: false
 giscus_comments: false
 mermaid:
