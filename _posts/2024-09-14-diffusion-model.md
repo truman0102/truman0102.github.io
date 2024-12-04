@@ -7,7 +7,6 @@ tags: math
 categories: data-science
 related_posts: false
 giscus_comments: false
-redict: https://lilianweng.github.io/posts/2021-07-11-diffusion-models/
 toc:
   beginning: true
 ---
@@ -106,3 +105,6 @@ Latent diffusion model runs the process in a latent space $$z_t$$ instead of the
 ### Model Architecture
 
 There are two common architectures for diffusion models: U-Net and Transformer.
+
+
+For more details, please refer to [Lilian Weng's blog](https://lilianweng.github.io/posts/2021-07-11-diffusion-models/).
