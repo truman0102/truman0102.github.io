@@ -28,7 +28,7 @@ layout: default
             {% assign profile_image_class = 'img-fluid z-depth-1 rounded-circle' %}
           {% else %}
             {% assign profile_image_class = 'img-fluid z-depth-1
-                                                                                                                                                                                                                                                                                                                                                      rounded' %}
+                                                                                                                                                                                                                                                                                                                                                                    rounded' %}
           {% endif %}
           {% capture sizes %}(min-width: {{ site.max_width }}) {{ site.max_width | minus: 30 | times: 0.3}}px, (min-width: 576px)
       30vw, 95vw"{% endcapture %}
@@ -116,7 +116,9 @@ layout: default
         <i class="devicon-html5-plain colored"></i>
         <i class="devicon-hugo-plain colored"></i>
         <i class="devicon-javascript-plain colored"></i>
-        <i class="devicon-notion-plain colored"></i>
+
+        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/notion/notion-original.svg" />
+
         <i class="devicon-powershell-plain colored"></i>
         <i class="devicon-spss-plain colored"></i>
         <i class="devicon-stackoverflow-plain colored"></i>
