@@ -7,13 +7,13 @@ tags: AI causal-effect
 categories: artificial-intelligence
 redirect:
 related_posts: false
-giscus_comments: true
+giscus_comments: false
 mermaid:
   enabled: true
   zoomable: true
 thumbnail: assets/img/ai/mak-causal-effect.png
 toc:
-  sidebar: left
+  beginning: true
 ---
 
 # 因果模型

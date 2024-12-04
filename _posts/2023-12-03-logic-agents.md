@@ -5,14 +5,13 @@ date: 2023-12-03 23:00:00-0400
 description: An introduction to logic agents in artificial intelligence.
 tags: logic-agents AI
 categories: artificial-intelligence
-related_posts: true
+related_posts: false
 giscus_comments: false
 mermaid:
   enabled: true
   zoomable: true
 toc:
-  sidebar: left
-citation: true
+  beginning: true
 ---
 
 ## Knowledge-Based Agents

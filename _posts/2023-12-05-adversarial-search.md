@@ -6,12 +6,11 @@ description: An introduction to adversarial search in artificial intelligence.
 tags: search AI
 categories: artificial-intelligence
 redirect:
-related_posts: true
+related_posts: false
 giscus_comments: false
 thumbnail: 
 toc:
   beginning: true
-citation: true
 ---
 
 ### 双人零和博弈

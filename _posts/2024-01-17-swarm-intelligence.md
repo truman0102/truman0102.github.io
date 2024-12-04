@@ -6,9 +6,8 @@ tags: AI
 categories: artificial-intelligence
 toc:
     beginning: true
-citation: true
-related_posts: true
 giscus_comments: false
+related_posts: false
 ---
 
 ## 群体智能

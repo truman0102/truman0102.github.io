@@ -6,7 +6,7 @@ description: notes on advanced AI course
 tags: AI
 categories: notes artificial-intelligence
 giscus_comments: false
-related_posts: true
+related_posts: false
 pretty_table: true
 featured: true
 ---

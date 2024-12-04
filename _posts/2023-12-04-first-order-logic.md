@@ -6,14 +6,13 @@ description: An introduction to first-order logic in artificial intelligence.
 tags: AI
 categories: artificial-intelligence
 redirect:
-related_posts: true
+related_posts: false
 giscus_comments: false
 mermaid:
   enabled: true
   zoomable: true
 toc:
-  sidebar: left
-citation: true
+  beginning: true
 ---
 
 # First-Order Logic
