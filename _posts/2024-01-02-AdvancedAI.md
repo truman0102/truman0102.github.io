@@ -8,6 +8,7 @@ categories: notes artificial-intelligence
 giscus_comments: false
 related_posts: true
 pretty_table: true
+featured: true
 ---
 
 ***
