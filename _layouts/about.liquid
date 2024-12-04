@@ -28,7 +28,7 @@ layout: default
             {% assign profile_image_class = 'img-fluid z-depth-1 rounded-circle' %}
           {% else %}
             {% assign profile_image_class = 'img-fluid z-depth-1
-                                                                                                                                                                                                                                                                                              rounded' %}
+                                                                                                                                                                                                                                                                                                                                        rounded' %}
           {% endif %}
           {% capture sizes %}(min-width: {{ site.max_width }}) {{ site.max_width | minus: 30 | times: 0.3}}px, (min-width: 576px)
       30vw, 95vw"{% endcapture %}
@@ -69,9 +69,7 @@ layout: default
     {% endif %}
     <!-- icons -->
     <div class="social">
-      <p>
-        languages and tools
-      </p>
+      <h2>tools</h2>
       <div class="contact-icons" id="ds">
         <i class="devicon-anaconda-original colored"></i>
         <i class="devicon-json-plain colored"></i>
