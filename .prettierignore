@@ -12,4 +12,4 @@ _sass/font-awesome/*.scss
 _sass/tabler-icons/*.scss
 _layouts/about.html
 _layouts/about.liquid
-_posts/*.md
+_posts/**
