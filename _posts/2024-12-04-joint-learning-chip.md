@@ -9,9 +9,11 @@ related_posts: false
 bibliography: 2024-12-04-joint-learning-chip.bib
 ---
 
-## Methodology
+## Introduction
 
 布局布线任务主要由三部分组成，分别是宏单元的放置、标准单元的放置和路由，这篇文章的主要工作是提出了应用强化学习方法的宏单元放置方法，至于标准单元的放置和路由，则采用了现有的DREAMPlace和DeepPR方法。下面将围绕强化学习方法介绍主要内容。
+
+## Methodology
 
 ### State
 
