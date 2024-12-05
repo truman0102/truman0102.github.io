@@ -1,13 +1,18 @@
 ---
 layout: post
 title: Macro Placement for Chip Design
-date: 2024-12-05 10:30:00-0400
+date: 2024-12-03 10:30:00-0400
 description: brief introduction to macro placement in chip design
 tags: chip EDA
 categories: chip-design
 related_posts: false
-bibliography: 2024-12-05-macro-placement.bib
+bibliography: 2024-12-03-macro-placement.bib
 ---
+
+## Guidelines to place macros
+
+1. 将macro放置在芯片外围，这样更容易为它们供电，如果将它们放置在芯片中央，可能会导致大量绕行布线
+2. 根据飞线放置
 
 ## Why we place macro before standard cell in physical design?
 
