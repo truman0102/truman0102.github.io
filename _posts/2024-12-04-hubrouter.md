@@ -49,10 +49,14 @@ stripe是一个布尔值矩阵，可用于拒绝部分生成的错误Hub。在�
 1. 可以降低复杂度至$$O(n\log n)$$
 1. RSMT只能找到最短路径，引入hub可以支持其他约束条件
 
-具体地，参考REST^[J. Liu, G. Chen, and E. F. Young. Rest: Constructing rectilinear steiner minimum tree via reinforcement learning. In 2021 58th ACM/IEEE Design Automation Conference (DAC), pages 1135–1140. IEEE, 2021.]学习Rectilinear edge sequence (RES)的方法，应用了actor critic算法。actor根据给定的点坐标生成RES，critic预测RSMT的长度，这个预测值在训练时向真实值靠拢，以达到优化目的。
+具体地，参考REST[^1]学习Rectilinear edge sequence (RES)的方法，应用了actor critic算法。actor根据给定的点坐标生成RES，critic预测RSMT的长度，这个预测值在训练时向真实值靠拢，以达到优化目的。
+
+[^1]: J. Liu, G. Chen, and E. F. Young. Rest: Constructing rectilinear steiner minimum tree via reinforcement learning. In 2021 58th ACM/IEEE Design Automation Conference (DAC), pages 1135–1140. IEEE, 2021.
 
 ## Experiment
 
 ### Dataset
 
-在routing benchmark ISPD-07上应用NCTU-GR^[W.-H. Liu, W.-C. Kao, Y.-L. Li, and K.-Y. Chao. Nctu-gr 2.0: Multithreaded collision-aware global routing with bounded-length maze routing. IEEE Transactions on computer-aided design of integrated circuits and systems, 32(5):709–722, 2013.]获取真实的路由示例。额外引入的路由数据集包括ISPD-98、DRL-8和DRL-16.
+在routing benchmark ISPD-07上应用NCTU-GR[^2]获取真实的路由示例。额外引入的路由数据集包括ISPD-98、DRL-8和DRL-16.
+
+[^2]: W.-H. Liu, W.-C. Kao, Y.-L. Li, and K.-Y. Chao. Nctu-gr 2.0: Multithreaded collision-aware global routing with bounded-length maze routing. IEEE Transactions on computer-aided design of integrated circuits and systems, 32(5):709–722, 2013.
