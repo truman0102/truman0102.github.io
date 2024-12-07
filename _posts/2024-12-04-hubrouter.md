@@ -12,6 +12,12 @@ related_posts: false
 
 ## Fundamentals
 
+### RSMT
+
+Rectilinear Steiner 最小树问题（Rectilinear Steiner Minimum Tree，简称 RSMT）是一个组合优化问题，旨在通过添加额外的 Steiner 点，在二维平面上使用仅水平和垂直线段（曼哈顿距离）连接给定的一组点（称为终端点），使得连接的总线长最短。相较于最小生成树（Minimum Spanning Tree，MST）只连接终端点，RSMT 允许添加 Steiner 点，从而可能构造出总长度更短的连通网络。
+
+RSMT 问题在集成电路设计、网络布线等领域具有重要应用。然而，由于该问题被证明是 NP 完全问题，所以精确求解在计算上是不可行的，通常需要使用启发式算法或近似算法来获得近似解，用R-MST来近似，其时间复杂度为$$On\log n$$，长度最多为最优RSMT的$$1.5$$倍。
+
 ### Hub
 
 Hub是网格中的一个连接点，类似于交通路段的路口，根据上下左右网格的连接情况，可以分为四种类型：
@@ -25,7 +31,7 @@ $$
 \end{aligned}
 $$
 
-### RSMT
+Hub在文中所起的作用类似于Steiner点，但是Hub的生成和连接方法与RSMT有所不同。
 
 ## Methodology
 
