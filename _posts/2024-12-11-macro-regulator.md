@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Reinforcement Learning Policy as Macro Regulator Rather than Macro Placer
-date: 2024-12-11 10:00:00-0400
+date: 2024-12-11 00:00:00-0400
 description:
 tags: chip RL
 categories: paper-reading
